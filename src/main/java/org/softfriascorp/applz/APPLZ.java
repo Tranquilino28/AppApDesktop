@@ -5,6 +5,8 @@
 package org.softfriascorp.applz;
 
 
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.SwingUtilities;
 import org.softfriascorp.applz.controllers.Controlador_de_Vistas;
 import org.softfriascorp.applz.controllers.Controler_SliderOptionMenu;
@@ -14,9 +16,11 @@ import org.softfriascorp.applz.controllers.Controller_Pagos;
 import org.softfriascorp.applz.controllers.Controller_Registro;
 import org.softfriascorp.applz.controllers.Controller_Venta;
 import org.softfriascorp.applz.model.Usuario;
+import org.softfriascorp.applz.modelProductosVenta.VentaProductos;
 import org.softfriascorp.applz.repository.impl.ImplRepo_Usuario;
 import org.softfriascorp.applz.repository.interfaces.Repository;
 import org.softfriascorp.applz.service.impl.ImplService_Usuario;
+import org.softfriascorp.applz.service.venta.service.ServiceVenta;
 import org.softfriascorp.applz.views.Frame_Work;
 import org.softfriascorp.applz.views.PFacturacion;
 import org.softfriascorp.applz.views.PInventario;
@@ -68,6 +72,10 @@ public class APPLZ {
             //preparo el slider de menu             
             sliderContenedor.add(sliderMenu);
             
+            
+            //prepara el servicio de ventas 
+            ServiceVenta servicio_de_venta = new ServiceVenta();
+            
             //se inyectan a los controladores los parametros con los paneles y servicios
             new Controller_Login(
                     
@@ -80,9 +88,15 @@ public class APPLZ {
                     , servUsuario
             );
             
-            new Controller_Pagos(panel_de_pagos);
+            new Controller_Pagos(panel_de_pagos, servicio_de_venta);
                   
-            new Controller_Venta(ventanaPrincipal, panel_de_venta, panel_de_pagos);
+            new Controller_Venta(
+                    ventanaPrincipal
+                    , panel_de_venta
+                    , panel_de_pagos
+                    , servicio_de_venta
+            );
+            
             /*  
             //controlador de opciones  y menus 
             new Controler_SliderOptionMenu(slider_de_opciones
@@ -99,23 +113,22 @@ public class APPLZ {
                     , panel_de_registro
                     , panel_de_login
                     , servUsuario
-            );
-            
+            );            
             */
+            
             new Controlador_de_Vistas(
-                    ventanaPrincipal
-                    , facturacion
-                    , ánel_de_inventario
-                    , panel_de_login
+                   ventanaPrincipal
+                    , sliderContenedor
                     , menu_de_opciones
-                    , panel_de_pagos
-                    , panel_de_registro
-                    , slider
                     , panel_de_venta
-                    , slider_de_opciones
+                    , panel_de_login
+                    , panel_de_registro
+                    , panel_de_pagos
+                    , facturacion
             );
             
             //fw.setUndecorated(true);
+            
             ventanaPrincipal.setSize(600, 400);           
             ventanaPrincipal.fw_Container.add(panel_de_login);
             ventanaPrincipal.setLocationRelativeTo(null);            

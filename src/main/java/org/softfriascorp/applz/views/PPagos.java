@@ -34,13 +34,11 @@ public class PPagos extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         btn_aceptar_pago = new javax.swing.JButton();
         Panel_cambio = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
         txt_cambio = new javax.swing.JTextField();
         Panel_recibido = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txt_recibido = new javax.swing.JTextField();
         Panel_totalapagar = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
         txt_totalpagar = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -70,7 +68,7 @@ public class PPagos extends javax.swing.JPanel {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -87,7 +85,7 @@ public class PPagos extends javax.swing.JPanel {
         btn_aceptar_pago.setBackground(new java.awt.Color(0, 102, 51));
         btn_aceptar_pago.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         btn_aceptar_pago.setForeground(new java.awt.Color(255, 255, 255));
-        btn_aceptar_pago.setText("ACEPTAR");
+        btn_aceptar_pago.setText("CERRAR VENTA");
         btn_aceptar_pago.setBorder(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -95,15 +93,12 @@ public class PPagos extends javax.swing.JPanel {
         gridBagConstraints.ipadx = 107;
         gridBagConstraints.ipady = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 88, 19, 0);
+        gridBagConstraints.insets = new java.awt.Insets(18, 56, 18, 0);
         jPanel3.add(btn_aceptar_pago, gridBagConstraints);
 
         Panel_cambio.setBackground(new java.awt.Color(51, 51, 51));
         Panel_cambio.setForeground(new java.awt.Color(255, 255, 255));
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("$");
+        Panel_cambio.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txt_cambio.setBackground(new java.awt.Color(51, 51, 51));
         txt_cambio.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
@@ -112,45 +107,24 @@ public class PPagos extends javax.swing.JPanel {
         txt_cambio.setBorder(null);
         txt_cambio.setCaretColor(new java.awt.Color(255, 255, 255));
         txt_cambio.setEnabled(false);
-
-        javax.swing.GroupLayout Panel_cambioLayout = new javax.swing.GroupLayout(Panel_cambio);
-        Panel_cambio.setLayout(Panel_cambioLayout);
-        Panel_cambioLayout.setHorizontalGroup(
-            Panel_cambioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(Panel_cambioLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txt_cambio, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        Panel_cambioLayout.setVerticalGroup(
-            Panel_cambioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(Panel_cambioLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(Panel_cambioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(Panel_cambioLayout.createSequentialGroup()
-                        .addComponent(txt_cambio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
+        Panel_cambio.add(txt_cambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 352, -1));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 318;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 21);
+        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 0);
         jPanel3.add(Panel_cambio, gridBagConstraints);
 
         Panel_recibido.setBackground(new java.awt.Color(51, 51, 51));
         Panel_recibido.setForeground(new java.awt.Color(255, 255, 255));
+        Panel_recibido.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("$");
+        Panel_recibido.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 12, -1, 64));
 
         txt_recibido.setBackground(new java.awt.Color(51, 51, 51));
         txt_recibido.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
@@ -159,43 +133,19 @@ public class PPagos extends javax.swing.JPanel {
         txt_recibido.setBorder(null);
         txt_recibido.setCaretColor(new java.awt.Color(255, 255, 255));
         txt_recibido.setDisabledTextColor(new java.awt.Color(204, 204, 204));
-
-        javax.swing.GroupLayout Panel_recibidoLayout = new javax.swing.GroupLayout(Panel_recibido);
-        Panel_recibido.setLayout(Panel_recibidoLayout);
-        Panel_recibidoLayout.setHorizontalGroup(
-            Panel_recibidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(Panel_recibidoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txt_recibido, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        Panel_recibidoLayout.setVerticalGroup(
-            Panel_recibidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(Panel_recibidoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(Panel_recibidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txt_recibido))
-                .addContainerGap())
-        );
+        Panel_recibido.add(txt_recibido, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 319, 70));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 318;
+        gridBagConstraints.gridwidth = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 12, 0, 21);
+        gridBagConstraints.insets = new java.awt.Insets(12, 12, 0, 0);
         jPanel3.add(Panel_recibido, gridBagConstraints);
 
         Panel_totalapagar.setBackground(new java.awt.Color(51, 51, 51));
         Panel_totalapagar.setForeground(new java.awt.Color(255, 255, 255));
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("$");
+        Panel_totalapagar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txt_totalpagar.setEditable(false);
         txt_totalpagar.setBackground(new java.awt.Color(51, 51, 51));
@@ -205,35 +155,19 @@ public class PPagos extends javax.swing.JPanel {
         txt_totalpagar.setBorder(null);
         txt_totalpagar.setCaretColor(new java.awt.Color(255, 255, 255));
         txt_totalpagar.setEnabled(false);
-
-        javax.swing.GroupLayout Panel_totalapagarLayout = new javax.swing.GroupLayout(Panel_totalapagar);
-        Panel_totalapagar.setLayout(Panel_totalapagarLayout);
-        Panel_totalapagarLayout.setHorizontalGroup(
-            Panel_totalapagarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(Panel_totalapagarLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txt_totalpagar, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        Panel_totalapagarLayout.setVerticalGroup(
-            Panel_totalapagarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(Panel_totalapagarLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(Panel_totalapagarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txt_totalpagar, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+        txt_totalpagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_totalpagarActionPerformed(evt);
+            }
+        });
+        Panel_totalapagar.add(txt_totalpagar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 353, 67));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 318;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 21);
+        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 0);
         jPanel3.add(Panel_totalapagar, gridBagConstraints);
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
@@ -243,11 +177,11 @@ public class PPagos extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 7;
         gridBagConstraints.ipadx = 234;
         gridBagConstraints.ipady = -8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(35, 12, 0, 21);
+        gridBagConstraints.insets = new java.awt.Insets(35, 12, 0, 0);
         jPanel3.add(jLabel6, gridBagConstraints);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
@@ -257,11 +191,11 @@ public class PPagos extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 5;
         gridBagConstraints.ipadx = 212;
         gridBagConstraints.ipady = -8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(41, 12, 0, 21);
+        gridBagConstraints.insets = new java.awt.Insets(41, 12, 0, 0);
         jPanel3.add(jLabel3, gridBagConstraints);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
@@ -271,11 +205,11 @@ public class PPagos extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 6;
         gridBagConstraints.ipadx = 97;
         gridBagConstraints.ipady = -8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 12, 0, 21);
+        gridBagConstraints.insets = new java.awt.Insets(42, 12, 0, 0);
         jPanel3.add(jLabel1, gridBagConstraints);
 
         jPanel4.setBackground(new java.awt.Color(51, 51, 51));
@@ -347,7 +281,7 @@ public class PPagos extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -370,6 +304,10 @@ public class PPagos extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txt_totalpagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_totalpagarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_totalpagarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Panel_cambio;
@@ -384,8 +322,6 @@ public class PPagos extends javax.swing.JPanel {
     public javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     public javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     public javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

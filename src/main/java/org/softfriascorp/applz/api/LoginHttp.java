@@ -12,8 +12,12 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+import org.json.JSONObject;
+import org.softfriascorp.applz.model.UsuarioPerfil;
+import org.softfriascorp.applz.util.DecodificarToken;
 
 /**
  *
@@ -21,7 +25,8 @@ import java.util.Map;
  */
 public class LoginHttp {
 
-    private static final String LOGIN_URL = "http://localhost:3066/api/auth/login" ;  //"https://appap.onrender.com/api/auth/login";
+    private static final String LOGIN_URL = "http://localhost:3066/api/auth/login";  //"https://appap.onrender.com/api/auth/login";
+    private static final String GET_USER_ROLE_URL = "http://localhost:3066/api/admin/perfil";
     private static String token;
 
     public static boolean login(String username, String password) {
@@ -63,6 +68,9 @@ public class LoginHttp {
                 token = result.get("token");
 
                 System.out.println("Login exitoso. Token: " + token);
+
+                usuarioLocal(token);
+
                 return true;
             } else {
                 System.out.println("Login fallido. Código: " + responseCode);
@@ -75,9 +83,63 @@ public class LoginHttp {
         }
     }
 
+    public static String getUsuarioRol() {
+        try {
+            URL url = new URL(GET_USER_ROLE_URL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            // Cabecera con el token
+            conn.setRequestProperty("Authorization", "Bearer " + token);
+            conn.setRequestProperty("Accept", "application/json");
+
+            if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                // Leer respuesta
+                StringBuilder response = new StringBuilder();
+                try (BufferedReader br = new BufferedReader(
+                        new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        response.append(line.trim());
+                    }
+                }
+
+                // Convertir JSON a objeto UsuarioPerfil
+                ObjectMapper mapper = new ObjectMapper();
+                UsuarioPerfil u = mapper.readValue(response.toString(), UsuarioPerfil.class);
+
+                return u.toString();
+
+            } else {
+                System.out.println("Error: " + conn.getResponseCode());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static String getToken() {
         return token;
     }
-    
-  
+
+    private static void usuarioLocal(String token) {
+        // Dividir en 3 partes: header.payload.signature
+        String[] parts = LoginHttp.getToken().split("\\.");
+
+// Decodificar payload (segunda parte del token)
+        String payloadJson = new String(Base64.getUrlDecoder().decode(parts[1]));
+
+// Convertir a objeto JSON
+        JSONObject payload1 = new JSONObject(payloadJson);
+
+// Extraer datos y guardarlos en UsuarioPerfil
+        UsuarioPerfil.setNombreUsuario(payload1.getString("sub"));          // usuario
+        UsuarioPerfil.setRol(payload1.getString("rol"));             // rol
+        UsuarioPerfil.setEmpresaId(payload1.getLong("empresa_Id"));  // empresaId
+        
+        System.out.println(UsuarioPerfil.getNombreUsuario());
+
+    }
 }

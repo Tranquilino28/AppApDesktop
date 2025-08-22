@@ -4,6 +4,7 @@
  */
 package org.softfriascorp.applz.controllers;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -11,6 +12,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import org.softfriascorp.applz.api.LoginHttp;
+import org.softfriascorp.applz.service.impl.ImplService_Usuario;
 import org.softfriascorp.applz.util.Cambio_panel;
 import org.softfriascorp.applz.views.Frame_Work;
 import org.softfriascorp.applz.views.PFacturacion;
@@ -29,40 +31,40 @@ import org.softfriascorp.applz.views.PSlider_Contenedor;
  */
 public class Controlador_de_Vistas implements ActionListener, MouseListener, KeyListener {
 
-    Frame_Work ventanaPrincipal;
-    PFacturacion facturacion;
-    PInventario inventario;
-    PLogin vista_login;
-    PMenuHeader menu_de_opciones;
-    PPagos pagos;
-    PRegister vista_registro_de_usuario;
-    PSliderMenu slider;
-    PVenta venta;
-    PSlider_Contenedor panel_de_opciones_ocultable;
-
+    private Frame_Work ventanaPrincipal;
+    private PSlider_Contenedor sliderMenu;    
+    private PLogin vista_login;
+    private PRegister vista_registro_de_usuario;
+    
+    private PVenta venta;
+    private PPagos pagos;
+    
+    private PMenuHeader menuHeader;
+    
+    private PFacturacion facturacion;
+     
+   
     public Controlador_de_Vistas(
-            Frame_Work ventanaPrincipal,
-             PFacturacion facturacion,
-             PInventario inventario,
-             PLogin vista_login,
-             PMenuHeader menu_de_opciones,
-             PPagos pagos,
-             PRegister vista_registro_de_usuario,
-             PSliderMenu slider,
-             PVenta venta,
-             PSlider_Contenedor panel_de_opciones_ocultable
-    ) {
+            Frame_Work ventanaPrincipal 
+            , PSlider_Contenedor sliderMenu
+            , PMenuHeader menuHeader
+            , PVenta venta
+            , PLogin vista_login
+            , PRegister pregistro
+            , PPagos pagos
+            , PFacturacion facturacion
+            
+            )
+    {
         this.ventanaPrincipal = ventanaPrincipal;
-        this.facturacion = facturacion;
-        this.inventario = inventario;
-        this.vista_login = vista_login;
-        this.menu_de_opciones = menu_de_opciones;
-        this.pagos = pagos;
-        this.vista_registro_de_usuario = vista_registro_de_usuario;
-        this.slider = slider;
+        this.sliderMenu = sliderMenu;       
+        this.menuHeader = menuHeader;
         this.venta = venta;
-        this.panel_de_opciones_ocultable = panel_de_opciones_ocultable;
-
+        this.facturacion = facturacion;
+        this.vista_login = vista_login;        
+        this.vista_registro_de_usuario = pregistro;
+        this.pagos = pagos;
+        
         initListener();
     }
 
@@ -80,9 +82,9 @@ public class Controlador_de_Vistas implements ActionListener, MouseListener, Key
         this.vista_login.btn_registrarse.addMouseListener(this);
         
 
-        this.menu_de_opciones.btn_menu.addActionListener(this);
-        this.menu_de_opciones.btn_menu.addKeyListener(this);
-        this.menu_de_opciones.btn_menu.addMouseListener(this);
+        this.menuHeader.btn_menu.addActionListener(this);
+        this.menuHeader.btn_menu.addKeyListener(this);
+        this.menuHeader.btn_menu.addMouseListener(this);
         
         this.pagos.btn_atras.addActionListener(this);
         this.pagos.btn_atras.addKeyListener(this);
@@ -94,6 +96,24 @@ public class Controlador_de_Vistas implements ActionListener, MouseListener, Key
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        
+       if(e.getSource() == pagos.btn_atras){
+           Cambio_panel.addPanelVenta(
+                   ventanaPrincipal.fw_Container
+                   ,  menuHeader
+                   , sliderMenu
+                   , venta
+           );
+       }
+       
+       
+       if (e.getSource() == menuHeader.btn_menu) {
+            if (sliderMenu.isVisible()) {
+                sliderMenu.setVisible(false);
+            }else{
+                sliderMenu.setVisible(true);
+            }
+        }
         
     }
 
@@ -137,4 +157,16 @@ public class Controlador_de_Vistas implements ActionListener, MouseListener, Key
 
     }
 
+    private void showSlidebar(PSlider_Contenedor som, PMenuHeader mo,PSliderMenu slider) {
+        //som.add(mo, BorderLayout.NORTH);
+        som.add(slider, BorderLayout.WEST);
+        som.revalidate();
+        som.repaint();
+    }
+    private void suprimirSlidebar(PSlider_Contenedor som, PSliderMenu slider) {
+       
+        som.remove(slider);
+        som.revalidate();
+        som.repaint();
+    }
 }

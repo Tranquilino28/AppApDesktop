@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.management.ConstructorParameters;
+import org.softfriascorp.applz.model.UsuarioPerfil;
 import org.softfriascorp.applz.util.Cambio_panel;
 import org.softfriascorp.applz.views.PMenuHeader;
 import org.softfriascorp.applz.views.PSliderMenu;
@@ -34,6 +35,12 @@ PSliderMenu slider;
         this.slider = slider;
         this.mo.btn_menu.addActionListener(this);
         this.mo.btn_closeApp.addMouseListener(this);
+        
+    }
+    
+    
+    void init(){
+        mo.lbl_usuario_rol.setText("Rol : "+ UsuarioPerfil.getRol() + " || Usuario" + UsuarioPerfil.getNombreUsuario());
     }
 
     @Override

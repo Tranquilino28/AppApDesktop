@@ -34,7 +34,7 @@ public class PVenta extends javax.swing.JPanel {
         jButton6 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabla_de_pedido = new javax.swing.JTable();
-        jButton4 = new javax.swing.JButton();
+        btn_eliminar = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         panelProductos = new javax.swing.JPanel();
         txt_buscar_productos_stok = new javax.swing.JTextField();
@@ -81,9 +81,9 @@ public class PVenta extends javax.swing.JPanel {
         jPanel5.setMaximumSize(new java.awt.Dimension(600, 32767));
         jPanel5.setMinimumSize(new java.awt.Dimension(30, 0));
 
+        txt_busqueda_por_lector.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txt_busqueda_por_lector.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txt_busqueda_por_lector.setText("BUSQUEDA");
-        txt_busqueda_por_lector.setPreferredSize(null);
+        txt_busqueda_por_lector.setText("BUSQUEDA X LECTOR DE CODIGO");
 
         jButton6.setText("Buscar");
         jButton6.setPreferredSize(null);
@@ -108,7 +108,7 @@ public class PVenta extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(tabla_de_pedido);
 
-        jButton4.setText("LIMPIAR");
+        btn_eliminar.setText("LIMPIAR");
 
         jButton7.setText("COTIZAR");
 
@@ -121,14 +121,14 @@ public class PVenta extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addComponent(txt_busqueda_por_lector, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txt_busqueda_por_lector)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)))
+                        .addComponent(btn_eliminar)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -142,7 +142,7 @@ public class PVenta extends javax.swing.JPanel {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
+                    .addComponent(btn_eliminar)
                     .addComponent(jButton7))
                 .addContainerGap())
         );
@@ -151,9 +151,9 @@ public class PVenta extends javax.swing.JPanel {
         panelProductos.setName(""); // NOI18N
         panelProductos.setPreferredSize(new java.awt.Dimension(2080, 0));
 
+        txt_buscar_productos_stok.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txt_buscar_productos_stok.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_buscar_productos_stok.setText("BUSQUEDA");
-        txt_buscar_productos_stok.setPreferredSize(null);
 
         btn_buscarProductoStok.setText("Buscar");
         btn_buscarProductoStok.setPreferredSize(null);
@@ -185,7 +185,7 @@ public class PVenta extends javax.swing.JPanel {
 
         lbl_valortotal.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
         lbl_valortotal.setForeground(new java.awt.Color(255, 255, 255));
-        lbl_valortotal.setText("$ 100,000,000.00 ");
+        lbl_valortotal.setText("$ 00,00 ");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -209,9 +209,9 @@ public class PVenta extends javax.swing.JPanel {
         btn_pagar.setForeground(new java.awt.Color(255, 255, 255));
         btn_pagar.setText("PAGAR");
 
+        txt_cantidad.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txt_cantidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_cantidad.setText("CANTIDAD");
-        txt_cantidad.setPreferredSize(null);
 
         javax.swing.GroupLayout panelProductosLayout = new javax.swing.GroupLayout(panelProductos);
         panelProductos.setLayout(panelProductosLayout);
@@ -240,7 +240,7 @@ public class PVenta extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txt_cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -275,10 +275,10 @@ public class PVenta extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btn_buscarProductoStok;
+    public javax.swing.JButton btn_eliminar;
     public javax.swing.JButton btn_pagar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JPanel jPanel1;

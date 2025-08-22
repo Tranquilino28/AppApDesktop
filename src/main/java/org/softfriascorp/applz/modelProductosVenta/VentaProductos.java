@@ -4,6 +4,8 @@
  */
 package org.softfriascorp.applz.modelProductosVenta;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author usuario
@@ -13,12 +15,12 @@ public class VentaProductos {
     private String descripcion;
     private int cantidad;
     private String unidad_de_medida;
-    private Double precioUnitario;
-    private Double precioTotal;
+    private BigDecimal precioUnitario;
+    private BigDecimal precioTotal;
     
    public void VentaProducto(){}
 
-    public VentaProductos(String codigo, String descripcion, int cantidad, String unidad_de_medida, Double precioUnitario, Double precioTotal) {
+    public VentaProductos(String codigo, String descripcion, int cantidad, String unidad_de_medida, BigDecimal precioUnitario, BigDecimal precioTotal) {
         this.codigoBarras = codigo;
         this.descripcion = descripcion;
         this.cantidad = cantidad;
@@ -59,19 +61,19 @@ public class VentaProductos {
         this.unidad_de_medida = unidad_de_medida;
     }
 
-    public Double getPrecioUnitario() {
+    public BigDecimal getPrecioUnitario() {
         return precioUnitario;
     }
 
-    public void setPrecioUnitario(Double precioUnitario) {
+    public void setPrecioUnitario(BigDecimal precioUnitario) {
         this.precioUnitario = precioUnitario;
     }
 
-    public Double getPrecioTotal() {
+    public BigDecimal getPrecioTotal() {
         return precioTotal;
     }
 
-    public void setPrecioTotal(Double precioTotal) {
+    public void setPrecioTotal(BigDecimal precioTotal) {
         this.precioTotal = precioTotal;
     }
 

@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import org.softfriascorp.applz.api.LoginHttp;
+import org.softfriascorp.applz.model.UsuarioPerfil;
 import org.softfriascorp.applz.service.impl.ImplService_Usuario;
 import org.softfriascorp.applz.util.Cambio_panel;
 import org.softfriascorp.applz.views.Frame_Work;
@@ -74,11 +75,16 @@ public class Controller_Login implements ActionListener, KeyListener{
             
            if( LoginHttp.login(vista_login.txt_usuario.getText(), vista_login.txt_usuario.getText())){
                
+               menuHeader.lbl_usuario_rol.setText(("Rol : "+ UsuarioPerfil.getRol() + " || Usuario" + UsuarioPerfil.getNombreUsuario()));
+               
                 Cambio_panel.addPanelVenta(
                         ventanaPrincipal.fw_Container
                         , menuHeader
                         , sliderMenu
                         , venta);
+                
+                
+                menuHeader.lbl_usuario_rol.setText(LoginHttp.getUsuarioRol());
            }            
         }  
         
@@ -110,6 +116,8 @@ public class Controller_Login implements ActionListener, KeyListener{
         if(e.getSource() == vista_login.btn_login){
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 if( LoginHttp.login(vista_login.txt_usuario.getText(), vista_login.txt_usuario.getText())){
+                    
+                     menuHeader.lbl_usuario_rol.setText(("Rol : "+ UsuarioPerfil.getRol() + " || Usuario : " + UsuarioPerfil.getNombreUsuario()));
                    Cambio_panel.addPanelVenta(
                         ventanaPrincipal.fw_Container
                         , menuHeader

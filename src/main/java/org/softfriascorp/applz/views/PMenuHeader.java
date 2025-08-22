@@ -29,6 +29,7 @@ public class PMenuHeader extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         btn_closeApp = new javax.swing.JLabel();
         btn_menu = new javax.swing.JToggleButton();
+        lbl_usuario_rol = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 0, 51));
 
@@ -47,20 +48,29 @@ public class PMenuHeader extends javax.swing.JPanel {
         btn_menu.setForeground(new java.awt.Color(255, 255, 255));
         btn_menu.setText("MENU");
 
+        lbl_usuario_rol.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lbl_usuario_rol.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_usuario_rol.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_usuario_rol.setText("User: Role");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(btn_menu)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 311, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbl_usuario_rol, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(btn_menu)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_menu)
+                    .addComponent(lbl_usuario_rol))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -70,5 +80,6 @@ public class PMenuHeader extends javax.swing.JPanel {
     public javax.swing.JLabel btn_closeApp;
     public javax.swing.JToggleButton btn_menu;
     private javax.swing.JPanel jPanel1;
+    public javax.swing.JLabel lbl_usuario_rol;
     // End of variables declaration//GEN-END:variables
 }

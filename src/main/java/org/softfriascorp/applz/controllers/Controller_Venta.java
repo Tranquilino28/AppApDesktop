@@ -4,8 +4,11 @@
  */
 package org.softfriascorp.applz.controllers;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -13,16 +16,22 @@ import java.awt.event.MouseListener;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import org.softfriascorp.applz.api.Ventas_Facruracion;
 import org.softfriascorp.applz.api.modeldto.Producto_dto;
+import org.softfriascorp.applz.controllers.interfaces.ListarProductoEnCuentaCliente;
 import org.softfriascorp.applz.modelProductosVenta.VentaProductos;
+import org.softfriascorp.applz.service.venta.service.ServiceVenta;
 import org.softfriascorp.applz.util.Cambio_panel;
 import org.softfriascorp.applz.util.TableManager;
 import org.softfriascorp.applz.views.Frame_Work;
@@ -33,49 +42,67 @@ import org.softfriascorp.applz.views.PVenta;
  *
  * @author usuario
  */
-public class Controller_Venta implements KeyListener, ActionListener, MouseListener {
+public class Controller_Venta implements KeyListener, ActionListener, MouseListener, FocusListener,
+        ListarProductoEnCuentaCliente{
 
-    Frame_Work ventana;
+   private  Frame_Work ventana;
     private PVenta venta;
     private PPagos pago;
-    
+
     private DefaultTableModel listado_de_productos_venta;
     private DefaultTableModel listado_de_productos_en_stock;
 
     private TableManager tabla_de_producs;
 
-    Map<String, VentaProductos> mapaProductos;
-
-    public Controller_Venta(Frame_Work ventana, PVenta venta,PPagos pago) {
-this.ventana = ventana;
+   private ServiceVenta servVenta;
+   
+   
+   private Map<String , VentaProductos> mapaProductos;
+   private BigDecimal valorTotalVenta;
+   
+   private final String  PLACE_HOLDER_BUSQUEDA = "BUSQUEDA"; 
+   private final String  PLACE_HOLDER_BUSQUEDA_X_LECTOR = "BUSQUEDA X LECTOR DE CODIGO";
+   private final String  PLACE_HOLDER_CANTIDAD = "CANTIDAD";
+   
+    public Controller_Venta(Frame_Work ventana, PVenta venta, PPagos pago, ServiceVenta servVenta) {
+        this.ventana = ventana;
         this.pago = pago;
         this.venta = venta;
+        this.servVenta = servVenta;
+        
+        
+        mapaProductos = servVenta.listarProductos();
+        valorTotalVenta = BigDecimal.ZERO;
 
         listado_de_productos_venta = (DefaultTableModel) this.venta.tabla_de_pedido.getModel();
-        listado_de_productos_en_stock = (DefaultTableModel) this.venta.tabla_de_busqueda_de_productos.getModel();
-
+        listado_de_productos_en_stock = (DefaultTableModel) this.venta.tabla_de_busqueda_de_productos.getModel();    
+        
+        this.venta.txt_busqueda_por_lector.addFocusListener(this);
+        this.venta.txt_buscar_productos_stok.addFocusListener(this);
+        this.venta.txt_cantidad.addFocusListener(this);
+     
         // this.tablaProductos = this.venta.tabla_de_busqueda_de_productos;
         this.venta.txt_busqueda_por_lector.addKeyListener(this);
 
         this.venta.txt_buscar_productos_stok.addKeyListener(this);
-        
+
         this.venta.txt_cantidad.addKeyListener(this);
-        
-        
+
         this.venta.tabla_de_busqueda_de_productos.addMouseListener(this);
-        
+
         this.venta.btn_pagar.addActionListener(this);
-        
+        this.venta.btn_eliminar.addActionListener(this);
+
         this.venta.tabla_de_pedido.addKeyListener(this);
 
         initComponent();
 
-        mapaProductos = new HashMap<>();
+        
 
         //actualizarTablaProductos(Ventas_Facruracion.listarProductos(), listado_de_productos_en_stock);
     }
 
-    void initComponent() {
+    private void initComponent() {
 
         tabla_de_producs = new TableManager(venta.tabla_de_busqueda_de_productos);
 
@@ -85,9 +112,8 @@ this.ventana = ventana;
 
     @Override
     public void keyTyped(KeyEvent e) {
-        
-        
- if (e.getSource() == venta.txt_cantidad) {
+
+        if (e.getSource() == venta.txt_cantidad) {
 
             char c = e.getKeyChar();
             if (!Character.isDigit(c)) {
@@ -105,10 +131,9 @@ this.ventana = ventana;
             }
         }
     }
+
     @Override
     public void keyPressed(KeyEvent e) {
-
-       
 
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 
@@ -123,25 +148,26 @@ this.ventana = ventana;
                 String codigoLector = venta.txt_busqueda_por_lector.getText();
 
                 //System.out.println(prod.toString());
-                if (mapaProductos.containsKey(codigoLector)) {
+                if (servVenta.productoExiste(codigoLector)) {
 
-                    VentaProductos venta = mapaProductos.get(codigoLector);
+                   /* VentaProductos venta = mapaProductos.get(codigoLector);
 
                     venta.setCantidad(venta.getCantidad() + getCantidad());
                     venta.setPrecioTotal(venta.getPrecioUnitario() * venta.getCantidad());
 
-                    actualizarTablaVentas(mapaProductos, listado_de_productos_venta);
+                    actualizarTablaVentas(mapaProductos, listado_de_productos_venta);*/
+                   validarProductoEnCuenta(codigoLector);
 
                 } else {
                     Producto_dto prod = Ventas_Facruracion.buscarProductoPorCodigo(codigoLector);
-                    listar(prod);
+                    listarProducto(prod);
                 }
 
             }
         }
 
         if (e.getKeyCode() == KeyEvent.VK_DELETE) {
-           // System.out.println("delete");
+            // System.out.println("delete");
 
             /**
              * borra un producto de la cuenta
@@ -152,7 +178,7 @@ this.ventana = ventana;
 
                 mapaProductos.remove(codigo);
 
-                actualizarTablaVentas(mapaProductos, listado_de_productos_venta);
+                mostrarValorCuenta(mapaProductos);
             }
         }
     }
@@ -170,9 +196,11 @@ this.ventana = ventana;
             String codigoLector = venta.txt_buscar_productos_stok.getText().trim();
 
             if (!codigoLector.isEmpty()) {
+                
                 List<Producto_dto> prod = Ventas_Facruracion.buscarCoincidenciasCodigoNombre(codigoLector);
 
                 System.out.println(prod.toString());
+                
                 actualizarTablaProductos(prod, listado_de_productos_en_stock);
             } else {
                 limpiarTabla(listado_de_productos_en_stock);
@@ -180,9 +208,6 @@ this.ventana = ventana;
 
         }
     }
-
-
-    
 
     void limpiarTabla(DefaultTableModel t) {
         t.setRowCount(0); // limpiar tabla
@@ -206,15 +231,45 @@ this.ventana = ventana;
 
         }
     }
+    
+    private String calcularTotalString(BigDecimal monto) {
+
+        //se convierte el valor de tipo String de la tabla a BigDecimal
+        
+        //se establece/o fotrmato la moneda a correspondiente a colombia o cop
+        NumberFormat formatoMoneda = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
+
+        //se le easignan dos decimales al valor
+        formatoMoneda.setMaximumFractionDigits(2); // Máximo 2 decimales
+        formatoMoneda.setMinimumFractionDigits(2); // Mínimo 2 decimales
+
+        // Formatear el monto
+        return formatoMoneda.format(monto);
+
+    }
+    
+    //limpia el valor en pesos 
+    public String limpiarvalor(String v) {
+        
+        //se limpian los nueros quitandoles los miles y decimales
+        return v.replaceAll("[^\\d]", "") // Eliminar todo excepto números y comas
+                 .replace(",", ".");  // Reemplazar comas por puntos para formato decimal
+
+    }
+    
+    
 
     /**
      * obtiene la cantidad de productos alistar en ventas
      *
      * @return cantida de prodcutos
      */
-    public int getCantidad() {
+    private int getCantidad() {
+        
         String cant = venta.txt_cantidad.getText();
+        
         if (cant.matches("\\d+")) {
+            
             return Integer.parseInt(cant);
         }
 
@@ -226,13 +281,16 @@ this.ventana = ventana;
      *
      * @param producto
      */
-    public void listar(Producto_dto producto) {
+    @Override
+    public void listarProducto(Producto_dto producto) {
 
         int cantidad = getCantidad();
         Double valorTotal;
+        
+        BigDecimal preciounitario = BigDecimal.valueOf(producto.getPrecio());
 
         //creamos la lista de los productos a vender 
-        VentaProductos ventaProducto = new VentaProductos(producto.getCodigoBarra(), producto.getDescripcion(), cantidad, "UND", producto.getPrecio(), (producto.getPrecio() * cantidad));
+        VentaProductos ventaProducto = new VentaProductos(producto.getCodigoBarra(), producto.getDescripcion(), cantidad, "UND", preciounitario , preciounitario.multiply(BigDecimal.valueOf( getCantidad() )));
 
         // Agregamos al map
         mapaProductos.put(ventaProducto.getCodigoBarras(), ventaProducto);
@@ -240,8 +298,27 @@ this.ventana = ventana;
         actualizarTablaVentas(mapaProductos, listado_de_productos_venta);
 
         //Mostrar valor total a pagar por ele usuario
-        this.venta.lbl_valortotal.setText("$ " + String.valueOf(actualizarValorTotal(mapaProductos)));
+        
+        mostrarValorCuenta(mapaProductos);
 
+    }
+    
+    private void mostrarValorCuenta(Map<String, VentaProductos> mapaProductos){
+        
+        if (! mapaProductos.isEmpty()) {
+            
+            this.venta.lbl_valortotal.setText(calcularTotalString(actualizarValorTotal(mapaProductos)));           
+        }else{
+            
+            listado_de_productos_venta.setRowCount(0);
+            
+            this.venta.lbl_valortotal.setText("000.00");
+        }
+        
+        
+        
+        
+        
     }
 
     /**
@@ -250,12 +327,23 @@ this.ventana = ventana;
      * @param mapaProductos
      * @return valor total a pagar en formato double
      */
-    private Double actualizarValorTotal(Map<String, VentaProductos> mapaProductos) {
+    private BigDecimal actualizarValorTotal(Map<String, VentaProductos> mapaProductos) {
+             //forma funcional para sumar todos los valores de preciototal 
+             /*
+             Double v =  mapaProductos.values().stream()
+                                        .mapToDouble(p -> p.getPrecioTotal())
+                                        .sum();
+        */
+             BigDecimal totalVenta = mapaProductos.values()
+            .stream()
+            .map(VentaProductos::getPrecioTotal) // tomar el precioTotal de cada producto
+            .reduce(BigDecimal.ZERO, BigDecimal::add); // sumarlos
 
-        //forma funcional para sumar todos los valores de preciototal
-        return mapaProductos.values().stream()
-                .mapToDouble(p -> p.getPrecioTotal())
-                .sum();
+
+        //actualiza la varibale gobal
+        valorTotalVenta = totalVenta;
+             
+        return totalVenta;
 
     }
 
@@ -266,18 +354,20 @@ this.ventana = ventana;
      * @param tabla_de_productos nm
      */
     private void actualizarTablaVentas(Map<String, VentaProductos> mapaProductos, DefaultTableModel tabla_de_productos) {
-
         tabla_de_productos.setRowCount(0); // limpiar tabla
-        for (VentaProductos vp : mapaProductos.values()) {
-            tabla_de_productos.addRow(new Object[]{
-                vp.getCodigoBarras(),
-                vp.getDescripcion(),
-                vp.getCantidad(),
-                vp.getUnidad_de_medida(),
-                vp.getPrecioUnitario(),
-                vp.getPrecioTotal()
-            });
-        }
+        
+            for (VentaProductos vp : mapaProductos.values()) {
+                tabla_de_productos.addRow(new Object[]{
+                    vp.getCodigoBarras(),
+                    vp.getDescripcion(),
+                    vp.getCantidad(),
+                    vp.getUnidad_de_medida(),
+                    vp.getPrecioUnitario(),
+                    vp.getPrecioTotal()
+                });
+            }
+        
+        
     }
 
     /**
@@ -298,11 +388,12 @@ this.ventana = ventana;
             });
         }
     }
+
     /**
      * busca en la coleccion si existe el producto y lo actualiza si no existe
      * busca en la base de datos y lo añade a la lista
      */
-    public void validarProductoEnCuenta(String codigo) {
+    private void validarProductoEnCuenta(String codigo) {
 
         if (!codigo.isEmpty() && codigo.matches("\\d+")) {
             if (mapaProductos.containsKey(codigo)) {
@@ -310,64 +401,133 @@ this.ventana = ventana;
                 VentaProductos venta = mapaProductos.get(codigo);
 
                 venta.setCantidad(venta.getCantidad() + getCantidad());
-                venta.setPrecioTotal(venta.getPrecioUnitario() * venta.getCantidad());
+                venta.setPrecioTotal(venta.getPrecioUnitario().multiply(BigDecimal.valueOf( venta.getCantidad())));
 
                 actualizarTablaVentas(mapaProductos, listado_de_productos_venta);
 
+                this.venta.lbl_valortotal.setText(calcularTotalString( actualizarValorTotal(mapaProductos)));
+
             } else {
                 Producto_dto prod = Ventas_Facruracion.buscarProductoPorCodigo(codigo);
-                listar(prod);
+                listarProducto(prod);
             }
 
         }
 
     }
+
+    /**
+     * %-20s % → indica que viene un valor a formatear. - → alinea el texto a la
+     * izquierda dentro del espacio asignado. 20 → ancho total del campo (20
+     * caracteres). s → el valor será tratado como String.
+     *
+     * %-10s Igual que arriba, pero con ancho 10.
+     *
+     * %-12s
+     *
+     * Igual, pero con ancho 12. \n Salto de línea.
+     *
+     * @param cuenta_a_pagar
+     */
     
-    public void prepararFactura(Map<String, VentaProductos> cuenta_a_pagar){
-         // Encabezado de la factura
-    StringBuilder factura = new StringBuilder();
-    factura.append("=========== FACTURA DE VENTA ===========\n");
-    factura.append(String.format("%-20s %-10s %-12s %-12s\n", "Producto", "Cantidad", "P.Unitario", "Subtotal"));
-    factura.append("-----------------------------------------\n");
+    private String fechaActualHoura(){
 
-    double total = 0.0;
+         LocalDateTime ahora = LocalDateTime.now();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+       
 
-    // Recorrer el mapa y mostrar cada producto
-    for (Map.Entry<String, VentaProductos> entry : cuenta_a_pagar.entrySet()) {
-        VentaProductos vp = entry.getValue();
+        return ahora.format(formato);
+    
+    }
+    
+    private void prepararFactura(Map<String, VentaProductos> cuenta_a_pagar) {
+        StringBuilder factura = new StringBuilder();
+        factura.append("=============== FACTURA DE VENTA ===============\n");
+        factura.append("                  AVALON PLAZA \n");
+        factura.append("                  NIT 0321649-7\n");
+        factura.append("             DIR-CAÑAVERALES LA GUAJIRA\n");
+        factura.append("                    FECHA: "+fechaActualHoura()+"\n");
+        factura.append("-----------------------------------------------------------------\n");
 
-        String nombre = vp.getDescripcion();
-        int cantidad = vp.getCantidad();
-        double precioUnitario = vp.getPrecioUnitario();
-        double subtotal = cantidad * precioUnitario;
+        factura.append(String.format("%-20s %-40s %-8s %-10s %-10s\n", "Codigo", "Producto", "Cant", "P.Unit", "Subtotal"));
+        factura.append("-----------------------------------------------------------------\n");
 
-        factura.append(String.format("%-20s %-10d %-12.2f %-12.2f\n",
-                nombre, cantidad, precioUnitario, subtotal));
+        BigDecimal total = BigDecimal.ZERO;
+        int anchoDescripcion = 28;
 
-        total += subtotal;
+        for (VentaProductos vp : mapaProductos.values()) {
+            String codigo = vp.getCodigoBarras();
+            String nombre = resumirTexto(vp.getDescripcion(), anchoDescripcion);
+            int cantidad = vp.getCantidad();
+            BigDecimal precioUnitario = vp.getPrecioUnitario();
+            BigDecimal subtotal = precioUnitario.multiply(BigDecimal.valueOf( cantidad ));
+
+            factura.append(String.format("%-20s %-40s %-8d %-10.2s %-10.2s\n",
+                    codigo, nombre, cantidad, calcularTotalString(precioUnitario), calcularTotalString(subtotal)));
+
+            total.add(subtotal) ;
+        }
+
+        factura.append("-----------------------------------------------------------------\n");
+        factura.append(String.format("%-20s %-40s %-8s %-10s %-10.2s\n", "TOTAL", "", "", "", calcularTotalString(total)));
+        factura.append("============================================\n");
+
+        pago.txt_detallescompra.setText(factura.toString());
     }
 
-    factura.append("-----------------------------------------\n");
-    factura.append(String.format("%-20s %-10s %-12s %-12.2f\n", "TOTAL", "", "", total));
-    factura.append("=========================================\n");
-
-    // Mostrar en pantalla (por consola, o en GUI si quieres)
-    pago.txt_detallescompra.setText(factura.toString());
+    /**
+     * valida que el texto no supere los 40 caracteres, si los supera corta el
+     * texto a cuarenta(40 - 6) caracteres
+     *
+     * @param texto
+     * @param ancho
+     * @return texto con longitud de 40 - 6
+     */
+    private String resumirTexto(String texto, int ancho) {
         
+        if (texto.length() <= ancho) {
+            
+            return texto;
+        }
+        // Dejar espacio para los "..."
+        return texto.substring(0, ancho - 6) + "";
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == venta.btn_pagar){
+        if (e.getSource() == venta.btn_pagar) {
+
+            if (valorTotalVenta.compareTo(BigDecimal.ZERO) > 0) {
+                prepararFactura(mapaProductos);
+             
+             
+            
+            pago.txt_totalpagar.setText(calcularTotalString(valorTotalVenta));
+            
             
             Cambio_panel.next_panel(ventana.fw_Container, pago);
-            prepararFactura(mapaProductos);
+            }else{
+                JOptionPane.showMessageDialog(
+                    null, 
+                    "⚠ No tine Productos en la cuenta ", 
+                    "Advertencia", 
+                    JOptionPane.WARNING_MESSAGE
+                );
+            }
+             
         }
         
+        if(e.getSource() == venta.btn_eliminar){            
+            
+            mapaProductos.clear();
+            
+            valorTotalVenta = BigDecimal.ZERO;
+            
+            mostrarValorCuenta(mapaProductos);
+        }
+
     }
-    
-    
-    
+
     @Override
     public void mousePressed(MouseEvent e) {
 
@@ -387,4 +547,53 @@ this.ventana = ventana;
     public void mouseExited(MouseEvent e) {
 
     }
+
+    @Override
+    public void focusGained(FocusEvent e) {
+        if (e.getSource() == venta.txt_busqueda_por_lector) {
+            if (venta.txt_busqueda_por_lector.getText().equals(PLACE_HOLDER_BUSQUEDA_X_LECTOR)) {
+            venta.txt_busqueda_por_lector.setText("");
+            venta.txt_busqueda_por_lector.setForeground(Color.BLACK); // Vuelve a color normal
+        }
+        }
+        
+        if (e.getSource() == venta.txt_buscar_productos_stok){
+            if (venta.txt_buscar_productos_stok.getText().equals(PLACE_HOLDER_BUSQUEDA)) {
+                venta.txt_buscar_productos_stok.setText("");
+                venta.txt_buscar_productos_stok.setForeground(Color.BLACK); // Vuelve a color normal
+            }
+        }
+        if (e.getSource() == venta.txt_cantidad){
+            if (venta.txt_cantidad.getText().equals(PLACE_HOLDER_CANTIDAD)) {
+            venta.txt_cantidad.setText("");
+            venta.txt_cantidad.setForeground(Color.BLACK); // Vuelve a color normal
+        }
+        }
+        
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+        if (e.getSource() == venta.txt_busqueda_por_lector) {
+            if (venta.txt_busqueda_por_lector.getText().isEmpty()) {
+                venta.txt_busqueda_por_lector.setText(PLACE_HOLDER_BUSQUEDA_X_LECTOR);
+                venta.txt_busqueda_por_lector.setForeground(Color.GRAY); // Color placeholder
+            }
+        }
+        if (e.getSource() == venta.txt_buscar_productos_stok){
+            if (venta.txt_buscar_productos_stok.getText().isEmpty()) {
+                venta.txt_buscar_productos_stok.setText(PLACE_HOLDER_BUSQUEDA);
+                venta.txt_buscar_productos_stok.setForeground(Color.GRAY); // Color placeholder
+            }
+        }
+        if (e.getSource() == venta.txt_cantidad){
+            if (venta.txt_cantidad.getText().isEmpty()) {
+                venta.txt_cantidad.setText(PLACE_HOLDER_CANTIDAD);
+                venta.txt_cantidad.setForeground(Color.GRAY); // Color placeholder
+            }
+        }
+    }
+
+    
+
 }
