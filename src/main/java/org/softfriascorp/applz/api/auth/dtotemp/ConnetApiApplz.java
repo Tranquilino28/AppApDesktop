@@ -2,12 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package org.softfriascorp.applz.api;
+package org.softfriascorp.applz.api.auth.dtotemp;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import org.softfriascorp.applz.api.auth.AuthService;
 
 /**
  *
@@ -20,7 +21,7 @@ public class ConnetApiApplz {
     public static void main(String[] args) throws Exception {
         
         
-        LoginHttp.login("frias", "frias");
+        AuthService.login("frias", "frias");
 
         /*HttpClient client = HttpClient.newHttpClient();
 

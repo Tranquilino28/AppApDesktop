@@ -7,7 +7,8 @@ import java.net.http.HttpClient;
   import java.util.Base64;
 import java.util.prefs.Preferences;
 import org.json.JSONObject;
-import org.softfriascorp.applz.api.LoginHttp;
+import org.softfriascorp.applz.api.auth.dtotemp.LoginHttp;
+import org.softfriascorp.applz.api.auth.AuthService;
 import org.softfriascorp.applz.model.UsuarioPerfil;
 
 /**
@@ -22,7 +23,7 @@ public class DecodificarToken {
          
        
         // Dividir en 3 partes: header.payload.signature
-        String[] parts = LoginHttp.getToken().split("\\.");
+        String[] parts = AuthService.getToken().split("\\.");
         
         // Decodificar Header
         String header = new String(Base64.getUrlDecoder().decode(parts[0]));

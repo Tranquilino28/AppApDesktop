@@ -8,7 +8,7 @@ package org.softfriascorp.applz.api.enumapi;
  *
  * @author usuario
  */
-public enum ProductoApiUrl {
+public enum Url_ApiProductos {
     
     URL_FIND_SEARCH_CODIGO_BARRAS("http://localhost:3066/producto/search/1/"),
     URL_FIND_ALL("http://localhost:3066/producto/all"),
@@ -16,7 +16,7 @@ public enum ProductoApiUrl {
 
     private final String url;
 
-    ProductoApiUrl(String url) {
+    Url_ApiProductos(String url) {
         this.url = url;
     }
 

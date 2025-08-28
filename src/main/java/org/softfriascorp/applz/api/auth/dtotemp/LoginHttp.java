@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package org.softfriascorp.applz.api;
+package org.softfriascorp.applz.api.auth.dtotemp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import static com.fasterxml.jackson.databind.type.LogicalType.Map;
@@ -29,7 +29,7 @@ public class LoginHttp {
     private static final String GET_USER_ROLE_URL = "http://localhost:3066/api/admin/perfil";
     private static String token;
 
-    public static boolean login(String username, String password) {
+    private static boolean login(String username, String password) {
         try {
             URL url = new URL(LOGIN_URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -83,7 +83,7 @@ public class LoginHttp {
         }
     }
 
-    public static String getUsuarioRol() {
+    private static String getUsuarioRol() {
         try {
             URL url = new URL(GET_USER_ROLE_URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -135,11 +135,11 @@ public class LoginHttp {
         JSONObject payload1 = new JSONObject(payloadJson);
 
 // Extraer datos y guardarlos en UsuarioPerfil
-        UsuarioPerfil.setNombreUsuario(payload1.getString("sub"));          // usuario
+ /*       UsuarioPerfil.setNombreUsuario(payload1.getString("sub"));          // usuario
         UsuarioPerfil.setRol(payload1.getString("rol"));             // rol
         UsuarioPerfil.setEmpresaId(payload1.getLong("empresa_Id"));  // empresaId
         
         System.out.println(UsuarioPerfil.getNombreUsuario());
-
+*/
     }
 }

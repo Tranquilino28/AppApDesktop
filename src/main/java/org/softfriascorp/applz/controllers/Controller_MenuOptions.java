@@ -40,7 +40,7 @@ PSliderMenu slider;
     
     
     void init(){
-        mo.lbl_usuario_rol.setText("Rol : "+ UsuarioPerfil.getRol() + " || Usuario" + UsuarioPerfil.getNombreUsuario());
+        mo.lbl_usuario_rol.setText("Rol : "+ UsuarioPerfil.getRol() + " || Usuario" + UsuarioPerfil.getSub());
     }
 
     @Override

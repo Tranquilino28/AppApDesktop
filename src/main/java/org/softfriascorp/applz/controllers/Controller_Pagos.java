@@ -10,6 +10,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.math.BigDecimal;
 import java.util.Map;
+import org.softfriascorp.applz.api.Response_dtos.VentaResponse;
+import org.softfriascorp.applz.api.services.Impl_ServiceVentas;
 import org.softfriascorp.applz.modelProductosVenta.VentaProductos;
 import org.softfriascorp.applz.service.venta.service.ServiceVenta;
 import org.softfriascorp.applz.util.UtilGeneradorFactura;
@@ -55,7 +57,14 @@ public class Controller_Pagos implements ActionListener, KeyListener{
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == pago.btn_aceptar_pago){
             UtilGeneradorFactura.generarTiket("1002 ", "faber",servVenta.listarProductos() );
+            VentaResponse ventaResponse = Impl_ServiceVentas.saveVenta(servVenta);
             
+          
+            if(ventaResponse != null){
+          
+            System.out.println("codigo de la venta : "+ ventaResponse.getId() + " valor total : "+ventaResponse.getValorTotal());
+            }
+          
         }
     }
 

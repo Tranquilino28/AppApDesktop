@@ -7,7 +7,7 @@ package org.softfriascorp.applz.service.venta.service;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import org.softfriascorp.applz.api.modeldto.Producto_dto;
+import org.softfriascorp.applz.api.services.Producto_dto;
 import org.softfriascorp.applz.modelProductosVenta.VentaProductos;
 import org.softfriascorp.applz.service.venta.interfaces.Interface_ServVenta;
 

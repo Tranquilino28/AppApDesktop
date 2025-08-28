@@ -6,7 +6,7 @@ package org.softfriascorp.applz.service.venta.interfaces;
 
 import java.math.BigDecimal;
 import java.util.Map;
-import org.softfriascorp.applz.api.modeldto.Producto_dto;
+import org.softfriascorp.applz.api.services.Producto_dto;
 import org.softfriascorp.applz.modelProductosVenta.VentaProductos;
 
 /**

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package org.softfriascorp.applz.api.modeldto;
+package org.softfriascorp.applz.api.services;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,19 +23,9 @@ public class Producto_dto {
     private Double precio;
     private String categoria;
     private Integer stockDisponible;
-    private Long empresa;
+    private Long empresa_id;
 
-     public Producto_dto(){}
-     
-    public Producto_dto(Long id, String nombre, String descripcion, String codigoBarra, Double precio, String categoria, Integer stockDisponible, Long empresa) {
-        this.id = id;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.codigoBarra = codigoBarra;
-        this.precio = precio;
-        this.categoria = categoria;
-        this.stockDisponible = stockDisponible;
-        this.empresa = empresa;
+    public Producto_dto() {
     }
 
     public Long getId() {
@@ -94,13 +84,14 @@ public class Producto_dto {
         this.stockDisponible = stockDisponible;
     }
 
-    public Long getEmpresa() {
-        return empresa;
+    public Long getEmpresa_id() {
+        return empresa_id;
     }
 
-    public void setEmpresa(Long empresa) {
-        this.empresa = empresa;
+    public void setEmpresa_id(Long empresa_id) {
+        this.empresa_id = empresa_id;
     }
-    
+
+
     
 }

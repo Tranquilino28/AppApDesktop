@@ -11,7 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import org.softfriascorp.applz.api.LoginHttp;
+import org.softfriascorp.applz.api.auth.dtotemp.LoginHttp;
 import org.softfriascorp.applz.service.impl.ImplService_Usuario;
 import org.softfriascorp.applz.util.Cambio_panel;
 import org.softfriascorp.applz.views.Frame_Work;

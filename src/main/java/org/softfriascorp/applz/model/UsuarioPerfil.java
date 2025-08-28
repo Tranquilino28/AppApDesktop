@@ -4,10 +4,8 @@
  */
 package org.softfriascorp.applz.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+
 
 /**
  *
@@ -15,20 +13,20 @@ import lombok.NoArgsConstructor;
  */
 
 public class UsuarioPerfil {
-   private static String nombreUsuario;
+   private static String sub;
     private static  String rol;
-    private static Long empresaId;
+    private static Long empresa_Id;
     private static String nombre;
 
     private UsuarioPerfil() {
     }
 
-    public static String getNombreUsuario() {
-        return nombreUsuario;
+    public static String getSub() {
+        return sub;
     }
 
-    public static void setNombreUsuario(String nombreUsuario) {
-        UsuarioPerfil.nombreUsuario = nombreUsuario;
+    public static void setSub(String sub) {
+        UsuarioPerfil.sub = sub;
     }
 
     public static String getRol() {
@@ -39,12 +37,12 @@ public class UsuarioPerfil {
         UsuarioPerfil.rol = rol;
     }
 
-    public static Long getEmpresaId() {
-        return empresaId;
+    public static Long getEmpresa_Id() {
+        return empresa_Id;
     }
 
-    public static void setEmpresaId(Long empresaId) {
-        UsuarioPerfil.empresaId = empresaId;
+    public static void setEmpresa_Id(Long empresa_Id) {
+        UsuarioPerfil.empresa_Id = empresa_Id;
     }
 
     public static String getNombre() {
@@ -58,7 +56,7 @@ public class UsuarioPerfil {
     
     @Override
     public String toString() {
-        return "Rol : "+ rol + " || Usuario" + nombreUsuario;
+        return "Rol : "+ rol + " || Usuario" + sub;
     }
 
     

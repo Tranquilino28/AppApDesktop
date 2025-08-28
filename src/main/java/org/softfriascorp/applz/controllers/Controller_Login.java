@@ -8,7 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import org.softfriascorp.applz.api.LoginHttp;
+import org.softfriascorp.applz.api.auth.dtotemp.LoginHttp;
+import org.softfriascorp.applz.api.auth.AuthService;
 import org.softfriascorp.applz.model.UsuarioPerfil;
 import org.softfriascorp.applz.service.impl.ImplService_Usuario;
 import org.softfriascorp.applz.util.Cambio_panel;
@@ -73,9 +74,9 @@ public class Controller_Login implements ActionListener, KeyListener{
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == vista_login.btn_login) {
             
-           if( LoginHttp.login(vista_login.txt_usuario.getText(), vista_login.txt_usuario.getText())){
+           if( AuthService.login(vista_login.txt_usuario.getText(), vista_login.txt_usuario.getText())){
                
-               menuHeader.lbl_usuario_rol.setText(("Rol : "+ UsuarioPerfil.getRol() + " || Usuario" + UsuarioPerfil.getNombreUsuario()));
+               menuHeader.lbl_usuario_rol.setText(("Rol : "+ UsuarioPerfil.getRol() + " || Usuario" + UsuarioPerfil.getSub()));
                
                 Cambio_panel.addPanelVenta(
                         ventanaPrincipal.fw_Container
@@ -84,7 +85,7 @@ public class Controller_Login implements ActionListener, KeyListener{
                         , venta);
                 
                 
-                menuHeader.lbl_usuario_rol.setText(LoginHttp.getUsuarioRol());
+                //menuHeader.lbl_usuario_rol.setText(LoginHttp.getUsuarioRol());
            }            
         }  
         
@@ -115,9 +116,9 @@ public class Controller_Login implements ActionListener, KeyListener{
     public void keyPressed(KeyEvent e) {
         if(e.getSource() == vista_login.btn_login){
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                if( LoginHttp.login(vista_login.txt_usuario.getText(), vista_login.txt_usuario.getText())){
+                if( AuthService.login(vista_login.txt_usuario.getText(), vista_login.txt_usuario.getText())){
                     
-                     menuHeader.lbl_usuario_rol.setText(("Rol : "+ UsuarioPerfil.getRol() + " || Usuario : " + UsuarioPerfil.getNombreUsuario()));
+                     menuHeader.lbl_usuario_rol.setText(("Rol : "+ UsuarioPerfil.getRol()+ " || Usuario : " + UsuarioPerfil.getSub()));
                    Cambio_panel.addPanelVenta(
                         ventanaPrincipal.fw_Container
                         , menuHeader

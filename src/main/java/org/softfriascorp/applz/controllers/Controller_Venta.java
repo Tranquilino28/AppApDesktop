@@ -27,8 +27,8 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import org.softfriascorp.applz.api.Ventas_Facruracion;
-import org.softfriascorp.applz.api.modeldto.Producto_dto;
+import org.softfriascorp.applz.api.services.Impl_ServiceVentas;
+import org.softfriascorp.applz.api.services.Producto_dto;
 import org.softfriascorp.applz.controllers.interfaces.ListarProductoEnCuentaCliente;
 import org.softfriascorp.applz.modelProductosVenta.VentaProductos;
 import org.softfriascorp.applz.service.venta.service.ServiceVenta;
@@ -42,20 +42,21 @@ import org.softfriascorp.applz.views.PVenta;
  *
  * @author usuario
  */
-public class Controller_Venta implements KeyListener, ActionListener, MouseListener, FocusListener,
-        ListarProductoEnCuentaCliente{
+public class Controller_Venta 
+        implements 
+        KeyListener
+        , ActionListener
+        , MouseListener
+        , FocusListener
+        , ListarProductoEnCuentaCliente{
 
-   private  Frame_Work ventana;
+    private  Frame_Work ventana;
     private PVenta venta;
     private PPagos pago;
-
     private DefaultTableModel listado_de_productos_venta;
     private DefaultTableModel listado_de_productos_en_stock;
-
     private TableManager tabla_de_producs;
-
-   private ServiceVenta servVenta;
-   
+    private ServiceVenta servVenta;   
    
    private Map<String , VentaProductos> mapaProductos;
    private BigDecimal valorTotalVenta;
@@ -64,7 +65,12 @@ public class Controller_Venta implements KeyListener, ActionListener, MouseListe
    private final String  PLACE_HOLDER_BUSQUEDA_X_LECTOR = "BUSQUEDA X LECTOR DE CODIGO";
    private final String  PLACE_HOLDER_CANTIDAD = "CANTIDAD";
    
-    public Controller_Venta(Frame_Work ventana, PVenta venta, PPagos pago, ServiceVenta servVenta) {
+    public Controller_Venta(
+            Frame_Work ventana
+            , PVenta venta
+            , PPagos pago
+            , ServiceVenta servVenta
+    ) {
         this.ventana = ventana;
         this.pago = pago;
         this.venta = venta;
@@ -74,7 +80,17 @@ public class Controller_Venta implements KeyListener, ActionListener, MouseListe
         mapaProductos = servVenta.listarProductos();
         valorTotalVenta = BigDecimal.ZERO;
 
-        listado_de_productos_venta = (DefaultTableModel) this.venta.tabla_de_pedido.getModel();
+      
+        initComponent();
+
+        
+
+        //actualizarTablaProductos(Ventas_Facruracion.listarProductos(), listado_de_productos_en_stock);
+    }
+
+    private void initComponent() {
+
+         listado_de_productos_venta = (DefaultTableModel) this.venta.tabla_de_pedido.getModel();
         listado_de_productos_en_stock = (DefaultTableModel) this.venta.tabla_de_busqueda_de_productos.getModel();    
         
         this.venta.txt_busqueda_por_lector.addFocusListener(this);
@@ -95,15 +111,7 @@ public class Controller_Venta implements KeyListener, ActionListener, MouseListe
 
         this.venta.tabla_de_pedido.addKeyListener(this);
 
-        initComponent();
-
         
-
-        //actualizarTablaProductos(Ventas_Facruracion.listarProductos(), listado_de_productos_en_stock);
-    }
-
-    private void initComponent() {
-
         tabla_de_producs = new TableManager(venta.tabla_de_busqueda_de_productos);
 
         TableManager.centrarCeldas(venta.tabla_de_busqueda_de_productos, 0, 2);
@@ -134,41 +142,36 @@ public class Controller_Venta implements KeyListener, ActionListener, MouseListe
 
     @Override
     public void keyPressed(KeyEvent e) {
-
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-
             /**
-             * busca un prosucto del codigo que captura el lector de campode
+             * busca un prosducto del codigo que captura el lector en el campo de
              * busqueda
              */
-            if (e.getSource() == venta.txt_busqueda_por_lector) {
-                // Aquí pones la lógica para la búsqueda en la base de datos
-                // Por ejemplo :
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 
+           
+            if (e.getSource() == venta.txt_busqueda_por_lector) {
+              
                 String codigoLector = venta.txt_busqueda_por_lector.getText();
 
-                //System.out.println(prod.toString());
                 if (servVenta.productoExiste(codigoLector)) {
-
-                   /* VentaProductos venta = mapaProductos.get(codigoLector);
-
-                    venta.setCantidad(venta.getCantidad() + getCantidad());
-                    venta.setPrecioTotal(venta.getPrecioUnitario() * venta.getCantidad());
-
-                    actualizarTablaVentas(mapaProductos, listado_de_productos_venta);*/
-                   validarProductoEnCuenta(codigoLector);
-
+                    
+                    validarProductoEnCuenta(codigoLector);
+                       
                 } else {
-                    Producto_dto prod = Ventas_Facruracion.buscarProductoPorCodigo(codigoLector);
+                    
+                    //añade un nuevo registro a la cuenta 
+                   
+                    Producto_dto prod = Impl_ServiceVentas.searchProductCode(codigoLector);
+                        
                     listarProducto(prod);
+                    
                 }
 
             }
         }
 
         if (e.getKeyCode() == KeyEvent.VK_DELETE) {
-            // System.out.println("delete");
-
+           
             /**
              * borra un producto de la cuenta
              */
@@ -178,7 +181,13 @@ public class Controller_Venta implements KeyListener, ActionListener, MouseListe
 
                 mapaProductos.remove(codigo);
 
-                mostrarValorCuenta(mapaProductos);
+               
+                
+                actualizarTablaVentas(mapaProductos, listado_de_productos_venta);
+
+        //Mostrar valor total a pagar por ele usuario
+        
+       
             }
         }
     }
@@ -197,7 +206,7 @@ public class Controller_Venta implements KeyListener, ActionListener, MouseListe
 
             if (!codigoLector.isEmpty()) {
                 
-                List<Producto_dto> prod = Ventas_Facruracion.buscarCoincidenciasCodigoNombre(codigoLector);
+                List<Producto_dto> prod = Impl_ServiceVentas.searchCoincidencias(codigoLector);
 
                 System.out.println(prod.toString());
                 
@@ -297,9 +306,8 @@ public class Controller_Venta implements KeyListener, ActionListener, MouseListe
 
         actualizarTablaVentas(mapaProductos, listado_de_productos_venta);
 
-        //Mostrar valor total a pagar por ele usuario
+     
         
-        mostrarValorCuenta(mapaProductos);
 
     }
     
@@ -367,7 +375,8 @@ public class Controller_Venta implements KeyListener, ActionListener, MouseListe
                 });
             }
         
-        
+        mostrarValorCuenta(mapaProductos);
+        actualizarValorTotal(mapaProductos);
     }
 
     /**
@@ -408,7 +417,7 @@ public class Controller_Venta implements KeyListener, ActionListener, MouseListe
                 this.venta.lbl_valortotal.setText(calcularTotalString( actualizarValorTotal(mapaProductos)));
 
             } else {
-                Producto_dto prod = Ventas_Facruracion.buscarProductoPorCodigo(codigo);
+                Producto_dto prod = Impl_ServiceVentas.searchProductCode(codigo);
                 listarProducto(prod);
             }
 
