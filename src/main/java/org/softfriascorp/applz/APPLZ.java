@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.swing.SwingUtilities;
 import org.softfriascorp.applz.controllers.Controlador_de_Vistas;
 import org.softfriascorp.applz.controllers.Controler_SliderOptionMenu;
+import org.softfriascorp.applz.controllers.Controller_Inventario;
 import org.softfriascorp.applz.controllers.Controller_Login;
 import org.softfriascorp.applz.controllers.Controller_MenuOptions;
 import org.softfriascorp.applz.controllers.Controller_Pagos;
@@ -65,7 +66,7 @@ public class APPLZ {
             
             PVenta panel_de_venta = new PVenta();
             
-            PInventario ánel_de_inventario = new PInventario();
+            PInventario panel_de_inventario = new PInventario();
             
             PPagos panel_de_pagos = new PPagos();
             
@@ -96,7 +97,12 @@ public class APPLZ {
                     , panel_de_pagos
                     , servicio_de_venta
             );
+            new Controller_Inventario(
+                    panel_de_inventario
+                    
+                    
             
+            );
             /*  
             //controlador de opciones  y menus 
             new Controler_SliderOptionMenu(slider_de_opciones
@@ -119,8 +125,10 @@ public class APPLZ {
             new Controlador_de_Vistas(
                    ventanaPrincipal
                     , sliderContenedor
+                    , sliderMenu
                     , menu_de_opciones
                     , panel_de_venta
+                    , panel_de_inventario
                     , panel_de_login
                     , panel_de_registro
                     , panel_de_pagos

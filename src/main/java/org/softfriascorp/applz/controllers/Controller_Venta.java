@@ -27,7 +27,7 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import org.softfriascorp.applz.api.services.Impl_ServiceVentas;
+import org.softfriascorp.applz.api.services.Impl_ServiceProducto;
 import org.softfriascorp.applz.api.services.Producto_dto;
 import org.softfriascorp.applz.controllers.interfaces.ListarProductoEnCuentaCliente;
 import org.softfriascorp.applz.modelProductosVenta.VentaProductos;
@@ -161,7 +161,7 @@ public class Controller_Venta
                     
                     //añade un nuevo registro a la cuenta 
                    
-                    Producto_dto prod = Impl_ServiceVentas.searchProductCode(codigoLector);
+                    Producto_dto prod = Impl_ServiceProducto.searchProductCode(codigoLector);
                         
                     listarProducto(prod);
                     
@@ -206,7 +206,7 @@ public class Controller_Venta
 
             if (!codigoLector.isEmpty()) {
                 
-                List<Producto_dto> prod = Impl_ServiceVentas.searchCoincidencias(codigoLector);
+                List<Producto_dto> prod = Impl_ServiceProducto.searchCoincidencias(codigoLector);
 
                 System.out.println(prod.toString());
                 
@@ -417,7 +417,7 @@ public class Controller_Venta
                 this.venta.lbl_valortotal.setText(calcularTotalString( actualizarValorTotal(mapaProductos)));
 
             } else {
-                Producto_dto prod = Impl_ServiceVentas.searchProductCode(codigo);
+                Producto_dto prod = Impl_ServiceProducto.searchProductCode(codigo);
                 listarProducto(prod);
             }
 

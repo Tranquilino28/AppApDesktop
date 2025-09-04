@@ -22,6 +22,7 @@ public class Producto_dto {
     private String codigoBarra;
     private Double precio;
     private String categoria;
+    private String medida;
     private Integer stockDisponible;
     private Long empresa_id;
 
@@ -74,6 +75,14 @@ public class Producto_dto {
 
     public void setCategoria(String categoria) {
         this.categoria = categoria;
+    }
+
+    public String getMedida() {
+        return medida;
+    }
+
+    public void setMedida(String medida) {
+        this.medida = medida;
     }
 
     public Integer getStockDisponible() {

@@ -32,11 +32,18 @@ import org.softfriascorp.applz.views.PSlider_Contenedor;
 public class Controlador_de_Vistas implements ActionListener, MouseListener, KeyListener {
 
     private Frame_Work ventanaPrincipal;
-    private PSlider_Contenedor sliderMenu;    
+    private PSlider_Contenedor contWithsliderMenu;    
     private PLogin vista_login;
     private PRegister vista_registro_de_usuario;
+    private PSliderMenu sliderMenu;
+    
     
     private PVenta venta;
+    private PInventario inventario;
+    
+    
+    
+    
     private PPagos pagos;
     
     private PMenuHeader menuHeader;
@@ -46,20 +53,25 @@ public class Controlador_de_Vistas implements ActionListener, MouseListener, Key
    
     public Controlador_de_Vistas(
             Frame_Work ventanaPrincipal 
-            , PSlider_Contenedor sliderMenu
+            , PSlider_Contenedor contWithsliderMenu
+            , PSliderMenu sliderMenu
             , PMenuHeader menuHeader
             , PVenta venta
+            , PInventario inventario
             , PLogin vista_login
             , PRegister pregistro
             , PPagos pagos
             , PFacturacion facturacion
             
+            
             )
     {
         this.ventanaPrincipal = ventanaPrincipal;
-        this.sliderMenu = sliderMenu;       
+        this.contWithsliderMenu = contWithsliderMenu;   
+        this.sliderMenu = sliderMenu;
         this.menuHeader = menuHeader;
         this.venta = venta;
+        this.inventario = inventario;
         this.facturacion = facturacion;
         this.vista_login = vista_login;        
         this.vista_registro_de_usuario = pregistro;
@@ -90,31 +102,41 @@ public class Controlador_de_Vistas implements ActionListener, MouseListener, Key
         this.pagos.btn_atras.addKeyListener(this);
         this.pagos.btn_atras.addMouseListener(this);
         
+      
         
+        this.sliderMenu.btn_inventario.addActionListener(this);
+        this.sliderMenu.btn_ventas.addActionListener(this);
        
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         
-       if(e.getSource() == pagos.btn_atras){
+       if(e.getSource() == pagos.btn_atras || e.getSource() == sliderMenu.btn_ventas){
            Cambio_panel.addPanelVenta(
                    ventanaPrincipal.fw_Container
                    ,  menuHeader
-                   , sliderMenu
+                   , contWithsliderMenu
                    , venta
            );
        }
        
        
        if (e.getSource() == menuHeader.btn_menu) {
-            if (sliderMenu.isVisible()) {
-                sliderMenu.setVisible(false);
+            if (contWithsliderMenu.isVisible()) {
+                contWithsliderMenu.setVisible(false);
             }else{
-                sliderMenu.setVisible(true);
+                contWithsliderMenu.setVisible(true);
             }
         }
-        
+       
+        if (e.getSource() == sliderMenu.btn_inventario) {
+            Cambio_panel.addPanelVenta(
+                        ventanaPrincipal.fw_Container
+                        , menuHeader
+                        , contWithsliderMenu
+                        , inventario);
+        }
     }
 
     @Override
