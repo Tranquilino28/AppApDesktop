@@ -4,6 +4,8 @@
  */
 package org.softfriascorp.applz.controllers;
 
+
+
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,26 +16,18 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import org.softfriascorp.applz.api.services.Impl_ServiceProducto;
+import org.softfriascorp.applz.api.services.impl.Api_ServiceProducto;
 import org.softfriascorp.applz.api.services.Producto_dto;
 import org.softfriascorp.applz.controllers.interfaces.ListarProductoEnCuentaCliente;
-import org.softfriascorp.applz.modelProductosVenta.VentaProductos;
-import org.softfriascorp.applz.service.venta.service.ServiceVenta;
+import org.softfriascorp.applz.modelProductosVenta.Productos_Carrito;
+import org.softfriascorp.applz.service.venta.service.ServiceCarrito;
 import org.softfriascorp.applz.util.Cambio_panel;
 import org.softfriascorp.applz.util.TableManager;
+import org.softfriascorp.applz.util.UtilFormat;
 import org.softfriascorp.applz.views.Frame_Work;
 import org.softfriascorp.applz.views.PPagos;
 import org.softfriascorp.applz.views.PVenta;
@@ -56,20 +50,22 @@ public class Controller_Venta
     private DefaultTableModel listado_de_productos_venta;
     private DefaultTableModel listado_de_productos_en_stock;
     private TableManager tabla_de_producs;
-    private ServiceVenta servVenta;   
+    private ServiceCarrito servVenta;   
    
-   private Map<String , VentaProductos> mapaProductos;
+   private Map<String , Productos_Carrito> mapaProductos;
    private BigDecimal valorTotalVenta;
    
    private final String  PLACE_HOLDER_BUSQUEDA = "BUSQUEDA"; 
    private final String  PLACE_HOLDER_BUSQUEDA_X_LECTOR = "BUSQUEDA X LECTOR DE CODIGO";
    private final String  PLACE_HOLDER_CANTIDAD = "CANTIDAD";
    
-    public Controller_Venta(
+   
+   
+   public Controller_Venta(
             Frame_Work ventana
             , PVenta venta
             , PPagos pago
-            , ServiceVenta servVenta
+            , ServiceCarrito servVenta
     ) {
         this.ventana = ventana;
         this.pago = pago;
@@ -161,7 +157,7 @@ public class Controller_Venta
                     
                     //añade un nuevo registro a la cuenta 
                    
-                    Producto_dto prod = Impl_ServiceProducto.searchProductCode(codigoLector);
+                    Producto_dto prod = Api_ServiceProducto.searchProductCode(codigoLector);
                         
                     listarProducto(prod);
                     
@@ -206,7 +202,7 @@ public class Controller_Venta
 
             if (!codigoLector.isEmpty()) {
                 
-                List<Producto_dto> prod = Impl_ServiceProducto.searchCoincidencias(codigoLector);
+                List<Producto_dto> prod = Api_ServiceProducto.searchCoincidencias(codigoLector);
 
                 System.out.println(prod.toString());
                 
@@ -241,49 +237,7 @@ public class Controller_Venta
         }
     }
     
-    private String calcularTotalString(BigDecimal monto) {
-
-        //se convierte el valor de tipo String de la tabla a BigDecimal
-        
-        //se establece/o fotrmato la moneda a correspondiente a colombia o cop
-        NumberFormat formatoMoneda = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
-
-        //se le easignan dos decimales al valor
-        formatoMoneda.setMaximumFractionDigits(2); // Máximo 2 decimales
-        formatoMoneda.setMinimumFractionDigits(2); // Mínimo 2 decimales
-
-        // Formatear el monto
-        return formatoMoneda.format(monto);
-
-    }
-    
-    //limpia el valor en pesos 
-    public String limpiarvalor(String v) {
-        
-        //se limpian los nueros quitandoles los miles y decimales
-        return v.replaceAll("[^\\d]", "") // Eliminar todo excepto números y comas
-                 .replace(",", ".");  // Reemplazar comas por puntos para formato decimal
-
-    }
-    
-    
-
-    /**
-     * obtiene la cantidad de productos alistar en ventas
-     *
-     * @return cantida de prodcutos
-     */
-    private int getCantidad() {
-        
-        String cant = venta.txt_cantidad.getText();
-        
-        if (cant.matches("\\d+")) {
-            
-            return Integer.parseInt(cant);
-        }
-
-        return 1;
-    }
+   
 
     /**
      * lista un nuevo producto traido de la base de datos
@@ -293,13 +247,21 @@ public class Controller_Venta
     @Override
     public void listarProducto(Producto_dto producto) {
 
-        int cantidad = getCantidad();
+        int cantidad = UtilFormat.getCantidad(venta.txt_cantidad);
         Double valorTotal;
         
-        BigDecimal preciounitario = BigDecimal.valueOf(producto.getPrecio());
+        
 
         //creamos la lista de los productos a vender 
-        VentaProductos ventaProducto = new VentaProductos(producto.getCodigoBarra(), producto.getDescripcion(), cantidad, "UND", preciounitario , preciounitario.multiply(BigDecimal.valueOf( getCantidad() )));
+        Productos_Carrito ventaProducto = 
+                new Productos_Carrito(
+                        producto.getCodigoBarra()
+                        , producto.getDescripcion()
+                        , cantidad
+                        , "UND"
+                        , producto.getPrecio()
+                        , producto.getPrecio().multiply(BigDecimal.valueOf( UtilFormat.getCantidad(venta.txt_cantidad)))
+                );
 
         // Agregamos al map
         mapaProductos.put(ventaProducto.getCodigoBarras(), ventaProducto);
@@ -311,11 +273,11 @@ public class Controller_Venta
 
     }
     
-    private void mostrarValorCuenta(Map<String, VentaProductos> mapaProductos){
+    private void mostrarValorCuenta(Map<String, Productos_Carrito> mapaProductos){
         
         if (! mapaProductos.isEmpty()) {
             
-            this.venta.lbl_valortotal.setText(calcularTotalString(actualizarValorTotal(mapaProductos)));           
+            this.venta.lbl_valortotal.setText(UtilFormat.formatCoingCop(actualizarValorTotal(mapaProductos)));           
         }else{
             
             listado_de_productos_venta.setRowCount(0);
@@ -335,7 +297,7 @@ public class Controller_Venta
      * @param mapaProductos
      * @return valor total a pagar en formato double
      */
-    private BigDecimal actualizarValorTotal(Map<String, VentaProductos> mapaProductos) {
+    private BigDecimal actualizarValorTotal(Map<String, Productos_Carrito> mapaProductos) {
              //forma funcional para sumar todos los valores de preciototal 
              /*
              Double v =  mapaProductos.values().stream()
@@ -344,7 +306,7 @@ public class Controller_Venta
         */
              BigDecimal totalVenta = mapaProductos.values()
             .stream()
-            .map(VentaProductos::getPrecioTotal) // tomar el precioTotal de cada producto
+            .map(Productos_Carrito::getPrecioTotal) // tomar el precioTotal de cada producto
             .reduce(BigDecimal.ZERO, BigDecimal::add); // sumarlos
 
 
@@ -361,17 +323,18 @@ public class Controller_Venta
      * @param mapaProductos
      * @param tabla_de_productos nm
      */
-    private void actualizarTablaVentas(Map<String, VentaProductos> mapaProductos, DefaultTableModel tabla_de_productos) {
+    private void actualizarTablaVentas(Map<String, Productos_Carrito> mapaProductos, DefaultTableModel tabla_de_productos) {
         tabla_de_productos.setRowCount(0); // limpiar tabla
         
-            for (VentaProductos vp : mapaProductos.values()) {
+            for (Productos_Carrito vp : mapaProductos.values()) {
                 tabla_de_productos.addRow(new Object[]{
                     vp.getCodigoBarras(),
                     vp.getDescripcion(),
                     vp.getCantidad(),
                     vp.getUnidad_de_medida(),
-                    vp.getPrecioUnitario(),
-                    vp.getPrecioTotal()
+                    
+                        UtilFormat.formatCoingCop(vp.getPrecioUnitario()),
+                        UtilFormat.formatCoingCop(vp.getPrecioTotal())
                 });
             }
         
@@ -407,17 +370,17 @@ public class Controller_Venta
         if (!codigo.isEmpty() && codigo.matches("\\d+")) {
             if (mapaProductos.containsKey(codigo)) {
 
-                VentaProductos venta = mapaProductos.get(codigo);
+                Productos_Carrito venta = mapaProductos.get(codigo);
 
-                venta.setCantidad(venta.getCantidad() + getCantidad());
+                venta.setCantidad(venta.getCantidad() + UtilFormat.getCantidad(this.venta.txt_cantidad));
                 venta.setPrecioTotal(venta.getPrecioUnitario().multiply(BigDecimal.valueOf( venta.getCantidad())));
 
                 actualizarTablaVentas(mapaProductos, listado_de_productos_venta);
 
-                this.venta.lbl_valortotal.setText(calcularTotalString( actualizarValorTotal(mapaProductos)));
+                this.venta.lbl_valortotal.setText(UtilFormat.formatCoingCop(actualizarValorTotal(mapaProductos)));
 
             } else {
-                Producto_dto prod = Impl_ServiceProducto.searchProductCode(codigo);
+                Producto_dto prod = Api_ServiceProducto.searchProductCode(codigo);
                 listarProducto(prod);
             }
 
@@ -439,23 +402,14 @@ public class Controller_Venta
      * @param cuenta_a_pagar
      */
     
-    private String fechaActualHoura(){
-
-         LocalDateTime ahora = LocalDateTime.now();
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-       
-
-        return ahora.format(formato);
-    
-    }
-    
-    private void prepararFactura(Map<String, VentaProductos> cuenta_a_pagar) {
+        
+    private void prepararFactura(Map<String, Productos_Carrito> cuenta_a_pagar) {
         StringBuilder factura = new StringBuilder();
         factura.append("=============== FACTURA DE VENTA ===============\n");
         factura.append("                  AVALON PLAZA \n");
         factura.append("                  NIT 0321649-7\n");
         factura.append("             DIR-CAÑAVERALES LA GUAJIRA\n");
-        factura.append("                    FECHA: "+fechaActualHoura()+"\n");
+        factura.append("                    FECHA: "+UtilFormat.horaActual()+"\n");
         factura.append("-----------------------------------------------------------------\n");
 
         factura.append(String.format("%-20s %-40s %-8s %-10s %-10s\n", "Codigo", "Producto", "Cant", "P.Unit", "Subtotal"));
@@ -464,7 +418,7 @@ public class Controller_Venta
         BigDecimal total = BigDecimal.ZERO;
         int anchoDescripcion = 28;
 
-        for (VentaProductos vp : mapaProductos.values()) {
+        for (Productos_Carrito vp : mapaProductos.values()) {
             String codigo = vp.getCodigoBarras();
             String nombre = resumirTexto(vp.getDescripcion(), anchoDescripcion);
             int cantidad = vp.getCantidad();
@@ -472,13 +426,13 @@ public class Controller_Venta
             BigDecimal subtotal = precioUnitario.multiply(BigDecimal.valueOf( cantidad ));
 
             factura.append(String.format("%-20s %-40s %-8d %-10.2s %-10.2s\n",
-                    codigo, nombre, cantidad, calcularTotalString(precioUnitario), calcularTotalString(subtotal)));
+                    codigo, nombre, cantidad, UtilFormat.formatCoingCop(precioUnitario), UtilFormat.formatCoingCop(subtotal)));
 
             total.add(subtotal) ;
         }
 
         factura.append("-----------------------------------------------------------------\n");
-        factura.append(String.format("%-20s %-40s %-8s %-10s %-10.2s\n", "TOTAL", "", "", "", calcularTotalString(total)));
+        factura.append(String.format("%-20s %-40s %-8s %-10s %-10.2s\n", "TOTAL", "", "", "", UtilFormat.formatCoingCop(total)));
         factura.append("============================================\n");
 
         pago.txt_detallescompra.setText(factura.toString());
@@ -511,7 +465,7 @@ public class Controller_Venta
              
              
             
-            pago.txt_totalpagar.setText(calcularTotalString(valorTotalVenta));
+            pago.txt_totalpagar.setText(UtilFormat.formatCoingCop(valorTotalVenta));
             
             
             Cambio_panel.next_panel(ventana.fw_Container, pago);

@@ -2,18 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package org.softfriascorp.applz.api.services;
+package org.softfriascorp.applz.api.services.intefaces;
 
-import java.util.List;
-import org.softfriascorp.applz.api.Response_dtos.VentaResponse;
+import org.softfriascorp.applz.api.Response_dtos.Api_Producto;
 import org.softfriascorp.applz.api.services.Producto_dto;
-import org.softfriascorp.applz.service.venta.service.ServiceCarrito;
 
 /**
  *
  * @author usuario
  */
-interface Interface_ServiceVentas {
- 
-   VentaResponse saveVenta(ServiceCarrito cuenta);
+public interface Api_InterfaceServProducto {
+    
+    
+    
+    Producto_dto saveOrUbdate(Api_Producto producto);
+    
 }

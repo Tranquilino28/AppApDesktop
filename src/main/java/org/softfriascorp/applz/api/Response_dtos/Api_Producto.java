@@ -12,13 +12,14 @@ import lombok.Data;
  */
 
 
-class ProductoResponse {
-       private Long id;
+public class Api_Producto {
+    private Long id;
     private String nombre;
     private String descripcion;
     private String codigoBarra;
     private Double precio;
     private String categoria;
+    private String medida;
     private int stockDisponible;
     private Long empresa_id;
 
@@ -69,6 +70,16 @@ class ProductoResponse {
     public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
+
+    public String getMedida() {
+        return medida;
+    }
+
+    public void setMedida(String medida) {
+        this.medida = medida;
+    }
+    
+    
 
     public int getStockDisponible() {
         return stockDisponible;

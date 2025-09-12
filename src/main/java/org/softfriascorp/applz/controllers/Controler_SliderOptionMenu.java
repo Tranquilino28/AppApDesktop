@@ -49,7 +49,7 @@ public class Controler_SliderOptionMenu implements ActionListener{
         this.inventario = inventario;
         
         
-        this.slider.btn_ventas.addActionListener(this);
+        this.slider.btn_facturacion.addActionListener(this);
         this.slider.btn_inventario.addActionListener(this);
         
         Cambio_panel.addPanelWest(this.sliderMenuOption, this.slider, this.menu_de_opciones);
@@ -70,7 +70,7 @@ private void showView(PSlider_Contenedor som, JComponent comp) {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == slider.btn_ventas) {
+        if (e.getSource() == slider.btn_facturacion) {
             showView(sliderMenuOption,venta);
         }
         if (e.getSource() == slider.btn_inventario) {

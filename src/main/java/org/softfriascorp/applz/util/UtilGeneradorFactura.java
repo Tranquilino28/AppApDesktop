@@ -21,14 +21,14 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
-import org.softfriascorp.applz.modelProductosVenta.VentaProductos;
+import org.softfriascorp.applz.modelProductosVenta.Productos_Carrito;
 
 
 public class UtilGeneradorFactura {
 
     private static final DecimalFormat df = new DecimalFormat("#,##0.00");
 
-    public static void generarTiket(String nombreArchivo, String cliente, Map<String, VentaProductos> productos) {
+    public static void generarTiket(String nombreArchivo, String cliente, Map<String, Productos_Carrito> productos) {
         try {
             // Dimensiones de ticket 80mm (≈226 puntos)
             Rectangle pageSize = new Rectangle(226, 800); // alto inicial (se expande)
@@ -59,7 +59,7 @@ public class UtilGeneradorFactura {
 
             BigDecimal totalFactura = BigDecimal.ZERO;
 
-            for (VentaProductos p : productos.values()) {
+            for (Productos_Carrito p : productos.values()) {
                 tabla.addCell(celda(p.getDescripcion(), fontNormal, false));
                 tabla.addCell(celda(String.valueOf(p.getCantidad()), fontNormal, false));
                 tabla.addCell(celda(df.format(p.getPrecioUnitario()), fontNormal, false));

@@ -27,6 +27,7 @@ public class PInventario extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
+        btn_actualizarInventario = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txt_codigoBarras = new javax.swing.JTextField();
@@ -46,26 +47,32 @@ public class PInventario extends javax.swing.JPanel {
         txt_cantidadIngreso = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        txt_buscar = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
+        scroll = new javax.swing.JScrollPane();
+        tbl_tablaInventario = new javax.swing.JTable();
 
         setLayout(new java.awt.BorderLayout());
 
         jPanel2.setBackground(new java.awt.Color(51, 51, 255));
         jPanel2.setPreferredSize(new java.awt.Dimension(268, 30));
 
+        btn_actualizarInventario.setText("Actualizar");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 785, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(btn_actualizarInventario)
+                .addGap(0, 769, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 30, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(btn_actualizarInventario)
+                .addGap(0, 5, Short.MAX_VALUE))
         );
 
         add(jPanel2, java.awt.BorderLayout.PAGE_START);
@@ -81,11 +88,12 @@ public class PInventario extends javax.swing.JPanel {
 
         jLabel5.setText("DESCRIPCION");
 
-        cmbx_unidadMedida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbx_unidadMedida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECCIONE..." }));
+        cmbx_unidadMedida.setToolTipText("");
 
         jLabel6.setText("UNIDAD DE MEDIDA");
 
-        cmbx_categoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbx_categoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECCIONE..." }));
 
         jLabel7.setText("CATEGORIA");
 
@@ -195,32 +203,35 @@ public class PInventario extends javax.swing.JPanel {
                 .addComponent(txt_cantidadIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
 
         add(jPanel1, java.awt.BorderLayout.LINE_END);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setText("BUSCAR");
+        txt_buscar.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_buscar.setText("BUSCAR");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("@");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jButton2.setText("IMPRIMIR");
+
+        tbl_tablaInventario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ENTRY", "CODIGO", "NOMBRE", "STOCK", "PRECIO UNITARIO", "TOTAL"
+                "ENTRY", "CODIGOBARRAS", "NOMBRE", "DESCRIPCION", "STOCK", "MEDIDA", "PRECIO", "PRECIOTOTAL"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
-
-        jButton2.setText("IMPRIMIR");
+        scroll.setViewportView(tbl_tablaInventario);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -229,9 +240,9 @@ public class PInventario extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
+                    .addComponent(scroll)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jTextField1)
+                        .addComponent(txt_buscar, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel1))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
@@ -243,12 +254,11 @@ public class PInventario extends javax.swing.JPanel {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jTextField1)
-                        .addGap(1, 1, 1))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txt_buscar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
                 .addContainerGap())
@@ -259,6 +269,7 @@ public class PInventario extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton btn_actualizarInventario;
     public javax.swing.JButton btn_guardar;
     public javax.swing.JComboBox<String> cmbx_categoria;
     public javax.swing.JComboBox<String> cmbx_unidadMedida;
@@ -275,9 +286,9 @@ public class PInventario extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JScrollPane scroll;
+    public javax.swing.JTable tbl_tablaInventario;
+    public javax.swing.JTextField txt_buscar;
     public javax.swing.JTextField txt_cantidadIngreso;
     public javax.swing.JTextField txt_codigoBarras;
     public javax.swing.JTextField txt_descripcionProducto;

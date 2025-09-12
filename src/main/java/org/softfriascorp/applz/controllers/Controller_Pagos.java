@@ -11,10 +11,10 @@ import java.awt.event.KeyListener;
 import java.math.BigDecimal;
 import java.util.Map;
 import org.softfriascorp.applz.api.Response_dtos.VentaResponse;
-import org.softfriascorp.applz.api.services.Impl_ServiceProducto;
-import org.softfriascorp.applz.api.services.Impl_ServiceVenta;
-import org.softfriascorp.applz.modelProductosVenta.VentaProductos;
-import org.softfriascorp.applz.service.venta.service.ServiceVenta;
+import org.softfriascorp.applz.api.services.impl.Api_ServiceProducto;
+import org.softfriascorp.applz.api.services.impl.ApiImpl_ServiceVenta;
+import org.softfriascorp.applz.modelProductosVenta.Productos_Carrito;
+import org.softfriascorp.applz.service.venta.service.ServiceCarrito;
 import org.softfriascorp.applz.util.UtilGeneradorFactura;
 import org.softfriascorp.applz.util.UtilValorMonedaCop;
 import static org.softfriascorp.applz.util.UtilValorMonedaCop.formatMonedaCop;
@@ -30,11 +30,11 @@ public class Controller_Pagos implements ActionListener, KeyListener{
     
     private String valor = "";
     
-    private Map<String , VentaProductos> cuenta ;
+    private Map<String , Productos_Carrito> cuenta ;
 
-    private ServiceVenta servVenta;
+    private ServiceCarrito servVenta;
     
-    public Controller_Pagos(PPagos pago, ServiceVenta servVenta) {
+    public Controller_Pagos(PPagos pago, ServiceCarrito servVenta) {
         
         this.pago = pago;   
         
@@ -49,7 +49,7 @@ public class Controller_Pagos implements ActionListener, KeyListener{
         this.valor = valor;
     }
     
-    public void setCuenta(Map<String,VentaProductos> cuenta){
+    public void setCuenta(Map<String,Productos_Carrito> cuenta){
         this.cuenta = cuenta;
     }
     
@@ -58,7 +58,7 @@ public class Controller_Pagos implements ActionListener, KeyListener{
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == pago.btn_aceptar_pago){
             UtilGeneradorFactura.generarTiket("1002 ", "faber",servVenta.listarProductos() );
-            VentaResponse ventaResponse = Impl_ServiceVenta.saveVenta(servVenta);
+            VentaResponse ventaResponse = ApiImpl_ServiceVenta.saveVenta(servVenta);
             
           
             if(ventaResponse != null){
@@ -85,12 +85,21 @@ public class Controller_Pagos implements ActionListener, KeyListener{
     public void keyPressed(KeyEvent e) {
         
     }
-
+String aux = "";
     @Override
     public void keyReleased(KeyEvent e) {
         if(e.getSource() == pago.txt_recibido){
             
-            BigDecimal valorTotal = new BigDecimal(UtilValorMonedaCop.cleanFormatMoneda(pago.txt_totalpagar.getText()));
+           /* char c = e.getKeyChar();
+            if (Character.isDigit(c)) {
+                
+                  aux += c;// Ignorar la entrada no numérica
+            }
+            
+            System.out.println(aux);*/
+           BigDecimal valorTotal = new BigDecimal(UtilValorMonedaCop.cleanFormatMoneda(pago.txt_totalpagar.getText()));
+            
+            //pago.txt_recibido.setText(UtilValorMonedaCop.formatMonedaCop(new BigDecimal(UtilValorMonedaCop.cleanFormatMoneda(aux))));
             
             String valor = pago.txt_recibido.getText().trim();
             

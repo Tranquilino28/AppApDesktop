@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Dto_PlayLoad {  
    private  String sub;
     private   String rol;
-    private  Long empresa_Id;
+    private static Long empresa_Id;
 
     public Dto_PlayLoad(){}
     
@@ -40,7 +40,7 @@ public class Dto_PlayLoad {
         this.rol = rol;
     }
 
-    public Long getEmpresa_Id() {
+    public static Long getEmpresa_Id() {
         return empresa_Id;
     }
 

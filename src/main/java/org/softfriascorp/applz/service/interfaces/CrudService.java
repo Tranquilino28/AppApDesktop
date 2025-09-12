@@ -11,7 +11,7 @@ import java.util.List;
  * @author usuario
  */
 public interface CrudService <T,ID>{
-     List<T> listAll();
+    List<T> listAll();
     
     T findById(ID id);
     

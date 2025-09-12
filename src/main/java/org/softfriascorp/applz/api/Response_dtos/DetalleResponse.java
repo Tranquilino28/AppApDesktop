@@ -15,7 +15,7 @@ public class DetalleResponse {
         private Long id;
     private int cantidad;
     private Double precioUnitario;
-    private ProductoResponse producto;
+    private Api_Producto producto;
     private EmpresaResponse empresa;
 
     public Long getId() {
@@ -42,11 +42,11 @@ public class DetalleResponse {
         this.precioUnitario = precioUnitario;
     }
 
-    public ProductoResponse getProducto() {
+    public Api_Producto getProducto() {
         return producto;
     }
 
-    public void setProducto(ProductoResponse producto) {
+    public void setProducto(Api_Producto producto) {
         this.producto = producto;
     }
 

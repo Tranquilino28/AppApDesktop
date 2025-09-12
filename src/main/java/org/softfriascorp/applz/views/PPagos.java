@@ -229,7 +229,7 @@ public class PPagos extends javax.swing.JPanel {
         jButton3.setBackground(new java.awt.Color(255, 204, 0));
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("TARGETAS");
+        jButton3.setText("TARJETAS");
         jButton3.setBorder(null);
 
         jButton4.setBackground(new java.awt.Color(153, 0, 51));

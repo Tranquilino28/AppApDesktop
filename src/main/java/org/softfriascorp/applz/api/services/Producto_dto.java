@@ -4,23 +4,24 @@
  */
 package org.softfriascorp.applz.api.services;
 
+import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.softfriascorp.applz.util.UtilFormat;
 
 /**
  *
  * @author usuario
  */
-
-
 public class Producto_dto {
+
     private Long id;
     private String nombre;
     private String descripcion;
     private String codigoBarra;
-    private Double precio;
+    private BigDecimal precio;
     private String categoria;
     private String medida;
     private Integer stockDisponible;
@@ -61,11 +62,11 @@ public class Producto_dto {
         this.codigoBarra = codigoBarra;
     }
 
-    public Double getPrecio() {
+    public BigDecimal getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Double precio) {
+    public void setPrecio(BigDecimal precio) {
         this.precio = precio;
     }
 
@@ -89,8 +90,8 @@ public class Producto_dto {
         return stockDisponible;
     }
 
-    public void setStockDisponible(Integer stockDisponible) {
-        this.stockDisponible = stockDisponible;
+    public void setStockDisponible(Integer cantidad) {
+        this.stockDisponible = cantidad;
     }
 
     public Long getEmpresa_id() {
@@ -101,6 +102,8 @@ public class Producto_dto {
         this.empresa_id = empresa_id;
     }
 
+    public BigDecimal getValorTotal() {
+        return precio.multiply(UtilFormat.integerToBIgDecimal(stockDisponible));
+    }
 
-    
 }

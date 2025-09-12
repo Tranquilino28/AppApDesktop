@@ -10,7 +10,7 @@ import java.math.BigDecimal;
  *
  * @author usuario
  */
-public class VentaProductos {
+public class Productos_Carrito {
     private String codigoBarras;
     private String descripcion;
     private int cantidad;
@@ -18,9 +18,9 @@ public class VentaProductos {
     private BigDecimal precioUnitario;
     private BigDecimal precioTotal;
     
-   public void VentaProducto(){}
+   
 
-    public VentaProductos(String codigo, String descripcion, int cantidad, String unidad_de_medida, BigDecimal precioUnitario, BigDecimal precioTotal) {
+    public Productos_Carrito(String codigo, String descripcion, int cantidad, String unidad_de_medida, BigDecimal precioUnitario, BigDecimal precioTotal) {
         this.codigoBarras = codigo;
         this.descripcion = descripcion;
         this.cantidad = cantidad;

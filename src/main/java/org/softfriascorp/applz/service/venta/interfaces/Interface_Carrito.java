@@ -7,13 +7,13 @@ package org.softfriascorp.applz.service.venta.interfaces;
 import java.math.BigDecimal;
 import java.util.Map;
 import org.softfriascorp.applz.api.services.Producto_dto;
-import org.softfriascorp.applz.modelProductosVenta.VentaProductos;
+import org.softfriascorp.applz.modelProductosVenta.Productos_Carrito;
 
 /**
  *
  * @author usuario
  */
-public interface Interface_ServVenta {
+public interface Interface_Carrito <K , T>{
     
     
     void agregarProducto(Producto_dto producto, int cantidad);
@@ -22,9 +22,9 @@ public interface Interface_ServVenta {
 
     void actualizarCantidad(String codigoBarra, int nuevaCantidad);
 
-    VentaProductos buscarProducto(String codigoBarra);
+    Productos_Carrito buscarProducto(String codigoBarra);
 
-    Map<String, VentaProductos> listarProductos();
+    Map<String, Productos_Carrito> listarProductos();
 
     BigDecimal calcularTotal();
 

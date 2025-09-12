@@ -5,9 +5,12 @@
 package org.softfriascorp.applz;
 
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.SwingUtilities;
+import org.softfriascorp.applz.api.services.intefaces.Interface_serviceInventario;
 import org.softfriascorp.applz.controllers.Controlador_de_Vistas;
 import org.softfriascorp.applz.controllers.Controler_SliderOptionMenu;
 import org.softfriascorp.applz.controllers.Controller_Inventario;
@@ -15,13 +18,15 @@ import org.softfriascorp.applz.controllers.Controller_Login;
 import org.softfriascorp.applz.controllers.Controller_MenuOptions;
 import org.softfriascorp.applz.controllers.Controller_Pagos;
 import org.softfriascorp.applz.controllers.Controller_Registro;
+import org.softfriascorp.applz.controllers.Controller_SeguimientoVentas;
 import org.softfriascorp.applz.controllers.Controller_Venta;
+import org.softfriascorp.applz.guiceinyector.AppModule;
 import org.softfriascorp.applz.model.Usuario;
-import org.softfriascorp.applz.modelProductosVenta.VentaProductos;
+import org.softfriascorp.applz.modelProductosVenta.Productos_Carrito;
 import org.softfriascorp.applz.repository.impl.ImplRepo_Usuario;
 import org.softfriascorp.applz.repository.interfaces.Repository;
 import org.softfriascorp.applz.service.impl.ImplService_Usuario;
-import org.softfriascorp.applz.service.venta.service.ServiceVenta;
+import org.softfriascorp.applz.service.venta.service.ServiceCarrito;
 import org.softfriascorp.applz.views.Frame_Work;
 import org.softfriascorp.applz.views.PFacturacion;
 import org.softfriascorp.applz.views.PInventario;
@@ -32,6 +37,7 @@ import org.softfriascorp.applz.views.PRegister;
 import org.softfriascorp.applz.views.PSliderMenu;
 import org.softfriascorp.applz.views.PVenta;
 import org.softfriascorp.applz.views.PSlider_Contenedor;
+import org.softfriascorp.applz.views.Seguimiento_ventas;
 
 
 /**
@@ -42,6 +48,8 @@ public class APPLZ {
 
     public static void main(String[] args ){
         SwingUtilities.invokeLater(() -> {
+            
+          Injector inject = Guice.createInjector(new AppModule());
            
             //prepara el repositorio CRUD  de la base de datos
             Repository<Usuario, String> repoUsuario = new ImplRepo_Usuario();
@@ -74,8 +82,10 @@ public class APPLZ {
             sliderContenedor.add(sliderMenu);
             
             
+            Seguimiento_ventas historialVentas = new Seguimiento_ventas();
+            
             //prepara el servicio de ventas 
-            ServiceVenta servicio_de_venta = new ServiceVenta();
+            ServiceCarrito servicio_de_venta = new ServiceCarrito();
             
             //se inyectan a los controladores los parametros con los paneles y servicios
             new Controller_Login(
@@ -97,13 +107,23 @@ public class APPLZ {
                     , panel_de_pagos
                     , servicio_de_venta
             );
-            new Controller_Inventario(
+            
+            Controller_Inventario controlller_inventario = inject.getInstance(Controller_Inventario.class);
+            
+            Controller_SeguimientoVentas controlller_seguimientoVentas = inject.getInstance(Controller_SeguimientoVentas.class);
+            
+            
+            
+            controlller_inventario.setInventario(panel_de_inventario);
+            controlller_seguimientoVentas.setHistorialVentas(historialVentas);
+            
+            /* new Controller_Inventario(
                     panel_de_inventario
                     
                     
             
             );
-            /*  
+             
             //controlador de opciones  y menus 
             new Controler_SliderOptionMenu(slider_de_opciones
                     , menu_de_opciones
@@ -129,6 +149,7 @@ public class APPLZ {
                     , menu_de_opciones
                     , panel_de_venta
                     , panel_de_inventario
+                    , historialVentas
                     , panel_de_login
                     , panel_de_registro
                     , panel_de_pagos

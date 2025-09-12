@@ -24,6 +24,7 @@ import org.softfriascorp.applz.views.PRegister;
 import org.softfriascorp.applz.views.PSliderMenu;
 import org.softfriascorp.applz.views.PVenta;
 import org.softfriascorp.applz.views.PSlider_Contenedor;
+import org.softfriascorp.applz.views.Seguimiento_ventas;
 
 /**
  *
@@ -40,7 +41,7 @@ public class Controlador_de_Vistas implements ActionListener, MouseListener, Key
     
     private PVenta venta;
     private PInventario inventario;
-    
+    private Seguimiento_ventas seguimiento;
     
     
     
@@ -58,6 +59,7 @@ public class Controlador_de_Vistas implements ActionListener, MouseListener, Key
             , PMenuHeader menuHeader
             , PVenta venta
             , PInventario inventario
+            , Seguimiento_ventas seguimiento
             , PLogin vista_login
             , PRegister pregistro
             , PPagos pagos
@@ -72,6 +74,7 @@ public class Controlador_de_Vistas implements ActionListener, MouseListener, Key
         this.menuHeader = menuHeader;
         this.venta = venta;
         this.inventario = inventario;
+        this.seguimiento = seguimiento;
         this.facturacion = facturacion;
         this.vista_login = vista_login;        
         this.vista_registro_de_usuario = pregistro;
@@ -93,6 +96,7 @@ public class Controlador_de_Vistas implements ActionListener, MouseListener, Key
         this.vista_login.btn_registrarse.addKeyListener(this);
         this.vista_login.btn_registrarse.addMouseListener(this);
         
+        
 
         this.menuHeader.btn_menu.addActionListener(this);
         this.menuHeader.btn_menu.addKeyListener(this);
@@ -105,14 +109,15 @@ public class Controlador_de_Vistas implements ActionListener, MouseListener, Key
       
         
         this.sliderMenu.btn_inventario.addActionListener(this);
-        this.sliderMenu.btn_ventas.addActionListener(this);
+        this.sliderMenu.btn_facturacion.addActionListener(this);
+         this.sliderMenu.btn_ventas.addActionListener(this);
        
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         
-       if(e.getSource() == pagos.btn_atras || e.getSource() == sliderMenu.btn_ventas){
+       if(e.getSource() == pagos.btn_atras || e.getSource() == sliderMenu.btn_facturacion){
            Cambio_panel.addPanelVenta(
                    ventanaPrincipal.fw_Container
                    ,  menuHeader
@@ -136,6 +141,13 @@ public class Controlador_de_Vistas implements ActionListener, MouseListener, Key
                         , menuHeader
                         , contWithsliderMenu
                         , inventario);
+        } 
+        if (e.getSource() == sliderMenu.btn_ventas) {
+            Cambio_panel.addPanelVenta(
+                        ventanaPrincipal.fw_Container
+                        , menuHeader
+                        , contWithsliderMenu
+                        , seguimiento);
         }
     }
 

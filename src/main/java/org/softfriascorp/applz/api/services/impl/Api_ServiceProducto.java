@@ -2,8 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package org.softfriascorp.applz.api.services;
-
+package org.softfriascorp.applz.api.services.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,28 +11,19 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import org.softfriascorp.applz.api.Response_dtos.VentaResponse;
+import org.softfriascorp.applz.api.Response_dtos.Api_Producto;
 import org.softfriascorp.applz.api.auth.AuthService;
-import org.softfriascorp.applz.api.auth.dtotemp.Dto_PlayLoad;
-import org.softfriascorp.applz.api.request.ProductoRequest;
-import org.softfriascorp.applz.api.request.VentaRequest;
-import org.softfriascorp.applz.api.request.UsuariosRequest;
 import org.softfriascorp.applz.api.services.Producto_dto;
-import org.softfriascorp.applz.model.UsuarioPerfil;
-import org.softfriascorp.applz.modelProductosVenta.VentaProductos;
-import org.softfriascorp.applz.service.venta.service.ServiceVenta;
 import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 /**
  *
  * @author usuario
  */
-public class Impl_ServiceProducto {
+public class Api_ServiceProducto {
 
     private static final String PRODUCTO_API_BASE_URL = "http://localhost:3066/producto/search/1/";  //"https://appap.onrender.com/api/auth/login";
 
@@ -42,10 +32,41 @@ public class Impl_ServiceProducto {
     private static final String URL_FIND_SEARCH_CODIGO_BARRAS_OR_NOMBRE_PRODUCTO = "http://localhost:3066/producto/search/2/";
 
     //private static String token;
-    
    
-    
+    public static Producto_dto saveOrUbdate(Api_Producto producto) {
+        String token = AuthService.getToken();
 
+        if (token == null || token.isEmpty()) {
+            System.out.println("Error: No hay un token de autenticación disponible. Por favor, inicie sesión primero.");
+            return null;
+        }
+        try {
+            return AuthService.getWebClient().put()
+                    .uri("/producto/addtoupdate") // 🔹 tu endpoint para registrar ventas
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(producto)  // 🔹 aquí mandas la lista de productos como JSON
+                .retrieve()
+                .bodyToMono(Producto_dto.class) // 🔹 esperas un objeto de respuesta
+                .block();  // 🔹 bloquea hasta recibir la respuesta (ideal para escritorio)
+
+        } catch (WebClientResponseException.NotFound e) {
+            System.out.println("❌ Producto no encontrado. Código 404");
+            return null;
+        } catch (WebClientResponseException.Unauthorized e) {
+            System.out.println("🚫 Token inválido o expirado. Código 401");
+            return null;
+        } catch (WebClientResponseException e) {
+            System.out.println("⚠️ Error HTTP: " + e.getRawStatusCode() + " - " + e.getResponseBodyAsString());
+            return null;
+        } catch (Exception e) {
+            System.out.println("💥 Error inesperado al buscar el producto.");
+            e.printStackTrace();
+            return null;
+        }
+
+    }
 
     public static List<Producto_dto> getAllProducts() {
         String token = AuthService.getToken();
@@ -97,7 +118,7 @@ public class Impl_ServiceProducto {
                     .bodyToMono(Producto_dto.class)
                     .block(); // 🔹 bloquea hasta recibir la respuesta (ideal para escritorio)
 
-        }catch (WebClientResponseException.BadRequest e) {
+        } catch (WebClientResponseException.BadRequest e) {
             // ✅ Manejo del error 400 (stock insuficiente)
             System.out.println("⚠️ Error de Stock: " + e.getResponseBodyAsString());
             JOptionPane.showMessageDialog(null, "Error de Stock: " + e.getResponseBodyAsString(), "Venta Fallida", JOptionPane.WARNING_MESSAGE);
@@ -118,6 +139,7 @@ public class Impl_ServiceProducto {
         }
 
     }
+
     public static Producto_dto searchProductStokZero(String code) {
         String token = AuthService.getToken();
 
@@ -134,7 +156,7 @@ public class Impl_ServiceProducto {
                     .bodyToMono(Producto_dto.class)
                     .block(); // 🔹 bloquea hasta recibir la respuesta (ideal para escritorio)
 
-        }catch (WebClientResponseException.BadRequest e) {
+        } catch (WebClientResponseException.BadRequest e) {
             // ✅ Manejo del error 400 (stock insuficiente)
             System.out.println("⚠️ Error de Stock: " + e.getResponseBodyAsString());
             JOptionPane.showMessageDialog(null, "Error de Stock: " + e.getResponseBodyAsString(), "Venta Fallida", JOptionPane.WARNING_MESSAGE);
@@ -174,12 +196,12 @@ public class Impl_ServiceProducto {
                     .collectList()
                     .block(); // 🔹 bloquea hasta recibir la respuesta (ideal para escritorio)
 
-        }catch (WebClientResponseException.BadRequest e) {
+        } catch (WebClientResponseException.BadRequest e) {
             // ✅ Manejo del error 400 (stock insuficiente)
             System.out.println("⚠️ Error de Stock: " + e.getResponseBodyAsString());
             JOptionPane.showMessageDialog(null, "Error de Stock: " + e.getResponseBodyAsString(), "Venta Fallida", JOptionPane.WARNING_MESSAGE);
             return null;
-        }catch (WebClientResponseException.NotFound e) {
+        } catch (WebClientResponseException.NotFound e) {
             System.out.println("❌ Producto no encontrado. Código 404");
             return null;
         } catch (WebClientResponseException.Unauthorized e) {
@@ -191,13 +213,11 @@ public class Impl_ServiceProducto {
         } catch (Exception e) {
             System.out.println("💥 Error inesperado al buscar el producto.");
             e.printStackTrace();
-            
+
             return null;
         }
     }
-    
-    
-    
+
     /**
      * Busca un producto por su código de barras haciendo una petición GET a la
      * API.
@@ -369,7 +389,6 @@ public class Impl_ServiceProducto {
             return null;
         }
 
-    }
+    }    
 
-   
 }

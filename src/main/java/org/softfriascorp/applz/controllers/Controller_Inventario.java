@@ -4,6 +4,7 @@
  */
 package org.softfriascorp.applz.controllers;
 
+import com.google.inject.Inject;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,35 +14,20 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import org.softfriascorp.applz.api.Response_dtos.Api_Producto;
 import org.softfriascorp.applz.api.Response_dtos.TiposResponse;
-import org.softfriascorp.applz.api.services.Impl_ServiceProducto;
+import org.softfriascorp.applz.api.services.impl.Api_ServiceProducto;
 import org.softfriascorp.applz.api.services.Impl_ServiceTipos;
 import org.softfriascorp.applz.api.services.Producto_dto;
-import org.softfriascorp.applz.controllers.interfaces.ListarProductoEnCuentaCliente;
-import org.softfriascorp.applz.modelProductosVenta.VentaProductos;
-import org.softfriascorp.applz.service.venta.service.ServiceVenta;
-import org.softfriascorp.applz.util.Cambio_panel;
-import org.softfriascorp.applz.util.TableManager;
-import org.softfriascorp.applz.views.Frame_Work;
+import org.softfriascorp.applz.api.services.intefaces.Interface_serviceInventario;
+import org.softfriascorp.applz.util.UtilFormat;
 import org.softfriascorp.applz.views.PInventario;
-import org.softfriascorp.applz.views.PPagos;
-import org.softfriascorp.applz.views.PVenta;
 
 /**
  *
@@ -52,32 +38,69 @@ public class Controller_Inventario
         KeyListener,
         ActionListener,
         MouseListener,
-        FocusListener,
-        ListarProductoEnCuentaCliente {
+        FocusListener {
 
     private PInventario inventario;
+    private final String PLACE_HOLDER_BUSCAR = "BUSCAR";
 
-    public Controller_Inventario(
-            PInventario inventario
-    ) {
+    private DefaultTableModel tablaInventario;
+    
+    
+    private final Interface_serviceInventario servInventary;
+  
 
+    // Guice inyecta automáticamente ServiceVenta aquí
+   
+    
+    @Inject
+    public Controller_Inventario(Interface_serviceInventario serviceInventary){
+        this.servInventary = serviceInventary;
+        
+    }
+
+    public void setInventario(PInventario inventario) {
+        this.inventario = inventario;
+        
+        
         this.inventario = inventario;
 
-        this.inventario.txt_stock.setEditable(false);
-        initListeners();
+        this.tablaInventario = (DefaultTableModel) this.inventario.tbl_tablaInventario.getModel();
 
+        this.inventario.txt_stock.setEditable(false);
+
+        initListeners();
+        
     }
+    
+    
 
     void initListeners() {
 
         this.inventario.txt_codigoBarras.addKeyListener(this);
-        this.inventario.btn_guardar.addActionListener(this);
 
+        this.inventario.btn_guardar.addActionListener(this);
+        this.inventario.btn_actualizarInventario.addActionListener(this);
+
+        this.inventario.txt_buscar.addKeyListener(this);
+        this.inventario.txt_precioProducto.addKeyListener(this);
+        this.inventario.txt_cantidadIngreso.addKeyListener(this);
+        this.inventario.txt_buscar.addFocusListener(this);
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
+        if (e.getSource() == inventario.txt_cantidadIngreso) {
 
+            UtilFormat.validateNumberInput(e);
+        }
+        if (e.getSource() == inventario.txt_precioProducto) {
+
+            UtilFormat.validateDecimalInput(e, inventario.txt_precioProducto);
+        }
+        if (e.getSource() == inventario.txt_codigoBarras) {
+
+            UtilFormat.validateNumberInput(e);
+        }
     }
 
     @Override
@@ -87,7 +110,7 @@ public class Controller_Inventario
 
                 String code = inventario.txt_codigoBarras.getText();
 
-                Producto_dto productoDto = Impl_ServiceProducto.searchProductStokZero(code);
+                Producto_dto productoDto = Api_ServiceProducto.searchProductStokZero(code);
 
                 if (productoDto != null) {
 
@@ -118,12 +141,10 @@ public class Controller_Inventario
 
                     inventario.cmbx_categoria.addItem(code);
 
-                    
-                    
                     setItemsCmbx(inventario.cmbx_categoria, Impl_ServiceTipos.searchTipos("ticat"));
                     setItemsCmbx(inventario.cmbx_unidadMedida, Impl_ServiceTipos.searchTipos("timed"));
                     inventario.txt_stock.setText("");
-                    
+
                     inventario.btn_guardar.setText("GUARDAR");
                 }
 
@@ -144,7 +165,8 @@ public class Controller_Inventario
         cmbBox.addItem("SELECCIONE...");
 
         for (TiposResponse tipo : lista) {
-            cmbBox.addItem(tipo.getNombreCorto());
+
+            cmbBox.addItem(tipo.getNombreLargo());
         }
 
     }
@@ -160,11 +182,25 @@ public class Controller_Inventario
 
     }
 
+    private void limpiarCamposRegistro() {
+
+        inventario.txt_codigoBarras.setText("");
+        inventario.txt_nombreProducto.setText("");
+        inventario.txt_descripcionProducto.setText("");
+        inventario.txt_stock.setText("");
+        inventario.txt_precioProducto.setText("");
+
+        inventario.cmbx_categoria.removeAllItems();
+        inventario.cmbx_unidadMedida.removeAllItems();
+        inventario.txt_cantidadIngreso.setText("");
+
+    }
+
     private void enableComponents() {
 
         disableEdicionComponents(inventario.txt_nombreProducto, true);
         disableEdicionComponents(inventario.txt_descripcionProducto, true);
-        disableEdicionComponents(inventario.txt_stock, true);
+        //disableEdicionComponents(inventario.txt_stock, true);
         disableEdicionComponents(inventario.txt_precioProducto, true);
         disableEdicionComponents(inventario.cmbx_categoria, true);
         disableEdicionComponents(inventario.cmbx_unidadMedida, true);
@@ -185,10 +221,86 @@ public class Controller_Inventario
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == inventario.btn_guardar) {
-            
-            
+        if (e.getSource() == inventario.btn_actualizarInventario) {
+
+            List<Producto_dto> listProductos = Api_ServiceProducto.getAllProducts();
+
+            actualizarTablaInventario(listProductos, tablaInventario);
         }
+
+        if (e.getSource() == inventario.btn_guardar) {
+            //se usa operador ternario para obtener el valor si el campo es null o vacio se coloca 0
+
+            
+            if (validateCampos(inventario.txt_codigoBarras) == true
+                    && validateCampos(inventario.txt_nombreProducto) == true
+                    && validateCampos(inventario.txt_descripcionProducto) == true
+                    && validateCampos(inventario.txt_precioProducto) == true
+                    && validateCampos(inventario.cmbx_categoria) == true
+                    && validateCampos(inventario.cmbx_unidadMedida) == true
+                    && validateCampos(inventario.txt_cantidadIngreso) == true) {
+                
+          
+                servInventary.addOrUpdateProduct(crearProducto());
+                
+                
+                limpiarCamposRegistro();
+            } else {
+                System.out.println("algo fallo");
+            }
+        }
+    }
+
+        
+   private Api_Producto crearProducto(){
+       return servInventary.buildProductToForm(
+                        inventario.txt_codigoBarras.getText().trim()
+                        , inventario.txt_nombreProducto.getText().trim()
+                        , inventario.txt_descripcionProducto.getText().trim()
+                        , inventario.txt_precioProducto.getText().trim()
+                        , inventario.cmbx_categoria.getSelectedItem().toString()
+                        , inventario.cmbx_unidadMedida.getSelectedItem().toString()
+                        , inventario.txt_stock.getText().trim()
+                        , inventario.txt_cantidadIngreso.getText().trim()
+                );
+    }
+    
+    boolean validateCampos(JComponent tx) {
+        if (tx instanceof JTextField) {
+
+            JTextField jt = (JTextField) tx;
+
+            if (validarCamposVacios(jt.getText())) {
+                jt.setBorder(new LineBorder(Color.RED, 2));
+                return false;
+            } else {
+                jt.setBorder(new LineBorder(Color.gray, 0));
+            }
+
+        }
+        if (tx instanceof JComboBox) {
+
+            JComboBox jc = (JComboBox) tx;
+            if (validarCamposVacios(jc.getSelectedItem().toString())) {
+                jc.setBorder(new LineBorder(Color.RED, 2));
+                return false;
+            } else {
+                jc.setBorder(new LineBorder(Color.gray, 0));
+            }
+
+        }
+
+        return true;
+    }
+
+    private boolean validarCamposVacios(String text) {
+
+        System.out.println(text + "\n");
+        return text.trim().isEmpty()
+                || text.trim().equals("")
+                || text.trim().equals(null)
+                || text.trim().equals("SELECCIONE...");
+
     }
 
     @Override
@@ -219,16 +331,44 @@ public class Controller_Inventario
     @Override
     public void focusGained(FocusEvent e) {
 
+        if (e.getSource() == inventario.txt_buscar) {
+            if (inventario.txt_buscar.getText().equals(PLACE_HOLDER_BUSCAR)) {
+                inventario.txt_buscar.setText("");
+                inventario.txt_buscar.setForeground(Color.BLACK); // Color placeholder
+            }
+        }
     }
 
     @Override
     public void focusLost(FocusEvent e) {
-
+        if (e.getSource() == inventario.txt_buscar) {
+            if (inventario.txt_buscar.getText().isEmpty()) {
+                inventario.txt_buscar.setText(PLACE_HOLDER_BUSCAR);
+                inventario.txt_buscar.setForeground(Color.GRAY); // Color placeholder
+            }
+        }
     }
 
-    @Override
-    public void listarProducto(Producto_dto producto) {
+    private void actualizarTablaInventario(List<Producto_dto> mapaProductos, DefaultTableModel tabla_de_productos) {
 
+        tabla_de_productos.setRowCount(0); // limpiar tabla
+
+        for (Producto_dto vp : mapaProductos) {
+            tabla_de_productos.addRow(
+                    new Object[]{
+                        "unknow",
+                        vp.getCodigoBarra(),
+                        vp.getNombre(),
+                        vp.getDescripcion(),
+                        vp.getStockDisponible(),
+                        vp.getMedida(),
+                        vp.getPrecio(),
+                        UtilFormat.formatCoingCop(vp.getValorTotal())
+
+                    }
+            );
+        }
     }
 
+    
 }
