@@ -5,7 +5,6 @@
 package org.softfriascorp.applz.util;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import javax.swing.JPanel;
 
 /**

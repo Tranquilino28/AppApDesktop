@@ -3,13 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package org.softfriascorp.applz.util;
-import java.net.http.HttpClient;
   import java.util.Base64;
-import java.util.prefs.Preferences;
-import org.json.JSONObject;
-import org.softfriascorp.applz.api.auth.dtotemp.LoginHttp;
-import org.softfriascorp.applz.api.auth.AuthService;
-import org.softfriascorp.applz.model.UsuarioPerfil;
+import org.softfriascorp.applz.module_login.auth.AuthService;
+import org.softfriascorp.applz.local.model.UsuarioPerfil;
 
 /**
  *

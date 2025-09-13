@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
-import org.softfriascorp.applz.modelProductosVenta.Productos_Carrito;
+import org.softfriascorp.applz.local.modelProductosVenta.Productos_Carrito;
 
 
 public class UtilGeneradorFactura {
