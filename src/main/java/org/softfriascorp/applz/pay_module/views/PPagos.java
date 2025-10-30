@@ -32,17 +32,17 @@ public class PPagos extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         txt_detallescompra = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
-        btn_aceptar_pago = new javax.swing.JButton();
-        Panel_cambio = new javax.swing.JPanel();
-        txt_cambio = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        Panel_totalapagar = new javax.swing.JPanel();
+        txt_totalpagar = new javax.swing.JTextField();
         Panel_recibido = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txt_recibido = new javax.swing.JTextField();
-        Panel_totalapagar = new javax.swing.JPanel();
-        txt_totalpagar = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
+        Panel_cambio = new javax.swing.JPanel();
+        txt_cambio = new javax.swing.JTextField();
+        lbl_cambioSaldoPendiente = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        btn_aceptar_pago = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -50,9 +50,14 @@ public class PPagos extends javax.swing.JPanel {
         jButton4 = new javax.swing.JButton();
         btn_atras = new javax.swing.JButton();
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 102));
+        setMinimumSize(new java.awt.Dimension(832, 506));
+        setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setBackground(new java.awt.Color(204, 0, 102));
+        jPanel1.setMinimumSize(new java.awt.Dimension(400, 200));
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 51));
+        jPanel2.setMinimumSize(new java.awt.Dimension(300, 0));
 
         txt_detallescompra.setColumns(20);
         txt_detallescompra.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -68,7 +73,7 @@ public class PPagos extends javax.swing.JPanel {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -80,72 +85,29 @@ public class PPagos extends javax.swing.JPanel {
         );
 
         jPanel3.setBackground(new java.awt.Color(0, 0, 102));
+        jPanel3.setMaximumSize(new java.awt.Dimension(183, 64));
+        jPanel3.setMinimumSize(new java.awt.Dimension(400, 100));
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
-        btn_aceptar_pago.setBackground(new java.awt.Color(0, 102, 51));
-        btn_aceptar_pago.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        btn_aceptar_pago.setForeground(new java.awt.Color(255, 255, 255));
-        btn_aceptar_pago.setText("CERRAR VENTA");
-        btn_aceptar_pago.setBorder(null);
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("TOTAL A PAGAR");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.ipadx = 107;
-        gridBagConstraints.ipady = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 56, 18, 0);
-        jPanel3.add(btn_aceptar_pago, gridBagConstraints);
-
-        Panel_cambio.setBackground(new java.awt.Color(51, 51, 51));
-        Panel_cambio.setForeground(new java.awt.Color(255, 255, 255));
-        Panel_cambio.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txt_cambio.setBackground(new java.awt.Color(51, 51, 51));
-        txt_cambio.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        txt_cambio.setForeground(new java.awt.Color(255, 255, 255));
-        txt_cambio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txt_cambio.setBorder(null);
-        txt_cambio.setCaretColor(new java.awt.Color(255, 255, 255));
-        txt_cambio.setEnabled(false);
-        Panel_cambio.add(txt_cambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 352, -1));
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 24;
+        gridBagConstraints.ipady = -8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 0);
-        jPanel3.add(Panel_cambio, gridBagConstraints);
-
-        Panel_recibido.setBackground(new java.awt.Color(51, 51, 51));
-        Panel_recibido.setForeground(new java.awt.Color(255, 255, 255));
-        Panel_recibido.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("$");
-        Panel_recibido.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 12, -1, 64));
-
-        txt_recibido.setBackground(new java.awt.Color(51, 51, 51));
-        txt_recibido.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        txt_recibido.setForeground(new java.awt.Color(255, 255, 255));
-        txt_recibido.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txt_recibido.setBorder(null);
-        txt_recibido.setCaretColor(new java.awt.Color(255, 255, 255));
-        txt_recibido.setDisabledTextColor(new java.awt.Color(204, 204, 204));
-        Panel_recibido.add(txt_recibido, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 319, 70));
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 12, 0, 0);
-        jPanel3.add(Panel_recibido, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(59, 12, 0, 0);
+        jPanel3.add(jLabel1, gridBagConstraints);
 
         Panel_totalapagar.setBackground(new java.awt.Color(51, 51, 51));
         Panel_totalapagar.setForeground(new java.awt.Color(255, 255, 255));
-        Panel_totalapagar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        Panel_totalapagar.setMaximumSize(new java.awt.Dimension(183, 64));
+        Panel_totalapagar.setMinimumSize(new java.awt.Dimension(100, 64));
+        Panel_totalapagar.setLayout(new java.awt.BorderLayout());
 
         txt_totalpagar.setEditable(false);
         txt_totalpagar.setBackground(new java.awt.Color(51, 51, 51));
@@ -155,34 +117,105 @@ public class PPagos extends javax.swing.JPanel {
         txt_totalpagar.setBorder(null);
         txt_totalpagar.setCaretColor(new java.awt.Color(255, 255, 255));
         txt_totalpagar.setEnabled(false);
+        txt_totalpagar.setMaximumSize(new java.awt.Dimension(1, 1));
         txt_totalpagar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_totalpagarActionPerformed(evt);
             }
         });
-        Panel_totalapagar.add(txt_totalpagar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 353, 67));
+        Panel_totalapagar.add(txt_totalpagar, java.awt.BorderLayout.CENTER);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.ipadx = 212;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(12, 12, 0, 10);
         jPanel3.add(Panel_totalapagar, gridBagConstraints);
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("CAMBIO");
+        Panel_recibido.setBackground(new java.awt.Color(51, 51, 51));
+        Panel_recibido.setForeground(new java.awt.Color(255, 255, 255));
+        Panel_recibido.setMaximumSize(new java.awt.Dimension(183, 64));
+        Panel_recibido.setMinimumSize(new java.awt.Dimension(183, 64));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("$");
+
+        txt_recibido.setBackground(new java.awt.Color(51, 51, 51));
+        txt_recibido.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        txt_recibido.setForeground(new java.awt.Color(255, 255, 255));
+        txt_recibido.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_recibido.setBorder(null);
+        txt_recibido.setCaretColor(new java.awt.Color(255, 255, 255));
+        txt_recibido.setDisabledTextColor(new java.awt.Color(204, 204, 204));
+
+        javax.swing.GroupLayout Panel_recibidoLayout = new javax.swing.GroupLayout(Panel_recibido);
+        Panel_recibido.setLayout(Panel_recibidoLayout);
+        Panel_recibidoLayout.setHorizontalGroup(
+            Panel_recibidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Panel_recibidoLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jLabel2)
+                .addGap(9, 9, 9)
+                .addComponent(txt_recibido, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE))
+        );
+        Panel_recibidoLayout.setVerticalGroup(
+            Panel_recibidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(txt_recibido, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.ipadx = 129;
+        gridBagConstraints.ipady = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 10);
+        jPanel3.add(Panel_recibido, gridBagConstraints);
+
+        Panel_cambio.setBackground(new java.awt.Color(51, 51, 51));
+        Panel_cambio.setForeground(new java.awt.Color(255, 255, 255));
+        Panel_cambio.setMaximumSize(new java.awt.Dimension(183, 64));
+        Panel_cambio.setLayout(new java.awt.BorderLayout());
+
+        txt_cambio.setBackground(new java.awt.Color(51, 51, 51));
+        txt_cambio.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        txt_cambio.setForeground(new java.awt.Color(255, 255, 255));
+        txt_cambio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_cambio.setBorder(null);
+        txt_cambio.setCaretColor(new java.awt.Color(255, 255, 255));
+        txt_cambio.setEnabled(false);
+        txt_cambio.setMaximumSize(new java.awt.Dimension(100, 2147483647));
+        txt_cambio.setMinimumSize(new java.awt.Dimension(100, 64));
+        txt_cambio.setName(""); // NOI18N
+        Panel_cambio.add(txt_cambio, java.awt.BorderLayout.CENTER);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.ipadx = 212;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 10);
+        jPanel3.add(Panel_cambio, gridBagConstraints);
+
+        lbl_cambioSaldoPendiente.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        lbl_cambioSaldoPendiente.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_cambioSaldoPendiente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_cambioSaldoPendiente.setText("CAMBIO");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 7;
-        gridBagConstraints.ipadx = 234;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 160;
         gridBagConstraints.ipady = -8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(35, 12, 0, 0);
-        jPanel3.add(jLabel6, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(18, 12, 0, 0);
+        jPanel3.add(lbl_cambioSaldoPendiente, gridBagConstraints);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -191,28 +224,30 @@ public class PPagos extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 5;
-        gridBagConstraints.ipadx = 212;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 140;
         gridBagConstraints.ipady = -8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(41, 12, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(18, 12, 0, 0);
         jPanel3.add(jLabel3, gridBagConstraints);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("TOTAL A PAGAR");
+        btn_aceptar_pago.setBackground(new java.awt.Color(0, 102, 51));
+        btn_aceptar_pago.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        btn_aceptar_pago.setForeground(new java.awt.Color(255, 255, 255));
+        btn_aceptar_pago.setText("CERRAR VENTA");
+        btn_aceptar_pago.setBorder(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 6;
-        gridBagConstraints.ipadx = 97;
-        gridBagConstraints.ipady = -8;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.ipadx = 48;
+        gridBagConstraints.ipady = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(42, 12, 0, 0);
-        jPanel3.add(jLabel1, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(18, 53, 64, 0);
+        jPanel3.add(btn_aceptar_pago, gridBagConstraints);
 
         jPanel4.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel4.setMaximumSize(new java.awt.Dimension(327, 32767));
+        jPanel4.setPreferredSize(new java.awt.Dimension(24, 289));
 
         jButton1.setBackground(new java.awt.Color(102, 0, 204));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -253,7 +288,7 @@ public class PPagos extends javax.swing.JPanel {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btn_atras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -278,30 +313,21 @@ public class PPagos extends javax.swing.JPanel {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txt_totalpagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_totalpagarActionPerformed
@@ -322,12 +348,12 @@ public class PPagos extends javax.swing.JPanel {
     public javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     public javax.swing.JLabel jLabel3;
-    public javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JLabel lbl_cambioSaldoPendiente;
     public javax.swing.JTextField txt_cambio;
     public javax.swing.JTextArea txt_detallescompra;
     public javax.swing.JTextField txt_recibido;

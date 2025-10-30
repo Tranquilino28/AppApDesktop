@@ -4,6 +4,7 @@
  */
 package org.softfriascorp.applz.entity.venta;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,13 +16,25 @@ import org.softfriascorp.applz.entity.maestra.Maestra;
  *
  * @author usuario
  */
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class VentaRequest {
     
     private Maestra metodoPago;
+    
+    private BigDecimal valorRecibido;
 
     private List<DetallesVenta> detalles = new ArrayList<>();
 
     public VentaRequest() {
+    }
+
+    public BigDecimal getValorRecibido() {
+        return valorRecibido;
+    }
+
+    public void setValorRecibido(BigDecimal valorRecibido) {
+        this.valorRecibido = valorRecibido;
     }
 
     public Maestra getMetodoPago() {

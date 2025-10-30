@@ -4,6 +4,7 @@
  */
 package org.softfriascorp.applz.entity.detallesventa;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.math.BigDecimal;
 import org.softfriascorp.applz.entity.producto.ProductoDto;
 
@@ -11,6 +12,8 @@ import org.softfriascorp.applz.entity.producto.ProductoDto;
  *
  * @author usuario
  */
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DetallesVenta {
 
     private Long id;

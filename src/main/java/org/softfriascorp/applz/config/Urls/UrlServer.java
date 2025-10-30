@@ -50,7 +50,7 @@ public class UrlServer {
     
     public static final String VENTA_SAVE = API_URL_BASE + "/venta/save";
 
-    
+    public static final String UPDATE_VALIDATE = API_URL_BASE +"/update";
     
     // Otros valores de configuración
     public static final int TIMEOUT_MS = 10000;

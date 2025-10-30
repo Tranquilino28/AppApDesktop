@@ -16,6 +16,4 @@ public interface VentaService {
     Venta getVenta(String codigoVenta);
     Venta saveVenta(CuentaService cuentaService);
     
-    
-    
 }

@@ -4,6 +4,7 @@
  */
 package org.softfriascorp.applz.entity.venta.service.implementation;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Map;
 import org.softfriascorp.applz.config.Urls.UrlServer;
 import org.softfriascorp.applz.cuenta_module.submodules.cuenta_module.service.interfaces.CuentaService;
 import org.softfriascorp.applz.entity.detallesventa.DetallesVenta;
+import org.softfriascorp.applz.entity.maestra.Maestra;
 import org.softfriascorp.applz.entity.producto.ProductoDto;
 import org.softfriascorp.applz.entity.venta.Venta;
 import org.softfriascorp.applz.entity.venta.VentaRequest;
@@ -42,7 +44,7 @@ public class VentaServiceImpl implements VentaService {
 
             ProductoDto result = webClient.getWebClient().post()
                     .uri(SAVE_VENTA) // endpoint
-                     
+
                     .retrieve()
                     .onStatus(
                             HttpStatusCode::is4xxClientError,
@@ -89,16 +91,45 @@ public class VentaServiceImpl implements VentaService {
     public Venta saveVenta(CuentaService cuentaService) {
 
         try {
+            List<DetallesVenta> detallesVentaService = new ArrayList<>(cuentaService.listarProductos().values());
+
+            List<DetallesVenta> detallesVentaRequest = new ArrayList<>();
 
             VentaRequest ventaRequest = new VentaRequest();
 
-            ventaRequest.getMetodoPago().setId(97L);
+            Maestra metodopago = new Maestra();
+            metodopago.setId(97L);
 
-            List<DetallesVenta> detallesVenta = new ArrayList<>(cuentaService.listarProductos().values());
+            ventaRequest.setMetodoPago(metodopago);
 
-            ventaRequest.setDetalles(detallesVenta);
-            
-           Venta ventaResponse = webClient.getWebClient().post()
+            detallesVentaService.forEach(dv -> {
+
+                DetallesVenta detalle = new DetallesVenta();
+                ProductoDto producto = new ProductoDto();
+
+                producto.setId(dv.getProducto().getId());
+
+                detalle.setCantidad(dv.getCantidad());
+                detalle.setPrecioUnitario(dv.getPrecioUnitario());
+
+                detalle.setProducto(producto);
+
+                detallesVentaRequest.add(detalle);
+            });
+
+            ventaRequest.setDetalles(detallesVentaRequest);
+
+            ObjectMapper mapper = new ObjectMapper();
+
+            try {
+                String jsonBody = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(ventaRequest);
+                System.out.println("=== JSON ENVIADO A LA API ===");
+                System.out.println(jsonBody);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            Venta ventaResponse = webClient.getWebClient().post()
                     .uri(SAVE_VENTA) // endpoint
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
@@ -122,12 +153,12 @@ public class VentaServiceImpl implements VentaService {
                     )
                     .bodyToMono(Venta.class) //se mapea el objeto o resposneObject del backend
                     .block();
-            
-            
+
             return ventaResponse;
 
         } catch (RuntimeException e) {
-            return null;
+
+            throw new RuntimeException(e.getMessage(), e);
         }
     }
 

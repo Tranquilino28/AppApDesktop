@@ -5,12 +5,18 @@ package org.softfriascorp.applz;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+import javax.swing.JOptionPane;
+import org.json.JSONObject;
 import org.softfriascorp.applz.config.AppControllers;
 import org.softfriascorp.applz.config.module.AppModule;
-import org.softfriascorp.applz.login_module.controllers.LoginController;
-import org.softfriascorp.applz.mainframework_module.controllers.MainFrameWorkController;
-import org.softfriascorp.applz.pay_module.controllers.PagosController;
-import org.softfriascorp.applz.cuenta_module.controllers.VentaController;
+import org.softfriascorp.applz.update.UpdateCheker;
+import org.softfriascorp.applz.update.UpdateCheker.VersionComparator;
+import org.softfriascorp.applz.update.UpdateRunner;
+import org.softfriascorp.applz.update.Updater;
+import org.softfriascorp.applz.update.VersionUtil;
 
 /**
  *
@@ -19,15 +25,35 @@ import org.softfriascorp.applz.cuenta_module.controllers.VentaController;
 public class APPLZ {
 
     public static void main(String[] args) {
+/*
+        String localVersion = VersionUtil.getLocalVersion();
+        JSONObject serverData = UpdateCheker.getServerVersion();
 
-         Injector inject = Guice.createInjector(new AppModule());
-         
-         
-         AppControllers appControllers = inject.getInstance(AppControllers.class);
-         
-         appControllers.initContex();
-         
-         
+        if (serverData != null) {
+            String serverVersion = serverData.getString("version");
+            String downloadUrl = serverData.getString("url");
+
+            if (VersionComparator.isNewerVersion(localVersion, serverVersion)) {
+               // System.out.println("Nueva versión disponible: " + serverVersion);
+                try {
+                    Updater.downloadUpdate(downloadUrl, ".");
+                    //System.out.println("Actualización descargada. Reiniciando...");
+                    UpdateRunner.replaceAndRestart();
+                    
+                    JOptionPane.showMessageDialog(null, 
+    "Hay una nueva versión disponible. Se actualizará al reiniciar la aplicación.");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("Tu aplicación está actualizada.");
+            }
+
+        }*/
+        Injector inject = Guice.createInjector(new AppModule());
+
+        AppControllers appControllers = inject.getInstance(AppControllers.class);
+        appControllers.initContex();
         /*
          MainFrameWorkController mainFrameController  = inject.getInstance(MainFrameWorkController.class);
           
@@ -43,12 +69,10 @@ public class APPLZ {
          
          
          mainFrameController.initConf();
-        */
-         
-
+         */
         /**
          * creamos las instacnicas de las interfaces de los servicios locales
-         * para la inyeccion de dependencias de guice          *
+         * para la inyeccion de dependencias de guice *
          *
          * //
          *
@@ -66,8 +90,8 @@ public class APPLZ {
          * //prepara el repositorio CRUD de la base de datos
          * Repository<Usuario, String> repoUsuario = new ImplRepo_Usuario();
          *
-         * //prepara el servicio para hacer uso del crud atravez del repositorio
-         * ImplService_Usuario servUsuario = new
+         * //prepara el servicio para hacer uso del crud atravez del
+         * repositorio ImplService_Usuario servUsuario = new
          * ImplService_Usuario(repoUsuario);
          *
          * //preparo la ventana *frame* y las vistas-*panel* Frame_Work
@@ -75,7 +99,7 @@ public class APPLZ {
          *
          * PFacturacion facturacion = new PFacturacion();
          *
-         * PSlider_Contenedor sliderContenedor = new PSlider_Contenedor();          *
+         * PSlider_Contenedor sliderContenedor = new PSlider_Contenedor(); *
          * PSliderMenu sliderMenu = new PSliderMenu();
          *
          * PMenuHeader menu_de_opciones = new PMenuHeader();
@@ -131,7 +155,7 @@ public class APPLZ {
          * slider , panel_de_venta , ánel_de_inventario ); new
          * Controller_MenuOptions(menu_de_opciones , slider , slider_de_opciones
          * ); new Controller_Registro(ventanaPrincipal , panel_de_registro ,
-         * panel_de_login , servUsuario );          *
+         * panel_de_login , servUsuario ); *
          *
          * new Controlador_de_Vistas( ventanaPrincipal , sliderContenedor ,
          * sliderMenu , menu_de_opciones , panel_de_venta , panel_de_inventario
@@ -149,7 +173,7 @@ public class APPLZ {
          *
          * /**
          * creamos las instacnicas de las interfaces de los servicios locales
-         * para la inyeccion de dependencias de guice          *
+         * para la inyeccion de dependencias de guice *
          *
          * //servicios de ventas Injector inject = Guice.createInjector(new
          * AppModule());
@@ -168,8 +192,8 @@ public class APPLZ {
          * //prepara el repositorio CRUD de la base de datos
          * Repository<Usuario, String> repoUsuario = new ImplRepo_Usuario();
          *
-         * //prepara el servicio para hacer uso del crud atravez del repositorio
-         * ImplService_Usuario servUsuario = new
+         * //prepara el servicio para hacer uso del crud atravez del
+         * repositorio ImplService_Usuario servUsuario = new
          * ImplService_Usuario(repoUsuario);
          *
          * //preparo la ventana *frame* y las vistas-*panel* Frame_Work
@@ -177,7 +201,7 @@ public class APPLZ {
          *
          * PFacturacion facturacion = new PFacturacion();
          *
-         * PSlider_Contenedor sliderContenedor = new PSlider_Contenedor();          *
+         * PSlider_Contenedor sliderContenedor = new PSlider_Contenedor(); *
          * PSliderMenu sliderMenu = new PSliderMenu();
          *
          * PMenuHeader menu_de_opciones = new PMenuHeader();
@@ -233,7 +257,7 @@ public class APPLZ {
          * slider , panel_de_venta , ánel_de_inventario ); new
          * Controller_MenuOptions(menu_de_opciones , slider , slider_de_opciones
          * ); new Controller_Registro(ventanaPrincipal , panel_de_registro ,
-         * panel_de_login , servUsuario );          *
+         * panel_de_login , servUsuario ); *
          *
          * new Controlador_de_Vistas( ventanaPrincipal , sliderContenedor ,
          * sliderMenu , menu_de_opciones , panel_de_venta , panel_de_inventario
@@ -245,12 +269,11 @@ public class APPLZ {
          * ventanaPrincipal.setSize(600, 400);
          * ventanaPrincipal.fw_Container.add(panel_de_login);
          * ventanaPrincipal.setLocationRelativeTo(null);
-         * ventanaPrincipal.setVisible(true);
-        }
-
-        /**
+         * ventanaPrincipal.setVisible(true); }
+         *
+         * /**
          * creamos las instacnicas de las interfaces de los servicios locales
-         * para la inyeccion de dependencias de guice          *
+         * para la inyeccion de dependencias de guice *
          *
          * //servicios de ventas Injector inject = Guice.createInjector(new
          * AppModule());
@@ -269,8 +292,8 @@ public class APPLZ {
          * //prepara el repositorio CRUD de la base de datos
          * Repository<Usuario, String> repoUsuario = new ImplRepo_Usuario();
          *
-         * //prepara el servicio para hacer uso del crud atravez del repositorio
-         * ImplService_Usuario servUsuario = new
+         * //prepara el servicio para hacer uso del crud atravez del
+         * repositorio ImplService_Usuario servUsuario = new
          * ImplService_Usuario(repoUsuario);
          *
          * //preparo la ventana *frame* y las vistas-*panel* Frame_Work
@@ -278,7 +301,7 @@ public class APPLZ {
          *
          * PFacturacion facturacion = new PFacturacion();
          *
-         * PSlider_Contenedor sliderContenedor = new PSlider_Contenedor();          *
+         * PSlider_Contenedor sliderContenedor = new PSlider_Contenedor(); *
          * PSliderMenu sliderMenu = new PSliderMenu();
          *
          * PMenuHeader menu_de_opciones = new PMenuHeader();
@@ -334,7 +357,7 @@ public class APPLZ {
          * slider , panel_de_venta , ánel_de_inventario ); new
          * Controller_MenuOptions(menu_de_opciones , slider , slider_de_opciones
          * ); new Controller_Registro(ventanaPrincipal , panel_de_registro ,
-         * panel_de_login , servUsuario );          *
+         * panel_de_login , servUsuario ); *
          *
          * new Controlador_de_Vistas( ventanaPrincipal , sliderContenedor ,
          * sliderMenu , menu_de_opciones , panel_de_venta , panel_de_inventario
@@ -352,7 +375,7 @@ public class APPLZ {
          *
          * /**
          * creamos las instacnicas de las interfaces de los servicios locales
-         * para la inyeccion de dependencias de guice          *
+         * para la inyeccion de dependencias de guice *
          *
          * //servicios de ventas Injector inject = Guice.createInjector(new
          * AppModule());
@@ -371,8 +394,8 @@ public class APPLZ {
          * //prepara el repositorio CRUD de la base de datos
          * Repository<Usuario, String> repoUsuario = new ImplRepo_Usuario();
          *
-         * //prepara el servicio para hacer uso del crud atravez del repositorio
-         * ImplService_Usuario servUsuario = new
+         * //prepara el servicio para hacer uso del crud atravez del
+         * repositorio ImplService_Usuario servUsuario = new
          * ImplService_Usuario(repoUsuario);
          *
          * //preparo la ventana *frame* y las vistas-*panel* Frame_Work
@@ -380,7 +403,7 @@ public class APPLZ {
          *
          * PFacturacion facturacion = new PFacturacion();
          *
-         * PSlider_Contenedor sliderContenedor = new PSlider_Contenedor();          *
+         * PSlider_Contenedor sliderContenedor = new PSlider_Contenedor(); *
          * PSliderMenu sliderMenu = new PSliderMenu();
          *
          * PMenuHeader menu_de_opciones = new PMenuHeader();
@@ -436,7 +459,7 @@ public class APPLZ {
          * slider , panel_de_venta , ánel_de_inventario ); new
          * Controller_MenuOptions(menu_de_opciones , slider , slider_de_opciones
          * ); new Controller_Registro(ventanaPrincipal , panel_de_registro ,
-         * panel_de_login , servUsuario );          *
+         * panel_de_login , servUsuario ); *
          *
          * new Controlador_de_Vistas( ventanaPrincipal , sliderContenedor ,
          * sliderMenu , menu_de_opciones , panel_de_venta , panel_de_inventario
@@ -448,12 +471,11 @@ public class APPLZ {
          * ventanaPrincipal.setSize(600, 400);
          * ventanaPrincipal.fw_Container.add(panel_de_login);
          * ventanaPrincipal.setLocationRelativeTo(null);
-         * ventanaPrincipal.setVisible(true);
-        }
-
-        /**
+         * ventanaPrincipal.setVisible(true); }
+         *
+         * /**
          * creamos las instacnicas de las interfaces de los servicios locales
-         * para la inyeccion de dependencias de guice          *
+         * para la inyeccion de dependencias de guice *
          *
          * //servicios de ventas Injector inject = Guice.createInjector(new
          * AppModule());
@@ -472,8 +494,8 @@ public class APPLZ {
          * //prepara el repositorio CRUD de la base de datos
          * Repository<Usuario, String> repoUsuario = new ImplRepo_Usuario();
          *
-         * //prepara el servicio para hacer uso del crud atravez del repositorio
-         * ImplService_Usuario servUsuario = new
+         * //prepara el servicio para hacer uso del crud atravez del
+         * repositorio ImplService_Usuario servUsuario = new
          * ImplService_Usuario(repoUsuario);
          *
          * //preparo la ventana *frame* y las vistas-*panel* Frame_Work
@@ -481,7 +503,7 @@ public class APPLZ {
          *
          * PFacturacion facturacion = new PFacturacion();
          *
-         * PSlider_Contenedor sliderContenedor = new PSlider_Contenedor();          *
+         * PSlider_Contenedor sliderContenedor = new PSlider_Contenedor(); *
          * PSliderMenu sliderMenu = new PSliderMenu();
          *
          * PMenuHeader menu_de_opciones = new PMenuHeader();
@@ -537,7 +559,7 @@ public class APPLZ {
          * slider , panel_de_venta , ánel_de_inventario ); new
          * Controller_MenuOptions(menu_de_opciones , slider , slider_de_opciones
          * ); new Controller_Registro(ventanaPrincipal , panel_de_registro ,
-         * panel_de_login , servUsuario );          *
+         * panel_de_login , servUsuario ); *
          *
          * new Controlador_de_Vistas( ventanaPrincipal , sliderContenedor ,
          * sliderMenu , menu_de_opciones , panel_de_venta , panel_de_inventario
@@ -555,7 +577,7 @@ public class APPLZ {
          *
          * /**
          * creamos las instacnicas de las interfaces de los servicios locales
-         * para la inyeccion de dependencias de guice          *
+         * para la inyeccion de dependencias de guice *
          *
          * //servicios de ventas Injector inject = Guice.createInjector(new
          * AppModule());
@@ -574,8 +596,8 @@ public class APPLZ {
          * //prepara el repositorio CRUD de la base de datos
          * Repository<Usuario, String> repoUsuario = new ImplRepo_Usuario();
          *
-         * //prepara el servicio para hacer uso del crud atravez del repositorio
-         * ImplService_Usuario servUsuario = new
+         * //prepara el servicio para hacer uso del crud atravez del
+         * repositorio ImplService_Usuario servUsuario = new
          * ImplService_Usuario(repoUsuario);
          *
          * //preparo la ventana *frame* y las vistas-*panel* Frame_Work
@@ -583,7 +605,7 @@ public class APPLZ {
          *
          * PFacturacion facturacion = new PFacturacion();
          *
-         * PSlider_Contenedor sliderContenedor = new PSlider_Contenedor();          *
+         * PSlider_Contenedor sliderContenedor = new PSlider_Contenedor(); *
          * PSliderMenu sliderMenu = new PSliderMenu();
          *
          * PMenuHeader menu_de_opciones = new PMenuHeader();
@@ -639,7 +661,7 @@ public class APPLZ {
          * slider , panel_de_venta , ánel_de_inventario ); new
          * Controller_MenuOptions(menu_de_opciones , slider , slider_de_opciones
          * ); new Controller_Registro(ventanaPrincipal , panel_de_registro ,
-         * panel_de_login , servUsuario );          *
+         * panel_de_login , servUsuario ); *
          *
          * new Controlador_de_Vistas( ventanaPrincipal , sliderContenedor ,
          * sliderMenu , menu_de_opciones , panel_de_venta , panel_de_inventario
@@ -651,12 +673,11 @@ public class APPLZ {
          * ventanaPrincipal.setSize(600, 400);
          * ventanaPrincipal.fw_Container.add(panel_de_login);
          * ventanaPrincipal.setLocationRelativeTo(null);
-         * ventanaPrincipal.setVisible(true);
-        }
-
-        /**
+         * ventanaPrincipal.setVisible(true); }
+         *
+         * /**
          * creamos las instacnicas de las interfaces de los servicios locales
-         * para la inyeccion de dependencias de guice          *
+         * para la inyeccion de dependencias de guice *
          *
          * //servicios de ventas Injector inject = Guice.createInjector(new
          * AppModule());
@@ -675,8 +696,8 @@ public class APPLZ {
          * //prepara el repositorio CRUD de la base de datos
          * Repository<Usuario, String> repoUsuario = new ImplRepo_Usuario();
          *
-         * //prepara el servicio para hacer uso del crud atravez del repositorio
-         * ImplService_Usuario servUsuario = new
+         * //prepara el servicio para hacer uso del crud atravez del
+         * repositorio ImplService_Usuario servUsuario = new
          * ImplService_Usuario(repoUsuario);
          *
          * //preparo la ventana *frame* y las vistas-*panel* Frame_Work
@@ -684,7 +705,7 @@ public class APPLZ {
          *
          * PFacturacion facturacion = new PFacturacion();
          *
-         * PSlider_Contenedor sliderContenedor = new PSlider_Contenedor();          *
+         * PSlider_Contenedor sliderContenedor = new PSlider_Contenedor(); *
          * PSliderMenu sliderMenu = new PSliderMenu();
          *
          * PMenuHeader menu_de_opciones = new PMenuHeader();
@@ -740,7 +761,7 @@ public class APPLZ {
          * slider , panel_de_venta , ánel_de_inventario ); new
          * Controller_MenuOptions(menu_de_opciones , slider , slider_de_opciones
          * ); new Controller_Registro(ventanaPrincipal , panel_de_registro ,
-         * panel_de_login , servUsuario );          *
+         * panel_de_login , servUsuario ); *
          *
          * new Controlador_de_Vistas( ventanaPrincipal , sliderContenedor ,
          * sliderMenu , menu_de_opciones , panel_de_venta , panel_de_inventario
@@ -758,7 +779,7 @@ public class APPLZ {
          *
          * /**
          * creamos las instacnicas de las interfaces de los servicios locales
-         * para la inyeccion de dependencias de guice          *
+         * para la inyeccion de dependencias de guice *
          *
          * //servicios de ventas Injector inject = Guice.createInjector(new
          * AppModule());
@@ -777,8 +798,8 @@ public class APPLZ {
          * //prepara el repositorio CRUD de la base de datos
          * Repository<Usuario, String> repoUsuario = new ImplRepo_Usuario();
          *
-         * //prepara el servicio para hacer uso del crud atravez del repositorio
-         * ImplService_Usuario servUsuario = new
+         * //prepara el servicio para hacer uso del crud atravez del
+         * repositorio ImplService_Usuario servUsuario = new
          * ImplService_Usuario(repoUsuario);
          *
          * //preparo la ventana *frame* y las vistas-*panel* Frame_Work
@@ -786,7 +807,7 @@ public class APPLZ {
          *
          * PFacturacion facturacion = new PFacturacion();
          *
-         * PSlider_Contenedor sliderContenedor = new PSlider_Contenedor();          *
+         * PSlider_Contenedor sliderContenedor = new PSlider_Contenedor(); *
          * PSliderMenu sliderMenu = new PSliderMenu();
          *
          * PMenuHeader menu_de_opciones = new PMenuHeader();
@@ -842,7 +863,7 @@ public class APPLZ {
          * slider , panel_de_venta , ánel_de_inventario ); new
          * Controller_MenuOptions(menu_de_opciones , slider , slider_de_opciones
          * ); new Controller_Registro(ventanaPrincipal , panel_de_registro ,
-         * panel_de_login , servUsuario );          *
+         * panel_de_login , servUsuario ); *
          *
          * new Controlador_de_Vistas( ventanaPrincipal , sliderContenedor ,
          * sliderMenu , menu_de_opciones , panel_de_venta , panel_de_inventario
@@ -854,8 +875,7 @@ public class APPLZ {
          * ventanaPrincipal.setSize(600, 400);
          * ventanaPrincipal.fw_Container.add(panel_de_login);
          * ventanaPrincipal.setLocationRelativeTo(null);
-         * ventanaPrincipal.setVisible(true);
-        }
+         * ventanaPrincipal.setVisible(true); }
          */
     }
 

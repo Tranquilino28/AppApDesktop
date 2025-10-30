@@ -100,5 +100,21 @@ public class viewController {
         contenedor.repaint();
 
     }
+    public static void backView(JComponent contenedor,JComponent header, JComponent panel) {
+        //panel.setSize(contenedor.getSize());
+
+         // Borrar el componente anterior en CENTER
+         // Borrar el componente anterior en CENTER
+        
+        
+        panel.setLocation(0, 0);
+
+        contenedor.removeAll();
+        contenedor.add(header,BorderLayout.NORTH);
+        contenedor.add(panel, BorderLayout.CENTER);
+        contenedor.revalidate();
+        contenedor.repaint();
+
+    }
     
 }

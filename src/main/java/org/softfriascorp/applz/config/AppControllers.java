@@ -13,6 +13,7 @@ import org.softfriascorp.applz.mainframework_module.controllers.MainFrameWorkCon
 import org.softfriascorp.applz.pay_module.controllers.PagosController;
 import org.softfriascorp.applz.cuenta_module.controllers.VentaController;
 import org.softfriascorp.applz.cuenta_module.submodules.cuenta_module.service.interfaces.CuentaService;
+import org.softfriascorp.applz.update.UpdateWorker;
 
 /**
  *
@@ -73,14 +74,16 @@ public class AppControllers {
         pagosController.setOnPagoFinalizado(() -> {
             
             System.out.println("finalizo el pago");
-            cuentaService.limpiarVenta();
+            
+            ventaController.eliminarCuenta();
+            
             mainFrameWorkController.mostrarVista("ventas");
+            
         });
         
         pagosController.setOnCancelarPago(() -> {
             
-            System.out.println("canceando pago");
-            
+            System.out.println("canceando pago");            
             
             mainFrameWorkController.mostrarVista("ventas");
         });

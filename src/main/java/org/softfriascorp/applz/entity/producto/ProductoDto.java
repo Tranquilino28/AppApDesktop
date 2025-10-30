@@ -4,6 +4,7 @@
  */
 package org.softfriascorp.applz.entity.producto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.math.BigDecimal;
 import org.softfriascorp.applz.entity.maestra.Maestra;
 
@@ -11,6 +12,7 @@ import org.softfriascorp.applz.entity.maestra.Maestra;
  *
  * @author usuario
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductoDto {
     
     private Long id;
@@ -29,7 +31,8 @@ public class ProductoDto {
 
     public ProductoDto() {
     }
-
+   
+    
     public Long getId() {
         return id;
     }

@@ -15,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import org.softfriascorp.applz.config.Urls.UrlServer;
 import org.softfriascorp.applz.inventario_module.views.PInventario;
 import org.softfriascorp.applz.login_module.views.LoginPanel;
 import org.softfriascorp.applz.login_module.views.PRegister;
@@ -27,6 +28,7 @@ import org.softfriascorp.applz.mainframework_module.views.PSliderContent;
 import org.softfriascorp.applz.pay_module.views.PPagos;
 import org.softfriascorp.applz.cuenta_module.views.PFacturacion;
 import org.softfriascorp.applz.cuenta_module.views.PVenta;
+import org.softfriascorp.applz.update.UpdateWorker;
 
 
 /**
@@ -107,6 +109,15 @@ public class MainFrameWorkController implements ActionListener, MouseListener, K
 
         
         initListener();
+        
+        
+       
+
+        // Ejecutar el actualizador en segundo plano
+        UpdateWorker worker = new UpdateWorker( menuHeaderPanel.lbl_updateMessage);
+        worker.execute(); // 🔥 inicia el hilo SwingWorker
+       
+       
     }
 
     private void initListener() {
@@ -244,9 +255,9 @@ public class MainFrameWorkController implements ActionListener, MouseListener, K
     public void mostrarVista(String vista) {
     switch (vista) {
         case "login" -> viewController.nextView(ventanaPrincipal.fw_Container, loginPanel);
-        case "ventas" -> viewController.showModulePanel(ventanaPrincipal.fw_Container, ventaPanel);
-        case "pagos" -> viewController.showModulePanel(ventanaPrincipal.fw_Container, pagosPanel);
-        case "inventario" -> viewController.showModulePanel(ventanaPrincipal.fw_Container, inventarioPanel);
+        case "ventas" -> viewController.backView(ventanaPrincipal.fw_Container, menuHeaderPanel, ventaPanel);
+        case "pagos" -> viewController.nextView(ventanaPrincipal.fw_Container, pagosPanel);
+        case "inventario" -> viewController.backView(ventanaPrincipal.fw_Container, menuHeaderPanel, ventaPanel);
         case "CerrarSeccion" -> viewController.nextView(ventanaPrincipal.fw_Container, loginPanel);
     }
 }

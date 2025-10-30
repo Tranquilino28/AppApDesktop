@@ -12,6 +12,7 @@ import java.util.Map;
 import org.softfriascorp.applz.entity.detallesventa.DetallesVenta;
 import org.softfriascorp.applz.entity.producto.ProductoDto;
 import org.softfriascorp.applz.cuenta_module.submodules.cuenta_module.service.interfaces.CuentaService;
+import org.softfriascorp.applz.entity.maestra.Maestra;
 
 /**
  *
@@ -19,6 +20,9 @@ import org.softfriascorp.applz.cuenta_module.submodules.cuenta_module.service.in
  */
 public class ServiceCarrito implements CuentaService<String, DetallesVenta> {
 
+    private BigDecimal valorRecibido = BigDecimal.ZERO;
+    private Maestra tipoPago;
+    
     private final Map<String, DetallesVenta> detallesMap = new LinkedHashMap<>();
 
     @Override
@@ -112,6 +116,38 @@ public class ServiceCarrito implements CuentaService<String, DetallesVenta> {
     public boolean productoExiste(String codigoBarra) {
 
         return detallesMap.containsKey(codigoBarra);
+    }
+
+    @Override
+    public BigDecimal getCambio() {
+            
+        return calcularTotal().subtract(valorRecibido);
+    }
+
+    @Override
+    public void setTipoDePago(Maestra tipoDePago) {
+        this.tipoPago = tipoDePago;
+    }
+
+    @Override
+    public Maestra getTipoDePago() {
+        return tipoPago;
+    }
+
+    @Override
+    public void setValorRecibido(BigDecimal valorRecibido) {
+         this.valorRecibido = valorRecibido;
+        
+    }
+
+    @Override
+    public BigDecimal getValorRecibido() {
+        return valorRecibido;
+    }
+
+    @Override
+    public BigDecimal getSaldoPendiente() {
+       return calcularTotal().subtract(valorRecibido);
     }
 
 }

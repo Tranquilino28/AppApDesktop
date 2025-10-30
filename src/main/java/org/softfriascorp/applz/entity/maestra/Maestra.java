@@ -4,10 +4,13 @@
  */
 package org.softfriascorp.applz.entity.maestra;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
  *
  * @author usuario
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Maestra {
      private Long id;
 

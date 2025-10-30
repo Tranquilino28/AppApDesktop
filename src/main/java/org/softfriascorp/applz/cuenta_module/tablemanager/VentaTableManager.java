@@ -62,7 +62,7 @@ public class VentaTableManager {
                 dv.getProducto().getDescripcion(),
                 dv.getCantidad(),
                 dv.getProducto().getMedida().getNombreCorto(),
-                UtilValorMonedaCop.formatMonedaCop(dv.getPrecioUnitario()),
+                UtilValorMonedaCop.formatMonedaCop(dv.getProducto().getPrecio()),
                 totalDetalle
                 
                 

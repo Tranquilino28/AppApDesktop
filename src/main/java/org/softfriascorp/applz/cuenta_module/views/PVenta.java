@@ -185,6 +185,7 @@ public class PVenta extends javax.swing.JPanel {
 
         lbl_valortotal.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
         lbl_valortotal.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_valortotal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_valortotal.setText("$ 00,00 ");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);

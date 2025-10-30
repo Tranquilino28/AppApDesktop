@@ -76,8 +76,8 @@ public class VentaController
     JPopupMenu menu;
     JMenuItem editar;
     JMenuItem eliminar;
-    
-   private Runnable onPagoIniciado;
+
+    private Runnable onPagoIniciado;
 
     // private final VentaService ventaService;
     @Inject
@@ -104,19 +104,19 @@ public class VentaController
     }
 
     private void initComponent() {
-        
-         this.venta.txt_busqueda_por_lector.setText(PLACE_HOLDER_BUSQUEDA_X_LECTOR);
+
+        this.venta.txt_busqueda_por_lector.setText(PLACE_HOLDER_BUSQUEDA_X_LECTOR);
 
         this.venta.txt_busqueda_por_lector.addFocusListener(this);
         this.venta.txt_busqueda_por_lector.addKeyListener(this);
 
         this.venta.txt_buscar_productos_stok.addFocusListener(this);
         this.venta.txt_buscar_productos_stok.addKeyListener(this);
-this.venta.txt_buscar_productos_stok.setText(PLACE_HOLDER_BUSQUEDA);
+        this.venta.txt_buscar_productos_stok.setText(PLACE_HOLDER_BUSQUEDA);
 
         this.venta.txt_cantidad.addFocusListener(this);
         this.venta.txt_cantidad.addKeyListener(this);
-this.venta.txt_cantidad.setText(PLACE_HOLDER_CANTIDAD);
+        this.venta.txt_cantidad.setText(PLACE_HOLDER_CANTIDAD);
 
         this.venta.btn_buscarProductoStok.addActionListener(this);
 
@@ -148,15 +148,15 @@ this.venta.txt_cantidad.setText(PLACE_HOLDER_CANTIDAD);
 
         menu.add(editar);
         menu.add(eliminar);
-        
+
         menu.setSize(100, 30);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+
         JComponent componente = (JComponent) e.getSource();
-        
+
         if (e.getSource() == venta.btn_buscarProductoStok) {
 
             Map<String, DetallesVenta> detven = cuentaService.listarProductos();
@@ -164,42 +164,51 @@ this.venta.txt_cantidad.setText(PLACE_HOLDER_CANTIDAD);
             for (DetallesVenta dv : detven.values()) {
                 System.out.println("descripcion : " + dv.getProducto().getDescripcion()
                         + "\n cantidad : " + dv.getCantidad()
-                        + "\n cantidad : " + dv.getSubTotal());
+                        + "\n subTotal : " + dv.getSubTotal());
 
             }
 
         }
         if (e.getSource() == venta.btn_eliminar) {
-            cuentaService.limpiarVenta();
-            ventaTableManager.clearDataTable();
-            venta.lbl_valortotal.setText("");
+           eliminarCuenta();
         }
-        if(componente == eliminar){
-            
+        if (componente == eliminar) {
+
             String codigoBarras = venta.tabla_de_pedido.getValueAt(venta.tabla_de_pedido.getSelectedRow(), 0).toString();
-            
+
             if (!codigoBarras.isEmpty()) {
-                cuentaService.eliminarProducto(codigoBarras);
-                System.out.println("se ellimino el producto ");
-            ventaTableManager.updateTableCuenta(new ArrayList<>(cuentaService.listarProductos().values()));
-            venta.lbl_valortotal.setText(
-                            UtilValorMonedaCop.formatMonedaCop(cuentaService.calcularTotal())
-                    );
-            
-            }else{
                 
-               ventaTableManager.getTableModelCuenta().removeRow(venta.tabla_de_pedido.getSelectedRow());
+                cuentaService.eliminarProducto(codigoBarras);
+               
+                ventaTableManager.updateTableCuenta(new ArrayList<>(cuentaService.listarProductos().values()));
+                
+                venta.lbl_valortotal.setText(
+                        UtilValorMonedaCop.formatMonedaCop(cuentaService.calcularTotal())
+                );
+
+            } else {
+
+                ventaTableManager.getTableModelCuenta().removeRow(venta.tabla_de_pedido.getSelectedRow());
             }
-            
-            
+
         }
-        if(componente == venta.btn_pagar){
-            System.out.println("se preciono el boton pagar");
-            if (onPagoIniciado != null) {
-                System.out.println("ok pagando");
-                onPagoIniciado.run();
+        if (componente == venta.btn_pagar) {
+
+            if (cuentaService.tieneProductos()) {
+                //System.out.println("se preciono el boton pagar");
+                if (onPagoIniciado != null) {
+                    //   System.out.println("ok pagando");
+                    onPagoIniciado.run();
+                }
+            } else {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "⚠️ No hay productos en la cuenta.\nAgrega al menos un producto para continuar.",
+                        "Alerta",
+                        JOptionPane.WARNING_MESSAGE
+                );
             }
-            
+
         }
     }
 
@@ -424,9 +433,14 @@ this.venta.txt_cantidad.setText(PLACE_HOLDER_CANTIDAD);
             menu.show(e.getComponent(), e.getX(), e.getY());
         }
     }
-    
+
     public void setOnPagoIniciado(Runnable onPagoIniciado) {
         this.onPagoIniciado = onPagoIniciado;
     }
 
+    public void eliminarCuenta(){
+         cuentaService.limpiarVenta();
+            ventaTableManager.clearDataTable();
+            venta.lbl_valortotal.setText("$ 00,00");
+    }
 }

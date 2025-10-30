@@ -10,6 +10,7 @@ import java.util.Map;
 import org.softfriascorp.applz.entity.detallesventa.DetallesVenta;
 import org.softfriascorp.applz.entity.producto.ProductoDto;
 import org.softfriascorp.applz.cuenta_module.entity.Cuenta;
+import org.softfriascorp.applz.entity.maestra.Maestra;
 
 /**
  *
@@ -36,5 +37,15 @@ public interface CuentaService <K , T>{
     
     boolean productoExiste(K k);
     
+    
+    void setValorRecibido(BigDecimal valorRecibido);
+     BigDecimal getValorRecibido();
+    
+    BigDecimal getCambio();
+    
+    BigDecimal getSaldoPendiente();
+    
+    void setTipoDePago(Maestra tipoDePago);   
+    Maestra getTipoDePago();
     
 }
