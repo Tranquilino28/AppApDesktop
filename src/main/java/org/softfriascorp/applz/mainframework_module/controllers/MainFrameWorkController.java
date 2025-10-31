@@ -5,17 +5,12 @@
 package org.softfriascorp.applz.mainframework_module.controllers;
 
 import jakarta.inject.Inject;
-import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import org.softfriascorp.applz.config.Urls.UrlServer;
 import org.softfriascorp.applz.inventario_module.views.PInventario;
 import org.softfriascorp.applz.login_module.views.LoginPanel;
 import org.softfriascorp.applz.login_module.views.PRegister;
@@ -28,7 +23,6 @@ import org.softfriascorp.applz.mainframework_module.views.PSliderContent;
 import org.softfriascorp.applz.pay_module.views.PPagos;
 import org.softfriascorp.applz.cuenta_module.views.PFacturacion;
 import org.softfriascorp.applz.cuenta_module.views.PVenta;
-import org.softfriascorp.applz.update.UpdateWorker;
 
 
 /**
@@ -56,8 +50,7 @@ public class MainFrameWorkController implements ActionListener, MouseListener, K
     
     private final MainFrameWorkService mainFrameService;
     
-    
-    
+   
     @Inject
     public MainFrameWorkController(
             MainFrameWork ventanaPrincipal,
@@ -81,6 +74,8 @@ public class MainFrameWorkController implements ActionListener, MouseListener, K
              
             MainFrameWorkService mainFrameService
             
+         //   , UpdateListener update
+            
     ) {
         this.ventanaPrincipal = ventanaPrincipal;
         
@@ -95,6 +90,8 @@ public class MainFrameWorkController implements ActionListener, MouseListener, K
         this.pagosPanel = pagos;
         
         this.mainFrameService = mainFrameService;
+        
+       // this.update = update;
     }
 
     public void initConf() {
@@ -114,8 +111,8 @@ public class MainFrameWorkController implements ActionListener, MouseListener, K
        
 
         // Ejecutar el actualizador en segundo plano
-        UpdateWorker worker = new UpdateWorker( menuHeaderPanel.lbl_updateMessage);
-        worker.execute(); // 🔥 inicia el hilo SwingWorker
+       // UpdateWorker worker = new UpdateWorker( menuHeaderPanel.lbl_updateMessage);
+       // worker.execute(); // 🔥 inicia el hilo SwingWorker
        
        
     }
@@ -261,5 +258,6 @@ public class MainFrameWorkController implements ActionListener, MouseListener, K
         case "CerrarSeccion" -> viewController.nextView(ventanaPrincipal.fw_Container, loginPanel);
     }
 }
+
 
 }

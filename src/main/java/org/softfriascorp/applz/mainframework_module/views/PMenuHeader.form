@@ -24,9 +24,9 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="btn_menu" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="lbl_usuario_rol" pref="347" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="lbl_updateMessage" min="-2" pref="225" max="-2" attributes="0"/>
+              <Component id="lbl_usuario_rol" min="-2" pref="162" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="lbl_updateMessage" min="-2" pref="404" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" pref="25" max="-2" attributes="0"/>
           </Group>
@@ -119,6 +119,7 @@
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="text" type="java.lang.String" value="v 1.0.0"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>

@@ -4,110 +4,77 @@
  */
 package org.softfriascorp.applz.update;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.SwingWorker;
-import org.json.JSONObject;
-import org.softfriascorp.applz.update.UpdateCheker.VersionComparator;
-
 /**
  *
  * @author usuario
  */
+import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
-public class UpdateWorker extends SwingWorker<Void, String> {
+/**
+ * Ejecuta la verificación y descarga de la actualización en segundo plano.
+ */
+public class UpdateWorker extends SwingWorker<Void, Void> {
 
-    
-    private final JLabel statusLabel;
+    private final UpdateChecker checker;
+    private final UpdateDownloader downloader;
+    private final AppUpdater updater;
 
-    public UpdateWorker( JLabel statusLabel) {
-       
-        this.statusLabel = statusLabel;
+    public UpdateWorker(UpdateChecker checker, UpdateDownloader downloader, AppUpdater updater) {
+        this.checker = checker;
+        this.downloader = downloader;
+        this.updater = updater;
     }
 
     @Override
     protected Void doInBackground() {
         try {
-            publish("🔄");
-        String localVersion = VersionUtil.getLocalVersion();
-        JSONObject serverData = UpdateCheker.getServerVersion();
-        if (serverData != null) {
-            String serverVersion = serverData.getString("version");
-            String downloadUrl = serverData.getString("url");
+            UpdateChecker.UpdateInfo info = checker.checkForUpdate();
 
-            if (VersionComparator.isNewerVersion(localVersion, serverVersion)) {
-               // System.out.println("Nueva versión disponible: " + serverVersion);
+            if (info != null) {
+                System.out.println("Nueva versión encontrada: " + info.version);
+                File newJar = downloader.download(info.downloadUrl);
+                String hash = downloader.calculateSHA256(newJar);
+                System.out.println("SHA-256 de la actualización: " + hash);
+
+                // (Opcional) Validar contra hash remoto
                 try {
-                /*   Updater.downloadUpdate(downloadUrl, ".");
-                   System.out.println("Actualización descargada. Reiniciando...");
-                   UpdateRunner.replaceAndRestart();
-                    
-                    JOptionPane.showMessageDialog(null, 
-    "Hay una nueva versión disponible. Se actualizará al reiniciar la aplicación.");
-*/
-                
-            // Detectar nombre del jar actual dinámicamente
-            String currentJarName = new File(
-                UpdateWorker.class.getProtectionDomain().getCodeSource().getLocation().toURI()
-            ).getName();
-
-            File currentJar = new File(currentJarName);
-            File newJar = new File("update-temp.jar");
-
-            // Descargar nueva versión
-            publish("⬇️ Descargando nueva versión...");
-            downloadNewVersion(downloadUrl, newJar);
-
-            if (!newJar.exists() || newJar.length() == 0) {
-                publish("⚠️ No se encontró nueva actualización.");
-                return null;
-            }
-
-            publish("⚙");
-            Files.deleteIfExists(currentJar.toPath());
-            Files.move(newJar.toPath(), currentJar.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-            publish("✅ Actualización completa.");
-            String command = "java -jar " + currentJar.getName();
-            Runtime.getRuntime().exec(command);
-
-            System.exit(0);
-
-                } catch (IOException e) {
+                    String expectedHash = new String(new URL(info.downloadUrl + ".sha256").openStream().readAllBytes()).trim();
+                    if (!expectedHash.equalsIgnoreCase(hash)) {
+                        throw new IOException("El hash no coincide, descarga corrupta.");
+                    }
+                } catch (Exception e) {
                     e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error de integridad: " + e.getMessage(), "Actualización abortada", JOptionPane.ERROR_MESSAGE);
+                    return null;
                 }
                 
                 
+                SwingUtilities.invokeLater(() -> {
+                    
+                    int res = JOptionPane.showConfirmDialog(null,
+                            "Se ha descargado una nueva versión (" + info.version + ").\n¿Deseas reiniciar para aplicar la actualización?",
+                            "Actualización disponible",
+                            JOptionPane.YES_NO_OPTION);
+                    if (res == JOptionPane.YES_OPTION) {
+                        try {
+                            updater.replaceAndRestart(newJar);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            JOptionPane.showMessageDialog(null,
+                                    "Error al aplicar la actualización:\n" + e.getMessage(),
+                                    "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                });
             } else {
-                statusLabel.setText(localVersion);
+                System.out.println("No hay actualizaciones disponibles.");
             }
-
-        }
-        
         } catch (Exception e) {
             e.printStackTrace();
-            publish("❌ Error en la actualización: " + e.getMessage());
         }
-
         return null;
-    }
-
-    @Override
-    protected void process(java.util.List<String> messages) {
-        // Este método se ejecuta en el hilo de la interfaz (seguro para Swing)
-        String lastMessage = messages.get(messages.size() - 1);
-        statusLabel.setText(lastMessage);
-    }
-
-    private void downloadNewVersion(String url, File destination) throws IOException {
-        try (InputStream in = new URL(url).openStream()) {
-            Files.copy(in, destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        }
     }
 }

@@ -34,61 +34,65 @@ import org.softfriascorp.applz.cuenta_module.views.PFacturacion;
 import org.softfriascorp.applz.cuenta_module.views.PVenta;
 import org.softfriascorp.applz.entity.venta.service.implementation.VentaServiceImpl;
 import org.softfriascorp.applz.entity.venta.service.interfaces.VentaService;
+import org.softfriascorp.applz.update.AppUpdater;
+import org.softfriascorp.applz.update.UpdateChecker;
+import org.softfriascorp.applz.update.UpdateDownloader;
+import org.softfriascorp.applz.update.UpdateService;
 
 /**
  *
  * @author usuario
  */
-
 public class AppModule extends AbstractModule {
-  
+
     @Override
     protected void configure() {
         /**
          * servicio web
          */
-        
+
         bind(ApiConecttion.class).in(Singleton.class);
-        
+
         /**
-         * ventana y paneles en singleton  bind(MainFrameWork.class).in(Singleton.class);
+         * ventana y paneles en singleton
+         * bind(MainFrameWork.class).in(Singleton.class);
          */
-        
         bind(MainFrameWork.class).in(Singleton.class);
         bind(PMenuHeader.class).in(Singleton.class);
         bind(PSliderMenu.class).in(Singleton.class);
-        
+
         bind(PSliderContent.class).in(Singleton.class);
         bind(PPagos.class).in(Singleton.class);
         bind(PVenta.class).in(Singleton.class);
-        
+
         bind(PRegister.class).in(Singleton.class);
         bind(PInventario.class).in(Singleton.class);
         bind(LoginPanel.class).in(Singleton.class);
         bind(PFacturacion.class).in(Singleton.class);
-        
-        
+
         bind(MainFrameWorkController.class).in(Singleton.class);
         bind(LoginController.class).in(Singleton.class);
         bind(VentaController.class).in(Singleton.class);
         bind(PagosController.class).in(Singleton.class);
-        
-        
-                
+
         /**
-         * servicios 
+         * servicios
          */
-        
         bind(MainFrameWorkService.class).to(MainFrameWorkServiceImpl.class);
         bind(LoginService.class).to(LoginServiceImpl.class);
         bind(ProductoService.class).to(ProductoServiceImpl.class);
         bind(VentaService.class).to(VentaServiceImpl.class);
-        
-        
+
         bind(CuentaService.class).to(ServiceCarrito.class).in(Singleton.class);
-        
+
         bind(VentaTableManager.class).in(Singleton.class);
         bind(StockTableManager.class).in(Singleton.class);
+
+        // https://github.com/Tranquilino28/AppApDesktop
+        bind(UpdateChecker.class).toInstance(new UpdateChecker("Tranquilino28", "AppApDesktop", "1.0.0"));
+        bind(UpdateDownloader.class).asEagerSingleton();
+        bind(AppUpdater.class).asEagerSingleton();
+        bind(UpdateService.class).asEagerSingleton();
     }
-      
+
 }

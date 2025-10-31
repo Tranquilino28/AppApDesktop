@@ -5,15 +5,13 @@
 package org.softfriascorp.applz.config;
 
 import com.google.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
-import org.softfriascorp.applz.entity.detallesventa.DetallesVenta;
 import org.softfriascorp.applz.login_module.controllers.LoginController;
 import org.softfriascorp.applz.mainframework_module.controllers.MainFrameWorkController;
 import org.softfriascorp.applz.pay_module.controllers.PagosController;
 import org.softfriascorp.applz.cuenta_module.controllers.VentaController;
 import org.softfriascorp.applz.cuenta_module.submodules.cuenta_module.service.interfaces.CuentaService;
-import org.softfriascorp.applz.update.UpdateWorker;
+import org.softfriascorp.applz.update.UpdateService;
+
 
 /**
  *
@@ -27,8 +25,9 @@ public class AppControllers {
     VentaController ventaController;
     PagosController pagosController;
     CuentaService cuentaService;
-    
-    
+    UpdateService updateService;
+
+  
     @Inject
     public AppControllers(MainFrameWorkController mainFrameWorkController
             ,LoginController loginController
@@ -36,6 +35,9 @@ public class AppControllers {
             , PagosController pagosController
             
             , CuentaService cuentaService
+            , UpdateService updateService
+
+            
     ) {
         this.mainFrameWorkController = mainFrameWorkController;
         this.loginController = loginController;
@@ -44,7 +46,7 @@ public class AppControllers {
         
         this.cuentaService = cuentaService;
         
-        
+       this.updateService = updateService;
     }
     
    public void initConfig(){
@@ -53,8 +55,8 @@ public class AppControllers {
        loginController.initConfig();
        ventaController.initConfig();
        pagosController.initConfig();
-       
       
+       updateService.checkForUpdatesAsync();
     }
    
    

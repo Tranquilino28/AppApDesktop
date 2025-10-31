@@ -57,6 +57,7 @@ public class PMenuHeader extends javax.swing.JPanel {
         lbl_updateMessage.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lbl_updateMessage.setForeground(new java.awt.Color(255, 255, 255));
         lbl_updateMessage.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbl_updateMessage.setText("v 1.0.0");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -65,9 +66,9 @@ public class PMenuHeader extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(btn_menu)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl_usuario_rol, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl_updateMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbl_usuario_rol, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbl_updateMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
