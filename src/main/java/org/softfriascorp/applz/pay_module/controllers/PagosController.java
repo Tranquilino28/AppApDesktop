@@ -17,7 +17,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
-import org.softfriascorp.applz.Util.UtilValorMonedaCop;
+import org.softfriascorp.applz.Utils.UtilValorMonedaCop;
 import org.softfriascorp.applz.entity.detallesventa.DetallesVenta;
 import org.softfriascorp.applz.factura.ShowFacturaPos;
 import org.softfriascorp.applz.pay_module.views.PPagos;

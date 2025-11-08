@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import org.softfriascorp.applz.Util.UtilValorMonedaCop;
+import org.softfriascorp.applz.Utils.UtilValorMonedaCop;
 import org.softfriascorp.applz.entity.detallesventa.DetallesVenta;
 
 /**

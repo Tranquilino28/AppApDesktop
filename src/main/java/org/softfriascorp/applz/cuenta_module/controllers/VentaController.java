@@ -26,7 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import org.softfriascorp.applz.Util.UtilValorMonedaCop;
+import org.softfriascorp.applz.Utils.UtilValorMonedaCop;
 import org.softfriascorp.applz.entity.detallesventa.DetallesVenta;
 import org.softfriascorp.applz.entity.producto.ProductoDto;
 import org.softfriascorp.applz.entity.producto.service.interfaces.ProductoService;

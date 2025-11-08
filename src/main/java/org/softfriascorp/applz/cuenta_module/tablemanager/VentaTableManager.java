@@ -11,7 +11,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import org.softfriascorp.applz.Util.UtilValorMonedaCop;
+import org.softfriascorp.applz.Utils.UtilValorMonedaCop;
 import org.softfriascorp.applz.entity.detallesventa.DetallesVenta;
 
 /**
