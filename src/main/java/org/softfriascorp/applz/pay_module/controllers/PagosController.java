@@ -60,7 +60,10 @@ public class PagosController implements ActionListener, KeyListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == pago.btn_aceptar_pago) {
-            if (cuentaSrtvice.getCambio().compareTo(BigDecimal.ZERO) < 0) {
+            
+            
+            if (cuentaSrtvice.getCambio().compareTo(BigDecimal.ZERO) < 0
+                    || cuentaSrtvice.getCambio().compareTo(BigDecimal.ZERO) == 0) {
 
                 ventaService.saveVenta(cuentaSrtvice);
 

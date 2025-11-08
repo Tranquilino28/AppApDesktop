@@ -257,6 +257,14 @@ public class VentaController
 
                 } catch (RuntimeException ex) {
                     System.out.println(ex.getCause());
+                    JOptionPane.showMessageDialog(
+                        null,
+                        "⚠️Producto no encontrado o sin stock en tienda",
+                        "Alerta",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                    
+                    
                 }
 
             }

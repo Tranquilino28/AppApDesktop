@@ -35,6 +35,7 @@ public class Factura {
             
             // 2. Datos dinámicos para la factura
             Map<String, Object> parameters = new HashMap<>();
+            
             parameters.put("cliente",cliente );
             parameters.put("fecha", venta.getFechaVenta());
             parameters.put("total", venta.getValorTotal());

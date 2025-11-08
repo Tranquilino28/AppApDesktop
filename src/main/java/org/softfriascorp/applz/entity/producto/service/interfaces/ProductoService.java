@@ -16,7 +16,7 @@ public interface ProductoService {
     
     ProductoDto findByCodigoBarras(String codigoBarras);
     List<ProductoDto> findByCoincidencia(String coincidencia);
+    List<ProductoDto> allProducts();
     
-    
-    
+    ProductoDto save(ProductoDto productoRequest,Boolean ubdate);
 }

@@ -23,6 +23,14 @@ public class UrlServer {
     public static final String API_URL_BASE = PROTOCOL_WEB + SERVER_HOST + ":" + SERVER_PORT;
     
     
+    
+    public static final String MAESTRA_SEARCH_TIPO = API_URL_BASE + "/maestra/tipo";
+    public static final String MAESTRA_SEARCH_CATEGORIAS = API_URL_BASE + "/maestra/categorias";
+    public static final String MAESTRA_SEARCH_CATEGORIAS_PADRE = API_URL_BASE + "/maestra/cat";
+    
+    
+    
+    
     public static final String UDUARIOS_SAVE_ENDPOINT = "/usuario/save";
     public static final String USUARIOS_AUTH_LOGIN = "/auth/login";
     
@@ -41,6 +49,9 @@ public class UrlServer {
     public static final String PRODUCTOS_SEARCH_3S = PRODUCTOS_ENDPOINT + "/search/3s";
     
     public static final String PRODUCTOS_SEARCH_4SPROMO = PRODUCTOS_ENDPOINT + "/";
+    public static final String PRODUCTOS_ALL = PRODUCTOS_ENDPOINT + "/all";
+    public static final String PRODUCTO_SAVE = PRODUCTOS_ENDPOINT + "/save";
+    public static final String PRODUCTO_UPDATE = PRODUCTOS_ENDPOINT + "/update";
     
     
     public static final String REFRESHCATEGORIAS_ENDPOINT = API_URL_BASE + "/maes/categorias";

@@ -10,6 +10,7 @@ import org.softfriascorp.applz.mainframework_module.controllers.MainFrameWorkCon
 import org.softfriascorp.applz.pay_module.controllers.PagosController;
 import org.softfriascorp.applz.cuenta_module.controllers.VentaController;
 import org.softfriascorp.applz.cuenta_module.submodules.cuenta_module.service.interfaces.CuentaService;
+import org.softfriascorp.applz.inventario_module.controllers.InventarioController;
 import org.softfriascorp.applz.update.UpdateService;
 
 
@@ -24,15 +25,19 @@ public class AppControllers {
     LoginController loginController;
     VentaController ventaController;
     PagosController pagosController;
+    InventarioController inventarioController;
+    
     CuentaService cuentaService;
     UpdateService updateService;
 
   
     @Inject
-    public AppControllers(MainFrameWorkController mainFrameWorkController
+    public AppControllers(
+            MainFrameWorkController mainFrameWorkController
             ,LoginController loginController
             , VentaController ventaController
             , PagosController pagosController
+            , InventarioController inventarioController
             
             , CuentaService cuentaService
             , UpdateService updateService
@@ -43,6 +48,7 @@ public class AppControllers {
         this.loginController = loginController;
         this.ventaController = ventaController;
         this.pagosController = pagosController;
+        this.inventarioController = inventarioController;
         
         this.cuentaService = cuentaService;
         
@@ -55,14 +61,17 @@ public class AppControllers {
        loginController.initConfig();
        ventaController.initConfig();
        pagosController.initConfig();
+       inventarioController.initConfig();
       
-       updateService.checkForUpdatesAsync();
+      // updateService.checkForUpdatesAsync();
     }
    
    
    public void initContex(){
        
-        
+        /**
+         * listener de ventas
+         */
         ventaController.setOnPagoIniciado(() -> {
             System.out.println("se inicio el pago");
            
@@ -73,6 +82,9 @@ public class AppControllers {
             
         });
 
+        /**
+         * listener de pagos 
+         */
         pagosController.setOnPagoFinalizado(() -> {
             
             System.out.println("finalizo el pago");
@@ -89,6 +101,13 @@ public class AppControllers {
             
             mainFrameWorkController.mostrarVista("ventas");
         });
+        
+        
+        /**
+         * listener de menuSlider
+         */
+        
+        
         
         initConfig();
         

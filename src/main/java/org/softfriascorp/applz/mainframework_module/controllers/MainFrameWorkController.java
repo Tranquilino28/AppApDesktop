@@ -50,6 +50,7 @@ public class MainFrameWorkController implements ActionListener, MouseListener, K
     
     private final MainFrameWorkService mainFrameService;
     
+    private Runnable viewVentas;
    
     @Inject
     public MainFrameWorkController(
@@ -197,7 +198,7 @@ public class MainFrameWorkController implements ActionListener, MouseListener, K
         }
         
         if (e.getSource() == sliderMenuOptions.btn_ventas) {
-            
+            viewController.showModulePanel(ventanaPrincipal.fw_Container, ventaPanel);
         } 
        
 
@@ -247,6 +248,14 @@ public class MainFrameWorkController implements ActionListener, MouseListener, K
     public void keyReleased(KeyEvent e) {
 
     }
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     public void mostrarVista(String vista) {

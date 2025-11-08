@@ -45,5 +45,9 @@ public class Maestra {
         this.nombreCorto = nombreCorto;
     }
     
+    @Override
+    public String toString() {
+        return nombreLargo;
+    }
     
 }

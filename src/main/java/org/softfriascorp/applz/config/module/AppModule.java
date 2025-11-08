@@ -32,8 +32,12 @@ import org.softfriascorp.applz.cuenta_module.tablemanager.StockTableManager;
 import org.softfriascorp.applz.cuenta_module.tablemanager.VentaTableManager;
 import org.softfriascorp.applz.cuenta_module.views.PFacturacion;
 import org.softfriascorp.applz.cuenta_module.views.PVenta;
+import org.softfriascorp.applz.entity.maestra.service.implemnetation.MaestraServiceImpl;
+import org.softfriascorp.applz.entity.maestra.service.interfaces.MaestraService;
 import org.softfriascorp.applz.entity.venta.service.implementation.VentaServiceImpl;
 import org.softfriascorp.applz.entity.venta.service.interfaces.VentaService;
+import org.softfriascorp.applz.inventario_module.controllers.InventarioController;
+import org.softfriascorp.applz.inventario_module.tablemanager.InventarioTableManager;
 import org.softfriascorp.applz.update.AppUpdater;
 import org.softfriascorp.applz.update.UpdateChecker;
 import org.softfriascorp.applz.update.UpdateDownloader;
@@ -93,6 +97,11 @@ public class AppModule extends AbstractModule {
         bind(UpdateDownloader.class).asEagerSingleton();
         bind(AppUpdater.class).asEagerSingleton();
         bind(UpdateService.class).asEagerSingleton();
+        
+        bind(InventarioController.class).in(Singleton.class);
+        bind(InventarioTableManager.class).in(Singleton.class);
+        
+        bind(MaestraService.class).to(MaestraServiceImpl.class);
     }
 
 }
