@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import org.softfriascorp.applz.entity.detallesventa.DetallesVenta;
 import org.softfriascorp.applz.entity.maestra.Maestra;
+import org.softfriascorp.applz.entity.persona.Persona;
+import org.softfriascorp.applz.modules.login_module.entity.AuthResponsePerfil;
+import org.w3c.dom.UserDataHandler;
 
 /**
  *
@@ -23,7 +26,15 @@ public class VentaRequest {
     private Maestra metodoPago;
     
     private BigDecimal valorRecibido;
-
+    
+    private Persona cliente;
+    
+    private AuthResponsePerfil empleado;
+    
+    private Maestra estado;
+    
+   
+    
     private List<DetallesVenta> detalles = new ArrayList<>();
 
     public VentaRequest() {
@@ -52,5 +63,30 @@ public class VentaRequest {
     public void setDetalles(List<DetallesVenta> detalles) {
         this.detalles = detalles;
     }
+
+    public Persona getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Persona cliente) {
+        this.cliente = cliente;
+    }
+
+    public AuthResponsePerfil getEmpleado() {
+        return empleado;
+    }
+
+    public void setEmpleado(AuthResponsePerfil empleado) {
+        this.empleado = empleado;
+    }
+
+    public Maestra getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Maestra estado) {
+        this.estado = estado;
+    }
+   
 
 }

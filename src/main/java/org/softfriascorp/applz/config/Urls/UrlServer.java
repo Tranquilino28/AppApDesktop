@@ -16,7 +16,7 @@ public class UrlServer {
      
     //  Datos del servidor
      
-     public static final String PROTOCOL_WEB = "http://";
+    public static final String PROTOCOL_WEB = "http://";
     public static final String SERVER_HOST = "localhost";
     public static final int SERVER_PORT = 8900;
     
@@ -66,6 +66,12 @@ public class UrlServer {
     // Otros valores de configuración
     public static final int TIMEOUT_MS = 10000;
     public static final String APP_VERSION = "1.0.0";
+    
+    public static final String PERSONA_SEARCH_1S = API_URL_BASE +"/persona/search/s1/";
+    public static final String PERSONA_SAVE = API_URL_BASE +"/persona/save";
+    
+    
+    
 
     private UrlServer() { // Evita que se instancie
     }

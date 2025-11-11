@@ -5,12 +5,13 @@
 package org.softfriascorp.applz.config;
 
 import com.google.inject.Inject;
-import org.softfriascorp.applz.login_module.controllers.LoginController;
+import org.softfriascorp.applz.modules.login_module.controllers.LoginController;
 import org.softfriascorp.applz.mainframework_module.controllers.MainFrameWorkController;
-import org.softfriascorp.applz.pay_module.controllers.PagosController;
-import org.softfriascorp.applz.cuenta_module.controllers.VentaController;
-import org.softfriascorp.applz.cuenta_module.submodules.cuenta_module.service.interfaces.CuentaService;
-import org.softfriascorp.applz.inventario_module.controllers.InventarioController;
+import org.softfriascorp.applz.modules.pay_module.controllers.PagosController;
+import org.softfriascorp.applz.modules.venta_module.controllers.VentaController;
+import org.softfriascorp.applz.modules.cuenta_module.service.interfaces.CuentaService;
+import org.softfriascorp.applz.modules.inventario_module.controllers.InventarioController;
+import org.softfriascorp.applz.modules.pay_module.controllers.FiadoController;
 import org.softfriascorp.applz.update.UpdateService;
 
 
@@ -21,14 +22,15 @@ import org.softfriascorp.applz.update.UpdateService;
 public class AppControllers {
     
     
-    MainFrameWorkController mainFrameWorkController;
-    LoginController loginController;
-    VentaController ventaController;
-    PagosController pagosController;
-    InventarioController inventarioController;
+   private final MainFrameWorkController mainFrameWorkController;
+    private final LoginController loginController;
+    private final VentaController ventaController;
+    private final PagosController pagosController;
+    private final InventarioController inventarioController;
+    private final FiadoController fiadoController;
     
-    CuentaService cuentaService;
-    UpdateService updateService;
+    private final CuentaService cuentaService;
+    private final UpdateService updateService;
 
   
     @Inject
@@ -38,6 +40,7 @@ public class AppControllers {
             , VentaController ventaController
             , PagosController pagosController
             , InventarioController inventarioController
+            , FiadoController fiadoController
             
             , CuentaService cuentaService
             , UpdateService updateService
@@ -49,10 +52,12 @@ public class AppControllers {
         this.ventaController = ventaController;
         this.pagosController = pagosController;
         this.inventarioController = inventarioController;
+        this.fiadoController = fiadoController;
         
         this.cuentaService = cuentaService;
         
        this.updateService = updateService;
+       
     }
     
    public void initConfig(){
@@ -62,6 +67,7 @@ public class AppControllers {
        ventaController.initConfig();
        pagosController.initConfig();
        inventarioController.initConfig();
+       fiadoController.initConfig();
       
       // updateService.checkForUpdatesAsync();
     }
@@ -107,7 +113,25 @@ public class AppControllers {
          * listener de menuSlider
          */
         
-        
+       pagosController.setOnFiadoActivado(()->{
+       
+           fiadoController.showFormFiado();
+               
+               });
+       
+       fiadoController.setOnFiadoFinalizado(()->{
+           
+           ventaController.eliminarCuenta();
+       mainFrameWorkController.mostrarVista("ventas");
+       
+       });
+       
+       fiadoController.setOnFiadoCancelado(()->{
+       
+           fiadoController.clearCampos();
+           fiadoController.habilitarCampos(true);
+       
+       });
         
         initConfig();
         

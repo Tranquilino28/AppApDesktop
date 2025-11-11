@@ -4,8 +4,11 @@
  */
 package org.softfriascorp.applz.entity.venta.service.interfaces;
 
-import org.softfriascorp.applz.cuenta_module.submodules.cuenta_module.service.interfaces.CuentaService;
+import org.softfriascorp.applz.modules.cuenta_module.service.interfaces.CuentaService;
+import org.softfriascorp.applz.entity.maestra.Maestra;
 import org.softfriascorp.applz.entity.venta.Venta;
+import org.softfriascorp.applz.entity.venta.VentaRequest;
+import org.softfriascorp.applz.modules.login_module.entity.UserPerfilRol;
 
 /**
  *
@@ -14,6 +17,8 @@ import org.softfriascorp.applz.entity.venta.Venta;
 public interface VentaService {
     
     Venta getVenta(String codigoVenta);
+    
     Venta saveVenta(CuentaService cuentaService);
+    
     
 }

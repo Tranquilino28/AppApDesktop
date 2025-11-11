@@ -24,11 +24,11 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="btn_menu" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="lbl_usuario_rol" min="-2" pref="162" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="lbl_updateMessage" min="-2" pref="404" max="-2" attributes="0"/>
+              <Component id="lbl_usuario_rol" pref="358" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="lbl_updateMessage" min="-2" pref="214" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel1" min="-2" pref="25" max="-2" attributes="0"/>
+              <Component id="jPanel1" min="-2" pref="32" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

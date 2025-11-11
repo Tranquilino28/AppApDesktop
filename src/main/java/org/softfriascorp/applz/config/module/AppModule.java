@@ -9,13 +9,13 @@ import com.google.inject.Singleton;
 
 import org.softfriascorp.applz.entity.producto.service.implementation.ProductoServiceImpl;
 import org.softfriascorp.applz.entity.producto.service.interfaces.ProductoService;
-import org.softfriascorp.applz.inventario_module.views.PInventario;
-import org.softfriascorp.applz.login_module.connectoserver.ApiConecttion;
-import org.softfriascorp.applz.login_module.controllers.LoginController;
-import org.softfriascorp.applz.login_module.services.implementation.LoginServiceImpl;
-import org.softfriascorp.applz.login_module.services.interfaces.LoginService;
-import org.softfriascorp.applz.login_module.views.LoginPanel;
-import org.softfriascorp.applz.login_module.views.PRegister;
+import org.softfriascorp.applz.modules.inventario_module.views.PInventario;
+import org.softfriascorp.applz.modules.login_module.connectoserver.ApiConecttion;
+import org.softfriascorp.applz.modules.login_module.controllers.LoginController;
+import org.softfriascorp.applz.modules.login_module.services.implementation.LoginServiceImpl;
+import org.softfriascorp.applz.modules.login_module.services.interfaces.LoginService;
+import org.softfriascorp.applz.modules.login_module.views.LoginPanel;
+import org.softfriascorp.applz.modules.login_module.views.PRegister;
 import org.softfriascorp.applz.mainframework_module.controllers.MainFrameWorkController;
 import org.softfriascorp.applz.mainframework_module.services.implementation.MainFrameWorkServiceImpl;
 import org.softfriascorp.applz.mainframework_module.services.interfaces.MainFrameWorkService;
@@ -23,21 +23,25 @@ import org.softfriascorp.applz.mainframework_module.views.MainFrameWork;
 import org.softfriascorp.applz.mainframework_module.views.PMenuHeader;
 import org.softfriascorp.applz.mainframework_module.views.PSliderMenu;
 import org.softfriascorp.applz.mainframework_module.views.PSliderContent;
-import org.softfriascorp.applz.pay_module.controllers.PagosController;
-import org.softfriascorp.applz.pay_module.views.PPagos;
-import org.softfriascorp.applz.cuenta_module.controllers.VentaController;
-import org.softfriascorp.applz.cuenta_module.submodules.cuenta_module.service.implementation.ServiceCarrito;
-import org.softfriascorp.applz.cuenta_module.submodules.cuenta_module.service.interfaces.CuentaService;
-import org.softfriascorp.applz.cuenta_module.tablemanager.StockTableManager;
-import org.softfriascorp.applz.cuenta_module.tablemanager.VentaTableManager;
-import org.softfriascorp.applz.cuenta_module.views.PFacturacion;
-import org.softfriascorp.applz.cuenta_module.views.PVenta;
+import org.softfriascorp.applz.modules.pay_module.controllers.PagosController;
+import org.softfriascorp.applz.modules.pay_module.views.PPagos;
+import org.softfriascorp.applz.modules.venta_module.controllers.VentaController;
+import org.softfriascorp.applz.modules.cuenta_module.service.implementation.ServiceCarrito;
+import org.softfriascorp.applz.modules.cuenta_module.service.interfaces.CuentaService;
+import org.softfriascorp.applz.modules.venta_module.tablemanager.StockTableManager;
+import org.softfriascorp.applz.modules.venta_module.tablemanager.VentaTableManager;
+import org.softfriascorp.applz.modules.venta_module.views.PFacturacion;
+import org.softfriascorp.applz.modules.venta_module.views.PVenta;
 import org.softfriascorp.applz.entity.maestra.service.implemnetation.MaestraServiceImpl;
 import org.softfriascorp.applz.entity.maestra.service.interfaces.MaestraService;
+import org.softfriascorp.applz.entity.persona.implementation.PersonaServiceImpl;
+import org.softfriascorp.applz.entity.persona.interfaces.PersonaService;
 import org.softfriascorp.applz.entity.venta.service.implementation.VentaServiceImpl;
 import org.softfriascorp.applz.entity.venta.service.interfaces.VentaService;
-import org.softfriascorp.applz.inventario_module.controllers.InventarioController;
-import org.softfriascorp.applz.inventario_module.tablemanager.InventarioTableManager;
+import org.softfriascorp.applz.modules.inventario_module.controllers.InventarioController;
+import org.softfriascorp.applz.modules.inventario_module.tablemanager.InventarioTableManager;
+import org.softfriascorp.applz.modules.pay_module.controllers.FiadoController;
+import org.softfriascorp.applz.modules.pay_module.views.PFiado;
 import org.softfriascorp.applz.update.AppUpdater;
 import org.softfriascorp.applz.update.UpdateChecker;
 import org.softfriascorp.applz.update.UpdateDownloader;
@@ -73,12 +77,14 @@ public class AppModule extends AbstractModule {
         bind(PInventario.class).in(Singleton.class);
         bind(LoginPanel.class).in(Singleton.class);
         bind(PFacturacion.class).in(Singleton.class);
+        bind(PFiado.class).in(Singleton.class);
 
         bind(MainFrameWorkController.class).in(Singleton.class);
         bind(LoginController.class).in(Singleton.class);
         bind(VentaController.class).in(Singleton.class);
         bind(PagosController.class).in(Singleton.class);
-
+        bind(FiadoController.class).in(Singleton.class);
+        
         /**
          * servicios
          */
@@ -86,7 +92,7 @@ public class AppModule extends AbstractModule {
         bind(LoginService.class).to(LoginServiceImpl.class);
         bind(ProductoService.class).to(ProductoServiceImpl.class);
         bind(VentaService.class).to(VentaServiceImpl.class);
-
+        bind(PersonaService.class).to(PersonaServiceImpl.class);
         bind(CuentaService.class).to(ServiceCarrito.class).in(Singleton.class);
 
         bind(VentaTableManager.class).in(Singleton.class);
@@ -97,10 +103,10 @@ public class AppModule extends AbstractModule {
         bind(UpdateDownloader.class).asEagerSingleton();
         bind(AppUpdater.class).asEagerSingleton();
         bind(UpdateService.class).asEagerSingleton();
-        
+
         bind(InventarioController.class).in(Singleton.class);
         bind(InventarioTableManager.class).in(Singleton.class);
-        
+
         bind(MaestraService.class).to(MaestraServiceImpl.class);
     }
 

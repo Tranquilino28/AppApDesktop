@@ -4,25 +4,14 @@
  */
 package org.softfriascorp.applz.entity.producto.service.implementation;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.softfriascorp.applz.config.Urls.UrlServer;
-import org.softfriascorp.applz.entity.detallesventa.DetallesVenta;
-import org.softfriascorp.applz.entity.maestra.Maestra;
 import org.softfriascorp.applz.entity.producto.ProductoDto;
 import org.softfriascorp.applz.entity.producto.service.interfaces.ProductoService;
-import org.softfriascorp.applz.entity.venta.Venta;
-import org.softfriascorp.applz.entity.venta.VentaRequest;
-import org.softfriascorp.applz.login_module.connectoserver.ApiConecttion;
-import org.softfriascorp.applz.login_module.entity.AuthResponsePerfil;
-import org.softfriascorp.applz.login_module.entity.UserPerfilRol;
+import org.softfriascorp.applz.modules.login_module.connectoserver.ApiConecttion;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -206,7 +195,7 @@ public class ProductoServiceImpl implements ProductoService{
         
         try {
             
-            ObjectMapper mapper = new ObjectMapper();
+            /*ObjectMapper mapper = new ObjectMapper();
 
             try {
                 String jsonBody = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(productoRequest);
@@ -215,7 +204,7 @@ public class ProductoServiceImpl implements ProductoService{
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
+*/
             ProductoDto productoResponse = update ? 
                     
                     webClient.getWebClient()                    

@@ -34,7 +34,7 @@ public class PSliderMenu extends javax.swing.JPanel {
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        btn_salir = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setLayout(new java.awt.BorderLayout());
@@ -76,10 +76,14 @@ public class PSliderMenu extends javax.swing.JPanel {
         jButton8.setMinimumSize(new java.awt.Dimension(50, 50));
         jButton8.setPreferredSize(new java.awt.Dimension(100, 26));
 
-        jButton9.setText("jButton3");
-        jButton9.setMaximumSize(new java.awt.Dimension(100, 50));
-        jButton9.setMinimumSize(new java.awt.Dimension(50, 50));
-        jButton9.setPreferredSize(new java.awt.Dimension(100, 26));
+        btn_salir.setBackground(new java.awt.Color(0, 153, 153));
+        btn_salir.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        btn_salir.setForeground(new java.awt.Color(255, 255, 255));
+        btn_salir.setText("SALIR");
+        btn_salir.setBorder(null);
+        btn_salir.setMaximumSize(new java.awt.Dimension(100, 50));
+        btn_salir.setMinimumSize(new java.awt.Dimension(50, 50));
+        btn_salir.setPreferredSize(new java.awt.Dimension(100, 26));
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -99,7 +103,7 @@ public class PSliderMenu extends javax.swing.JPanel {
                     .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
                     .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_salir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btn_ventas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -122,9 +126,9 @@ public class PSliderMenu extends javax.swing.JPanel {
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
+                .addComponent(btn_salir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -134,12 +138,12 @@ public class PSliderMenu extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btn_facturacion;
     public javax.swing.JButton btn_inventario;
+    public javax.swing.JButton btn_salir;
     public javax.swing.JButton btn_ventas;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables

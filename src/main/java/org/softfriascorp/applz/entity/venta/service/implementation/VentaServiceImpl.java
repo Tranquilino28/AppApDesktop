@@ -6,18 +6,21 @@ package org.softfriascorp.applz.entity.venta.service.implementation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.softfriascorp.applz.config.Urls.UrlServer;
-import org.softfriascorp.applz.cuenta_module.submodules.cuenta_module.service.interfaces.CuentaService;
+import org.softfriascorp.applz.modules.cuenta_module.service.interfaces.CuentaService;
 import org.softfriascorp.applz.entity.detallesventa.DetallesVenta;
 import org.softfriascorp.applz.entity.maestra.Maestra;
+import org.softfriascorp.applz.entity.maestra.service.interfaces.MaestraService;
 import org.softfriascorp.applz.entity.producto.ProductoDto;
 import org.softfriascorp.applz.entity.venta.Venta;
 import org.softfriascorp.applz.entity.venta.VentaRequest;
 import org.softfriascorp.applz.entity.venta.service.interfaces.VentaService;
-import org.softfriascorp.applz.login_module.connectoserver.ApiConecttion;
+import org.softfriascorp.applz.modules.login_module.connectoserver.ApiConecttion;
+import org.softfriascorp.applz.modules.login_module.entity.UserPerfilRol;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -32,6 +35,8 @@ public class VentaServiceImpl implements VentaService {
     private final ApiConecttion webClient;
 
     String SAVE_VENTA = UrlServer.VENTA_SAVE;
+    
+   
 
     @Inject
     public VentaServiceImpl(ApiConecttion webConnection) {
@@ -91,34 +96,8 @@ public class VentaServiceImpl implements VentaService {
     public Venta saveVenta(CuentaService cuentaService) {
 
         try {
-            List<DetallesVenta> detallesVentaService = new ArrayList<>(cuentaService.listarProductos().values());
-
-            List<DetallesVenta> detallesVentaRequest = new ArrayList<>();
-
-            VentaRequest ventaRequest = new VentaRequest();
-
-            Maestra metodopago = new Maestra();
-            metodopago.setId(97L);
-
-            ventaRequest.setMetodoPago(metodopago);
-
-            detallesVentaService.forEach(dv -> {
-
-                DetallesVenta detalle = new DetallesVenta();
-                ProductoDto producto = new ProductoDto();
-
-                producto.setId(dv.getProducto().getId());
-
-                detalle.setCantidad(dv.getCantidad());
-                detalle.setPrecioUnitario(dv.getPrecioUnitario());
-
-                detalle.setProducto(producto);
-
-                detallesVentaRequest.add(detalle);
-            });
-
-            ventaRequest.setDetalles(detallesVentaRequest);
-
+           VentaRequest ventaRequest = buildVentaRequest(cuentaService);
+            
             ObjectMapper mapper = new ObjectMapper();
 
             try {
@@ -161,5 +140,51 @@ public class VentaServiceImpl implements VentaService {
             throw new RuntimeException(e.getMessage(), e);
         }
     }
+
+    
+    private VentaRequest buildVentaRequest(CuentaService cuentaService) {
+        
+         VentaRequest ventaRequest = new VentaRequest();
+
+            ventaRequest.setMetodoPago(cuentaService.getMetodoPago());
+            
+            ventaRequest.setValorRecibido(
+                    cuentaService.getValorRecibido().compareTo(BigDecimal.ZERO)>0 
+                    ? BigDecimal.ZERO 
+                    : cuentaService.getValorRecibido()
+            );
+            
+            ventaRequest.setEstado(cuentaService.getEstado());
+            ventaRequest.setEmpleado(cuentaService.getEmpleado());
+            ventaRequest.setCliente(cuentaService.getCliente());;
+            
+         List<DetallesVenta> detallesVentaService = new ArrayList<>(cuentaService.listarProductos().values());
+
+            List<DetallesVenta> detallesVentaRequest = new ArrayList<>();
+
+           
+            
+
+            detallesVentaService.forEach(dv -> {
+
+                DetallesVenta detalle = new DetallesVenta();
+                ProductoDto producto = new ProductoDto();
+
+                producto.setId(dv.getProducto().getId());
+
+                detalle.setCantidad(dv.getCantidad());
+                detalle.setPrecioUnitario(dv.getPrecioUnitario());
+
+                detalle.setProducto(producto);
+
+                detallesVentaRequest.add(detalle);
+            });
+
+            ventaRequest.setDetalles(detallesVentaRequest);
+
+            return ventaRequest;
+    }
+    
+    
 
 }
