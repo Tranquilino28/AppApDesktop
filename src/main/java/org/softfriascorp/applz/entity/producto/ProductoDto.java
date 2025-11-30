@@ -15,24 +15,47 @@ import org.softfriascorp.applz.entity.maestra.Maestra;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductoDto {
     
+   /*
+{
+    "id": 10,
+    "codigoBarras": "770123456010",
+    "nombre": "Cerveza Club Colombia Dorada 330ml",
+    "descripcion": "Cerveza dorada botella 330ml",
+    "precio": 4200.00,
+    "descuento": 0,
+    "precioFinal": 4200.00,
+    "categoria": "CERVEZAS",
+    "medida": "UND",
+    "stock": "141"
+}
+*/
     private Long id;
-    private String nombre;
-    private String descripcion;
-    private String codigoBarras;
-    private BigDecimal precio;
-    private Maestra categoria;
-    private Maestra medida;
-    private Integer stockDisponible;
-    private BigDecimal precioFinal;
-    private BigDecimal descuentoAplicado;
-    private String descripcionPromo;
     
-    private Long sucursalId;
+    private String codigoBarras;
+    
+    private String nombre;
+    
+    private String descripcion;
+    
+    private BigDecimal precio;
+    
+    private BigDecimal descuento;
+    
+    private BigDecimal precioFinal;
+    
+    private String categoria;
+    
+    private String medida;
+    
+    private String stock;
+    
+    //private String descripcionPromo;
+    
+    //private Long sucursalId;
 
     public ProductoDto() {
     }
-   
-    
+
     public Long getId() {
         return id;
     }
@@ -61,8 +84,8 @@ public class ProductoDto {
         return codigoBarras;
     }
 
-    public void setCodigoBarras(String codigoBarra) {
-        this.codigoBarras = codigoBarra;
+    public void setCodigoBarras(String codigoBarras) {
+        this.codigoBarras = codigoBarras;
     }
 
     public BigDecimal getPrecio() {
@@ -73,38 +96,28 @@ public class ProductoDto {
         this.precio = precio;
     }
 
-    public Maestra getCategoria() {
+    public String getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(Maestra categoria) {
+    public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
 
-    public Maestra getMedida() {
+    public String getMedida() {
         return medida;
     }
 
-    public void setMedida(Maestra medida) {
+    public void setMedida(String medida) {
         this.medida = medida;
     }
 
-   
-
-    public Integer getStockDisponible() {
-        return stockDisponible;
+    public String getStock() {
+        return stock;
     }
 
-    public void setStockDisponible(Integer stockDisponible) {
-        this.stockDisponible = stockDisponible;
-    }
-
-    public Long getSucursalId() {
-        return sucursalId;
-    }
-
-    public void setSucursalId(Long sucursalId) {
-        this.sucursalId = sucursalId;
+    public void setStock(String stock) {
+        this.stock = stock;
     }
 
     public BigDecimal getPrecioFinal() {
@@ -115,22 +128,31 @@ public class ProductoDto {
         this.precioFinal = precioFinal;
     }
 
-    public BigDecimal getDescuentoAplicado() {
-        return descuentoAplicado;
+    public BigDecimal getDescuento() {
+        return descuento;
     }
 
-    public void setDescuentoAplicado(BigDecimal descuentoAplicado) {
-        this.descuentoAplicado = descuentoAplicado;
+    public void setDescuento(BigDecimal descuentoAplicado) {
+        this.descuento = descuentoAplicado;
     }
 
-    public String getDescripcionPromo() {
-        return descripcionPromo;
-    }
-
-    public void setDescripcionPromo(String descripcionPromo) {
-        this.descripcionPromo = descripcionPromo;
+    /*public String getDescripcionPromo() {
+    return descripcionPromo;
     }
     
+    public void setDescripcionPromo(String descripcionPromo) {
+    this.descripcionPromo = descripcionPromo;
+    }
+    
+    public Long getSucursalId() {
+    return sucursalId;
+    }
+    
+    public void setSucursalId(Long sucursalId) {
+    this.sucursalId = sucursalId;
+    }
+    
+    */
     
     
 }

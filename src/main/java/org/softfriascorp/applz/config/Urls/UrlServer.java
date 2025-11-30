@@ -45,8 +45,11 @@ public class UrlServer {
     public static final String _TOKEN_ENDPOINT = API_URL_BASE + "/auth/refresh";
     //  Endpoints generales
     public static final String PRODUCTOS_ENDPOINT = API_URL_BASE + "/producto";
-    public static final String PRODUCTOS_SEARCH_2S = PRODUCTOS_ENDPOINT + "/search/2s";
+    public static final String PRODUCTOS_SEARCH_INVENTARIO_S = PRODUCTOS_ENDPOINT + "/inventario/search/s?";
+    
     public static final String PRODUCTOS_SEARCH_3S = PRODUCTOS_ENDPOINT + "/search/3s";
+    
+    public static final String PRODUCTOS_SEARCH_CODEBARR = PRODUCTOS_ENDPOINT + "/search/2s";
     
     public static final String PRODUCTOS_SEARCH_4SPROMO = PRODUCTOS_ENDPOINT + "/";
     public static final String PRODUCTOS_ALL = PRODUCTOS_ENDPOINT + "/all";

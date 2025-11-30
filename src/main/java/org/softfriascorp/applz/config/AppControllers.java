@@ -5,13 +5,13 @@
 package org.softfriascorp.applz.config;
 
 import com.google.inject.Inject;
-import org.softfriascorp.applz.modules.login_module.controllers.LoginController;
-import org.softfriascorp.applz.mainframework_module.controllers.MainFrameWorkController;
-import org.softfriascorp.applz.modules.pay_module.controllers.PagosController;
-import org.softfriascorp.applz.modules.venta_module.controllers.VentaController;
-import org.softfriascorp.applz.modules.cuenta_module.service.interfaces.CuentaService;
-import org.softfriascorp.applz.modules.inventario_module.controllers.InventarioController;
-import org.softfriascorp.applz.modules.pay_module.controllers.FiadoController;
+import org.softfriascorp.applz.modules.login.controllers.LoginController;
+import org.softfriascorp.applz.frameview_manager.controllers.MainFrameWorkController;
+import org.softfriascorp.applz.modules.pay.controllers.PagosController;
+import org.softfriascorp.applz.modules.venta.controllers.VentaController;
+import org.softfriascorp.applz.modules.cuenta.service.interfaces.CuentaService;
+import org.softfriascorp.applz.modules.inventario.controllers.InventarioController;
+import org.softfriascorp.applz.modules.pay.controllers.ClienteValidatorClontroller;
 import org.softfriascorp.applz.update.UpdateService;
 
 
@@ -27,7 +27,7 @@ public class AppControllers {
     private final VentaController ventaController;
     private final PagosController pagosController;
     private final InventarioController inventarioController;
-    private final FiadoController fiadoController;
+    private final ClienteValidatorClontroller fiadoController;
     
     private final CuentaService cuentaService;
     private final UpdateService updateService;
@@ -40,7 +40,7 @@ public class AppControllers {
             , VentaController ventaController
             , PagosController pagosController
             , InventarioController inventarioController
-            , FiadoController fiadoController
+            , ClienteValidatorClontroller fiadoController
             
             , CuentaService cuentaService
             , UpdateService updateService
@@ -60,20 +60,40 @@ public class AppControllers {
        
     }
     
-   public void initConfig(){
-        
-       mainFrameWorkController.initConf();
-       loginController.initConfig();
-       ventaController.initConfig();
+   private void initViewControllers(){
+        ventaController.initConfig();
        pagosController.initConfig();
        inventarioController.initConfig();
        fiadoController.initConfig();
-      
-      // updateService.checkForUpdatesAsync();
+       
     }
    
+   public void initAppController() {
+        mainFrameWorkController.initConf();
+        loginController.initConfig();
+       
+      
+      // updateService.checkForUpdatesAsync();
+      initContex();
+    }
+       
    
-   public void initContex(){
+   private  void initContex(){
+       /**
+        * listener de login 
+        */
+       loginController.setOnLoginExitoso(() ->{
+           System.out.println("se habrira el marco de trabajo en POS");
+       mainFrameWorkController.mostrarVista("ventas");
+       
+       initViewControllers();
+       
+       
+       
+       
+       });
+       
+      
        
         /**
          * listener de ventas
@@ -81,8 +101,7 @@ public class AppControllers {
         ventaController.setOnPagoIniciado(() -> {
             System.out.println("se inicio el pago");
            
-            mainFrameWorkController.mostrarVista("pagos");
-            
+            mainFrameWorkController.mostrarVista("pagos");            
 
              pagosController.ShowDetailCuenta();
             
@@ -106,8 +125,7 @@ public class AppControllers {
             System.out.println("canceando pago");            
             
             mainFrameWorkController.mostrarVista("ventas");
-        });
-        
+        });        
         
         /**
          * listener de menuSlider
@@ -115,7 +133,13 @@ public class AppControllers {
         
        pagosController.setOnFiadoActivado(()->{
        
-           fiadoController.showFormFiado();
+           fiadoController.showFormFiado("FIADO");
+               
+               });
+       
+       pagosController.setOnEfectivoActivado(()->{
+       
+           fiadoController.showFormFiado("EFECTIVO");
                
                });
        
@@ -132,15 +156,6 @@ public class AppControllers {
            fiadoController.habilitarCampos(true);
        
        });
-        
-        initConfig();
-        
+       
     }
-       
-       
-   
-    
-    
-    
-    
 }

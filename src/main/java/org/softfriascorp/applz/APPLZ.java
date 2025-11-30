@@ -48,7 +48,7 @@ public class APPLZ {
         Injector inject = Guice.createInjector(new AppModule());
 
         AppControllers appControllers = inject.getInstance(AppControllers.class);
-        appControllers.initContex();
+        appControllers.initAppController();
         
     }
 

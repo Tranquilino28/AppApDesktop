@@ -10,7 +10,7 @@ import org.softfriascorp.applz.config.Urls.UrlServer;
 import org.softfriascorp.applz.entity.maestra.Maestra;
 import org.softfriascorp.applz.entity.maestra.service.interfaces.MaestraService;
 import org.softfriascorp.applz.entity.producto.ProductoDto;
-import org.softfriascorp.applz.modules.login_module.connectoserver.ApiConecttion;
+import org.softfriascorp.applz.modules.login.connectoserver.ApiConecttion;
 import org.springframework.http.HttpStatusCode;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

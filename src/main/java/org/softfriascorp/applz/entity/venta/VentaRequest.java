@@ -12,7 +12,7 @@ import java.util.List;
 import org.softfriascorp.applz.entity.detallesventa.DetallesVenta;
 import org.softfriascorp.applz.entity.maestra.Maestra;
 import org.softfriascorp.applz.entity.persona.Persona;
-import org.softfriascorp.applz.modules.login_module.entity.AuthResponsePerfil;
+import org.softfriascorp.applz.modules.login.entity.AuthResponsePerfil;
 import org.w3c.dom.UserDataHandler;
 
 /**

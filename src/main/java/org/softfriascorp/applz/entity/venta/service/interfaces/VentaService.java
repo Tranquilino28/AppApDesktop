@@ -4,11 +4,11 @@
  */
 package org.softfriascorp.applz.entity.venta.service.interfaces;
 
-import org.softfriascorp.applz.modules.cuenta_module.service.interfaces.CuentaService;
+import org.softfriascorp.applz.modules.cuenta.service.interfaces.CuentaService;
 import org.softfriascorp.applz.entity.maestra.Maestra;
 import org.softfriascorp.applz.entity.venta.Venta;
 import org.softfriascorp.applz.entity.venta.VentaRequest;
-import org.softfriascorp.applz.modules.login_module.entity.UserPerfilRol;
+import org.softfriascorp.applz.modules.login.entity.UserPerfilRol;
 
 /**
  *

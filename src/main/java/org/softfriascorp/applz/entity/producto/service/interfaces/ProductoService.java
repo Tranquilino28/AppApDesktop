@@ -6,6 +6,7 @@ package org.softfriascorp.applz.entity.producto.service.interfaces;
 
 import java.util.List;
 import org.softfriascorp.applz.entity.producto.ProductoDto;
+import org.softfriascorp.applz.entity.producto.ProductoRequest;
 
 /**
  *
@@ -18,5 +19,6 @@ public interface ProductoService {
     List<ProductoDto> findByCoincidencia(String coincidencia);
     List<ProductoDto> allProducts();
     
-    ProductoDto save(ProductoDto productoRequest,Boolean ubdate);
+    ProductoDto save(ProductoRequest productoRequest,Boolean ubdate);
+    List<ProductoDto> searchInventario(String search, Long categoriaId, Integer stockMin, Integer stockMax);
 }

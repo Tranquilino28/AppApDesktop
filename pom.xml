@@ -17,7 +17,12 @@
     </properties>
     
     <dependencies>        
-        
+        <dependency>
+            <groupId>com.github.lgooddatepicker</groupId>
+            <artifactId>LGoodDatePicker</artifactId>
+            <version>11.2.1</version>
+        </dependency>
+
         <!-- dependencia de sqlite para una base de datos ligera y local--> 
         <dependency>
             <groupId>org.xerial</groupId>
@@ -70,6 +75,11 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.19.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.x.x</version> 
         </dependency>
         
         <!-- libreria para getters y setters automaticos-->
@@ -131,17 +141,20 @@
             <artifactId>jasperreports</artifactId>
             <version>6.21.3</version>
         </dependency>
-
-     
+        <dependency>
+            <groupId>unknown.binary</groupId>
+            <artifactId>LGoodDatePicker-11.2.1</artifactId>
+            <version>SNAPSHOT</version>
+        </dependency>
     </dependencies> 
       
     <build> 
-         <finalName>APPLZ</finalName>
+        <finalName>APPLZ</finalName>
         <resources>
-                <resource>
-                    <directory>src/main/resources</directory>
-                </resource>
-            </resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
         <plugins>
            
             <plugin>
@@ -152,7 +165,7 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                     <finalName>APPLZ</finalName>
+                    <finalName>APPLZ</finalName>
                     <archive>
                         <manifest>
                             <mainClass>org.softfriascorp.applz.APPLZ</mainClass>
@@ -171,22 +184,28 @@
             </plugin>
             
             <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>3.1.0</version>
-            <executions>
-                <execution>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>java</goal>
-                    </goals>
-                    <configuration>
-                        <mainClass>org.softfriascorp.applz.update.HashGenerator</mainClass>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>org.softfriascorp.applz.update.HashGenerator</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
-
+    <repositories>
+        <repository>
+            <id>unknown-jars-temp-repo</id>
+            <name>A temporary repository created by NetBeans for libraries and jars it could not identify. Please replace the dependencies in this repository with correct ones and delete this repository.</name>
+            <url>file:${project.basedir}/lib</url>
+        </repository>
+    </repositories>
 </project>

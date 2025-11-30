@@ -9,7 +9,7 @@ import com.google.inject.Inject;
 import org.softfriascorp.applz.config.Urls.UrlServer;
 import org.softfriascorp.applz.entity.persona.Persona;
 import org.softfriascorp.applz.entity.persona.interfaces.PersonaService;
-import org.softfriascorp.applz.modules.login_module.connectoserver.ApiConecttion;
+import org.softfriascorp.applz.modules.login.connectoserver.ApiConecttion;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import reactor.core.publisher.Mono;

@@ -17,15 +17,35 @@ import org.softfriascorp.applz.entity.maestra.Maestra;
  */
 public class Venta {
     
+    /* "codigoVenta": "0464b33d-3dff-465b-8645-a18117a565a1",
+    "valorTotal": 23800.00,
+    "valorRecibido": 34500.90,
+    "valorDevuelto": -10700.90,
+    "fechaVenta": "2025-11-30T15:27:51.6868402",
+    "metodoPago": "EFECTIVO",
+    "empleado": "juan pablo",
+    "cliente": "00",
+    "estado": "FACTURADO",*/
+    
     private Long id;
 
     private String codigoVenta;
 
     private BigDecimal valorTotal;
-
+    
+    private BigDecimal valorRecibido;
+    
+    private BigDecimal valorDevuelto;
+    
     private LocalDateTime fechaVenta;
 
-    private Maestra metodoPago;
+    private String metodoPago;
+    
+    private String empleado;
+    
+    private String cliente;
+    
+    private String estado;
 
     private List<DetallesVenta> detalles = new ArrayList<>();
 
@@ -64,11 +84,11 @@ public class Venta {
         this.fechaVenta = fechaVenta;
     }
 
-    public Maestra getMetodoPago() {
+    public String getMetodoPago() {
         return metodoPago;
     }
 
-    public void setMetodoPago(Maestra metodoPago) {
+    public void setMetodoPago(String metodoPago) {
         this.metodoPago = metodoPago;
     }
 
@@ -78,6 +98,46 @@ public class Venta {
 
     public void setDetalles(List<DetallesVenta> detalles) {
         this.detalles = detalles;
+    }
+
+    public BigDecimal getValorRecibido() {
+        return valorRecibido;
+    }
+
+    public void setValorRecibido(BigDecimal valorRecibido) {
+        this.valorRecibido = valorRecibido;
+    }
+
+    public BigDecimal getValorDevuelto() {
+        return valorDevuelto;
+    }
+
+    public void setValorDevuelto(BigDecimal valorDevuelto) {
+        this.valorDevuelto = valorDevuelto;
+    }
+
+    public String getEmpleado() {
+        return empleado;
+    }
+
+    public void setEmpleado(String empleado) {
+        this.empleado = empleado;
+    }
+
+    public String getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     

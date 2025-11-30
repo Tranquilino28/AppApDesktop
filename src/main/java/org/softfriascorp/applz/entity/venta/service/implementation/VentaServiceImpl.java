@@ -11,16 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.softfriascorp.applz.config.Urls.UrlServer;
-import org.softfriascorp.applz.modules.cuenta_module.service.interfaces.CuentaService;
+import org.softfriascorp.applz.modules.cuenta.service.interfaces.CuentaService;
 import org.softfriascorp.applz.entity.detallesventa.DetallesVenta;
+import org.softfriascorp.applz.entity.detallesventa.DetallesVentaDtoRequest;
 import org.softfriascorp.applz.entity.maestra.Maestra;
 import org.softfriascorp.applz.entity.maestra.service.interfaces.MaestraService;
 import org.softfriascorp.applz.entity.producto.ProductoDto;
 import org.softfriascorp.applz.entity.venta.Venta;
+import org.softfriascorp.applz.entity.venta.VentaDtoRequest;
 import org.softfriascorp.applz.entity.venta.VentaRequest;
 import org.softfriascorp.applz.entity.venta.service.interfaces.VentaService;
-import org.softfriascorp.applz.modules.login_module.connectoserver.ApiConecttion;
-import org.softfriascorp.applz.modules.login_module.entity.UserPerfilRol;
+import org.softfriascorp.applz.modules.login.connectoserver.ApiConecttion;
+import org.softfriascorp.applz.modules.login.entity.UserPerfilRol;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -96,7 +98,7 @@ public class VentaServiceImpl implements VentaService {
     public Venta saveVenta(CuentaService cuentaService) {
 
         try {
-           VentaRequest ventaRequest = buildVentaRequest(cuentaService);
+            VentaDtoRequest ventaRequest = buildVentaRequest(cuentaService);
             
             ObjectMapper mapper = new ObjectMapper();
 
@@ -142,40 +144,35 @@ public class VentaServiceImpl implements VentaService {
     }
 
     
-    private VentaRequest buildVentaRequest(CuentaService cuentaService) {
+    private VentaDtoRequest buildVentaRequest(CuentaService cuentaService) {
         
-         VentaRequest ventaRequest = new VentaRequest();
+         VentaDtoRequest ventaRequest = new VentaDtoRequest();
 
-            ventaRequest.setMetodoPago(cuentaService.getMetodoPago());
+            ventaRequest.setMetodoPagoId(cuentaService.getMetodoPago().getId());
             
             ventaRequest.setValorRecibido(
                     cuentaService.getValorRecibido().compareTo(BigDecimal.ZERO)>0 
-                    ? BigDecimal.ZERO 
-                    : cuentaService.getValorRecibido()
+                    ? cuentaService.getValorRecibido()
+                    : BigDecimal.ZERO 
             );
             
-            ventaRequest.setEstado(cuentaService.getEstado());
-            ventaRequest.setEmpleado(cuentaService.getEmpleado());
-            ventaRequest.setCliente(cuentaService.getCliente());;
+            ventaRequest.setEstadoId(cuentaService.getEstado().getId());
+            ventaRequest.setEmpleadoId(cuentaService.getEmpleado().getId());
+            ventaRequest.setCliente(cuentaService.getCliente().getIdentificacion());
             
          List<DetallesVenta> detallesVentaService = new ArrayList<>(cuentaService.listarProductos().values());
 
-            List<DetallesVenta> detallesVentaRequest = new ArrayList<>();
-
-           
+            List<DetallesVentaDtoRequest> detallesVentaRequest = new ArrayList<>();
             
-
             detallesVentaService.forEach(dv -> {
 
-                DetallesVenta detalle = new DetallesVenta();
-                ProductoDto producto = new ProductoDto();
-
-                producto.setId(dv.getProducto().getId());
-
+                DetallesVentaDtoRequest detalle = new DetallesVentaDtoRequest();
+                
                 detalle.setCantidad(dv.getCantidad());
+
                 detalle.setPrecioUnitario(dv.getPrecioUnitario());
 
-                detalle.setProducto(producto);
+                detalle.setProductoId(dv.getProducto().getId());
 
                 detallesVentaRequest.add(detalle);
             });

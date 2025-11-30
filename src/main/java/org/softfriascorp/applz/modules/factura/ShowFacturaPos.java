@@ -38,7 +38,7 @@ public class ShowFacturaPos {
 
             String subvalor = UtilValorMonedaCop.formatMonedaCop(p.getProducto().getPrecio());
 
-            BigDecimal porcentageDescuento = p.getProducto().getDescuentoAplicado();
+            BigDecimal porcentageDescuento = p.getProducto().getDescuento();
 
             if (porcentageDescuento != null && porcentageDescuento.compareTo(BigDecimal.ZERO) > 0) {
                 
@@ -48,14 +48,14 @@ public class ShowFacturaPos {
                 ahorroToal = ahorroToal.add(
                         p.getProducto().getPrecio()
                                 .subtract(p.getProducto().getPrecioFinal()
-                                        .multiply(BigDecimal.valueOf(p.getCantidad()))));
+                                        .multiply(new BigDecimal(p.getCantidad()))));
 
             }
 
             sb.append(String.format("%-15s %20s %20s %20s\n",
                     p.getProducto().getCodigoBarras(),
                     p.getCantidad(),
-                    p.getProducto().getMedida().getNombreCorto(),
+                    p.getProducto().getMedida(),
                     subvalor));
         }
 

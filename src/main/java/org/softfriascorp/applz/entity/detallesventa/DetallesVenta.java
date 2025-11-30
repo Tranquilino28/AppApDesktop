@@ -18,7 +18,7 @@ public class DetallesVenta {
 
     private Long id;
 
-    private Integer cantidad;
+    private String cantidad;
 
     private BigDecimal precioUnitario;
 
@@ -27,12 +27,6 @@ public class DetallesVenta {
     private ProductoDto producto;
 
     public DetallesVenta() {
-        
-        
-    }
-    
-    public void calcularSubTotal(){
-        subTotal =  precioUnitario.multiply(BigDecimal.valueOf(cantidad));        
     }
 
     public Long getId() {
@@ -43,11 +37,11 @@ public class DetallesVenta {
         this.id = id;
     }
 
-    public Integer getCantidad() {
+    public String getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(Integer cantidad) {
+    public void setCantidad(String cantidad) {
         this.cantidad = cantidad;
     }
 
@@ -75,7 +69,9 @@ public class DetallesVenta {
         this.producto = producto;
     }
     
+    public void calcularSubTotal(){
+        
+        subTotal  = precioUnitario.multiply(new BigDecimal(this.cantidad));        
+    }
     
-    
-
 }
