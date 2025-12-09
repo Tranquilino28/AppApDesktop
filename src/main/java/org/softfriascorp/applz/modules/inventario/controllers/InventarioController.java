@@ -20,12 +20,14 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.softfriascorp.applz.Utils.UtilManagerCombobox;
+import org.softfriascorp.applz.entity.inventario.service.interfaces.InventarioService;
 import org.softfriascorp.applz.entity.maestra.Maestra;
 import org.softfriascorp.applz.entity.maestra.service.interfaces.MaestraService;
 import org.softfriascorp.applz.entity.producto.ProductoDto;
@@ -61,6 +63,7 @@ public class InventarioController
      
     private PInventario inventario;
     private ProductoService prodcutoService;
+    private InventarioService inventarioService;
     private InventarioTableManager inventarioTableManager;
 
     private MaestraService maestraService;
@@ -84,11 +87,13 @@ public class InventarioController
         JComboBox cmbx_subcategoria;
         JTextField txt_cantidadIngreso;
         JButton btn_guardar;
+        JLabel lbl_cantidadIngreso;
 
     @Inject
     public InventarioController(
             PInventario inventario,
             ProductoService prodcutoService,
+            InventarioService inventarioService,
             InventarioTableManager inventarioTableManager,
             MaestraService maestraService,
             FormAddProductos formAddroductos
@@ -101,6 +106,7 @@ public class InventarioController
 
         this.maestraService = maestraService;
         this.formProductos = formAddroductos;
+        this.inventarioService = inventarioService;
     }
 
     public void initConfig() {
@@ -115,6 +121,7 @@ public class InventarioController
         cmbx_subcategoria = formProductos.cmbx_subcategoria;
         txt_cantidadIngreso = formProductos.txt_cantidadIngreso;
         btn_guardar = formProductos.btn_guardar;
+        lbl_cantidadIngreso = formProductos.lbl_cantidadIngreso;
         
         
         
@@ -139,8 +146,8 @@ public class InventarioController
         this.inventario.cmbx_searchCategoria.addActionListener(this);
         this.inventario.cmbx_searchSubcategorias.addActionListener(this);
         
-        this.inventario.jSlider1.addChangeListener(this);
-        this.inventario.jSlider2.addChangeListener(this);
+        this.inventario.sldr_stocKMin.addChangeListener(this);
+        this.inventario.sldr_stockMax.addChangeListener(this);
         
         
         this.inventario.btn_addProductos.addActionListener(this);
@@ -154,8 +161,9 @@ public class InventarioController
        
        
        this.categorias = maestraService.findByPadre("CATEG");
+       
        setItemsCmbx(inventario.cmbx_searchCategoria,SEL_CATEGORIA, categorias);
-                       
+       selectItemCmbx(inventario.cmbx_searchSubcategorias, SEL_SUBCATEGORIA);
        
        this.medidas = maestraService.findByPadre("MED");
    }
@@ -260,15 +268,28 @@ public class InventarioController
             }
             
         }
+       
         
 
     }
     private List<ProductoDto> getProductosInventarios(){
-        Maestra subCategoria = (Maestra) this.inventario.cmbx_searchSubcategorias.getSelectedItem();
+       
+        Long subCategoria = null;
         
-        Integer stockMin = inventario.jSlider1.getValue();;
-        Integer stockMax = inventario.jSlider1.getValue();;
+            if(!this.inventario.cmbx_searchSubcategorias.getSelectedItem().equals(SEL_SUBCATEGORIA)){
+              
+                Maestra getSubCategoria   = (Maestra) this.inventario.cmbx_searchSubcategorias.getSelectedItem();
+                
+               subCategoria = getSubCategoria.getId();
+            
+            }else{
+                System.out.println("no se ha seleccionado un subcategoria");
+            }
         
+        
+        Integer stockMin = inventario.sldr_stocKMin.getValue();
+        Integer stockMax = inventario.sldr_stockMax.getValue();
+       
         
         if (!inventario.btn_stckMin.isSelected()) {            
           stockMin =  null;            
@@ -284,7 +305,7 @@ public class InventarioController
                 }
                 
                return 
-                        prodcutoService.searchInventario(search, subCategoria.getId(),stockMin, stockMax);
+                        inventarioService.searchDinamicFiltersAtributesProducts(search, subCategoria,stockMin, stockMax);
 
     }
 
@@ -314,9 +335,15 @@ public class InventarioController
 
                     if (productoDto != null) {
                         
+                        
+                        
                         actualizarProducto = true;
                         
-                        enableComponents(actualizarProducto);
+                        enableComponents(false);
+                        
+                       // Maestra catPrincipal = maestraService.searcCategoriaPrincipal(productoDto.);
+                       
+                        
 
                         txt_nombreProducto.setText(productoDto.getNombre());
 
@@ -326,26 +353,29 @@ public class InventarioController
                         
                         selectItemCmbx(cmbx_unidadMedida, productoDto.getMedida());
 
-                        String subCat = productoDto.getCategoria();           
-                        
-                        Maestra catPrincipal = maestraService.searcCategoriaPrincipal(subCat);
-                       
-                        
-                        selectItemCmbx(cmbx_categoria, catPrincipal.getNombreLargo());
+                        String subCat = productoDto.getCategoria(); 
+                        selectItemCmbx(cmbx_categoria, productoDto.getCategoria());
 
                         
                         selectItemCmbx(cmbx_subcategoria,subCat);
-
+                        
+                        
+                        lbl_cantidadIngreso.setVisible(false);
+                        txt_cantidadIngreso.setVisible(false);
+                        
                         
                         txt_stock.setText(productoDto.getStock().toString());
 
                         btn_guardar.setText("ACTUALIZAR");
 
                     } else {
+                        
+                         lbl_cantidadIngreso.setVisible(true);
+                        txt_cantidadIngreso.setVisible(true);
 
                         actualizarProducto = false;
                         
-                        enableComponents(actualizarProducto);
+                        enableComponents(true);
 
                         txt_nombreProducto.setText("");
 
@@ -417,8 +447,7 @@ public class InventarioController
                     System.out.println("busca coincidencias");
                     List<ProductoDto> prod = prodcutoService.findByCoincidencia(coincidencia);
                 inventarioTableManager.addProductos(prod);
-                }
-                
+                }  
                 
             }
             
@@ -474,37 +503,39 @@ public class InventarioController
 
     private void enableComponents(Boolean estado) {
 
-        disableEdicionComponents(txt_nombreProducto, estado);
-        disableEdicionComponents(txt_descripcionProducto, estado);
-        disableEdicionComponents(txt_stock, false);
-        disableEdicionComponents(txt_precioProducto, estado);
-        disableEdicionComponents(cmbx_categoria, estado);
-        disableEdicionComponents(cmbx_unidadMedida, estado);
-        disableEdicionComponents(cmbx_subcategoria, estado);
+        enabledComp(txt_nombreProducto, estado);
+        enabledComp(txt_descripcionProducto, estado);
+        
+        enabledComp(txt_stock, estado);
+        
+        
+        enabledComp(txt_precioProducto, estado);
+        enabledComp(cmbx_categoria, estado);
+        enabledComp(cmbx_unidadMedida, estado);
+        enabledComp(cmbx_subcategoria, estado);
     }
 
-    private void disableEdicionComponents(JComponent c, boolean b) {
+    private void enabledComp(JComponent c, Boolean b) {
 
+        System.out.print(c.toString());
+        
         
         //c.setEnabled(b);
         c.setFocusable(b);
         c.setRequestFocusEnabled(b);
         
         if(c instanceof JComboBox && b == true){
-            c.putClientProperty("JComboBox.isTableCellEditor", Boolean.TRUE);
-        }if(c instanceof JComboBox && b == false){
-            c.putClientProperty("JComboBox.isTableCellEditor", Boolean.FALSE);
-            
+            c.putClientProperty("JComboBox.isTableCellEditor", b);
         }
         
         
-        if (b) {
+        if (!b) {
             c.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
             
         }else{
             c.setBorder( null);
         }
-
+        
     }
     
     private void clearFormAddProducts(){
@@ -539,22 +570,19 @@ public class InventarioController
 
     @Override
     public void stateChanged(ChangeEvent e) {
-        if (e.getSource() == inventario.jSlider1){
+        if (e.getSource() == inventario.sldr_stocKMin){
             
-           int minValue = inventario.jSlider1.getValue();
            
-           inventario.btn_stckMin.setText(String.valueOf(minValue));
+           inventario.btn_stckMin.setText(String.valueOf(inventario.sldr_stocKMin.getValue()));
            
-           if (inventario.btn_stckMax.isSelected()) { 
+           if (inventario.btn_stckMin.isSelected()) { 
            
            inventarioTableManager.addProductos(getProductosInventarios());
            }
            
-        } if (e.getSource() == inventario.jSlider2){
-            
-           int minValue = inventario.jSlider2.getValue();
-           
-           inventario.btn_stckMax.setText(String.valueOf(minValue));
+        } if (e.getSource() == inventario.sldr_stockMax){            
+          
+           inventario.btn_stckMax.setText(String.valueOf(inventario.sldr_stockMax.getValue()));
            
            if (inventario.btn_stckMax.isSelected()) {                 
            

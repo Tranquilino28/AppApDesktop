@@ -31,6 +31,7 @@ public class PMenuHeader extends javax.swing.JPanel {
         btn_menu = new javax.swing.JToggleButton();
         lbl_usuario_rol = new javax.swing.JLabel();
         lbl_updateMessage = new javax.swing.JLabel();
+        jProgressBar1 = new javax.swing.JProgressBar();
 
         setBackground(new java.awt.Color(0, 0, 51));
 
@@ -66,8 +67,10 @@ public class PMenuHeader extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(btn_menu)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl_usuario_rol, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addComponent(lbl_usuario_rol, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbl_updateMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -75,10 +78,14 @@ public class PMenuHeader extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(btn_menu)
-                .addComponent(lbl_usuario_rol)
-                .addComponent(lbl_updateMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_menu)
+                        .addComponent(lbl_usuario_rol)
+                        .addComponent(lbl_updateMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -87,6 +94,7 @@ public class PMenuHeader extends javax.swing.JPanel {
     public javax.swing.JLabel btn_closeApp;
     public javax.swing.JToggleButton btn_menu;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JProgressBar jProgressBar1;
     public javax.swing.JLabel lbl_updateMessage;
     public javax.swing.JLabel lbl_usuario_rol;
     // End of variables declaration//GEN-END:variables

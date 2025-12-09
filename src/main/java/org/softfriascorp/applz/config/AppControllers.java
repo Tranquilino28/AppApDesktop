@@ -12,7 +12,8 @@ import org.softfriascorp.applz.modules.venta.controllers.VentaController;
 import org.softfriascorp.applz.modules.cuenta.service.interfaces.CuentaService;
 import org.softfriascorp.applz.modules.inventario.controllers.InventarioController;
 import org.softfriascorp.applz.modules.pay.controllers.ClienteValidatorClontroller;
-import org.softfriascorp.applz.update.UpdateService;
+import org.softfriascorp.applz.modules.update.AutoUpdateManager;
+
 
 
 /**
@@ -30,7 +31,6 @@ public class AppControllers {
     private final ClienteValidatorClontroller fiadoController;
     
     private final CuentaService cuentaService;
-    private final UpdateService updateService;
 
   
     @Inject
@@ -43,7 +43,6 @@ public class AppControllers {
             , ClienteValidatorClontroller fiadoController
             
             , CuentaService cuentaService
-            , UpdateService updateService
 
             
     ) {
@@ -55,8 +54,6 @@ public class AppControllers {
         this.fiadoController = fiadoController;
         
         this.cuentaService = cuentaService;
-        
-       this.updateService = updateService;
        
     }
     
@@ -72,7 +69,9 @@ public class AppControllers {
         mainFrameWorkController.initConf();
         loginController.initConfig();
        
-      
+        System.out.println("se iniciara la busqueda de actualizaciones automaticas");
+       AutoUpdateManager.checkForUpdates();
+       
       // updateService.checkForUpdatesAsync();
       initContex();
     }

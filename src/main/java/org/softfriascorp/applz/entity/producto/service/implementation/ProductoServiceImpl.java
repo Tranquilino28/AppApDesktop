@@ -276,11 +276,18 @@ public class ProductoServiceImpl implements ProductoService{
     public List<ProductoDto> searchInventario(String search, Long categoriaId, Integer stockMin, Integer stockMax) {
         
         String URL = SEARCH_2S_INVENTARIO+"search="+search+"&categoriaId="+categoriaId;
-        System.out.println(stockMin +" || "+stockMax);
+        
+        
         if(stockMin!= null){
+            
             URL +="&stockMin="+stockMin;
+            
+            System.out.println(stockMin +" || "+stockMax);
         }if(stockMax!= null){
-            URL +="&stockMax="+stockMax;
+            
+            URL +="&stockMax="+stockMax; 
+            
+            System.out.println(stockMin +" || "+stockMax);
         }
         
        try{

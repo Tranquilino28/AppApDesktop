@@ -50,10 +50,10 @@ public class PInventario extends javax.swing.JPanel {
         cmbx_searchSubcategorias = new javax.swing.JComboBox<>();
         jComboBox3 = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
-        jSlider1 = new javax.swing.JSlider();
+        sldr_stocKMin = new javax.swing.JSlider();
         btn_stckMin = new javax.swing.JToggleButton();
         jPanel5 = new javax.swing.JPanel();
-        jSlider2 = new javax.swing.JSlider();
+        sldr_stockMax = new javax.swing.JSlider();
         btn_stckMax = new javax.swing.JToggleButton();
         jButton1 = new javax.swing.JButton();
 
@@ -184,7 +184,7 @@ public class PInventario extends javax.swing.JPanel {
         cmbx_searchSubcategorias.setBackground(new java.awt.Color(255, 255, 255));
         cmbx_searchSubcategorias.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         cmbx_searchSubcategorias.setForeground(new java.awt.Color(51, 51, 51));
-        cmbx_searchSubcategorias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SubCategoria..." }));
+        cmbx_searchSubcategorias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SubCategoria" }));
         pnl_obcionesBusqueda.add(cmbx_searchSubcategorias);
 
         jComboBox3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -203,16 +203,16 @@ public class PInventario extends javax.swing.JPanel {
         jPanel4.setPreferredSize(new java.awt.Dimension(242, 26));
         jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.LINE_AXIS));
 
-        jSlider1.setBackground(new java.awt.Color(255, 255, 255));
-        jSlider1.setFont(new java.awt.Font("Dialog", 1, 8)); // NOI18N
-        jSlider1.setForeground(new java.awt.Color(0, 51, 51));
-        jSlider1.setMajorTickSpacing(25);
-        jSlider1.setMinorTickSpacing(10);
-        jSlider1.setPaintLabels(true);
-        jSlider1.setValue(0);
-        jSlider1.setMaximumSize(new java.awt.Dimension(32767, 40));
-        jSlider1.setMinimumSize(new java.awt.Dimension(36, 16));
-        jPanel4.add(jSlider1);
+        sldr_stocKMin.setBackground(new java.awt.Color(255, 255, 255));
+        sldr_stocKMin.setFont(new java.awt.Font("Dialog", 1, 8)); // NOI18N
+        sldr_stocKMin.setForeground(new java.awt.Color(0, 51, 51));
+        sldr_stocKMin.setMajorTickSpacing(25);
+        sldr_stocKMin.setMinorTickSpacing(10);
+        sldr_stocKMin.setPaintLabels(true);
+        sldr_stocKMin.setValue(0);
+        sldr_stocKMin.setMaximumSize(new java.awt.Dimension(32767, 40));
+        sldr_stocKMin.setMinimumSize(new java.awt.Dimension(36, 16));
+        jPanel4.add(sldr_stocKMin);
 
         btn_stckMin.setBackground(new java.awt.Color(102, 0, 51));
         btn_stckMin.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -229,16 +229,16 @@ public class PInventario extends javax.swing.JPanel {
 
         jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.LINE_AXIS));
 
-        jSlider2.setBackground(new java.awt.Color(255, 255, 255));
-        jSlider2.setFont(new java.awt.Font("Dialog", 1, 8)); // NOI18N
-        jSlider2.setForeground(new java.awt.Color(0, 51, 51));
-        jSlider2.setMajorTickSpacing(25);
-        jSlider2.setMinorTickSpacing(10);
-        jSlider2.setPaintLabels(true);
-        jSlider2.setValue(0);
-        jSlider2.setMaximumSize(new java.awt.Dimension(32767, 40));
-        jSlider2.setMinimumSize(new java.awt.Dimension(36, 16));
-        jPanel5.add(jSlider2);
+        sldr_stockMax.setBackground(new java.awt.Color(255, 255, 255));
+        sldr_stockMax.setFont(new java.awt.Font("Dialog", 1, 8)); // NOI18N
+        sldr_stockMax.setForeground(new java.awt.Color(0, 51, 51));
+        sldr_stockMax.setMajorTickSpacing(25);
+        sldr_stockMax.setMinorTickSpacing(10);
+        sldr_stockMax.setPaintLabels(true);
+        sldr_stockMax.setValue(0);
+        sldr_stockMax.setMaximumSize(new java.awt.Dimension(32767, 40));
+        sldr_stockMax.setMinimumSize(new java.awt.Dimension(36, 16));
+        jPanel5.add(sldr_stockMax);
 
         btn_stckMax.setBackground(new java.awt.Color(102, 0, 51));
         btn_stckMax.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -333,11 +333,11 @@ public class PInventario extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    public javax.swing.JSlider jSlider1;
-    public javax.swing.JSlider jSlider2;
     private javax.swing.JPanel pnl_obcionesBusqueda;
     private javax.swing.JPanel pnl_obcionesBusqueda1;
     private javax.swing.JScrollPane scroll;
+    public javax.swing.JSlider sldr_stocKMin;
+    public javax.swing.JSlider sldr_stockMax;
     public javax.swing.JTable tbl_tablaInventario;
     public javax.swing.JTextField txt_buscar;
     // End of variables declaration//GEN-END:variables

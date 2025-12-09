@@ -6,6 +6,8 @@ package org.softfriascorp.applz.config.module;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
+import org.softfriascorp.applz.entity.inventario.service.implementation.InventarioServiceImpl;
+import org.softfriascorp.applz.entity.inventario.service.interfaces.InventarioService;
 
 import org.softfriascorp.applz.entity.producto.service.implementation.ProductoServiceImpl;
 import org.softfriascorp.applz.entity.producto.service.interfaces.ProductoService;
@@ -48,10 +50,6 @@ import org.softfriascorp.applz.modules.inventario.tablemanager.InventarioTableMa
 import org.softfriascorp.applz.modules.inventario.views.FormAddProductos;
 import org.softfriascorp.applz.modules.pay.controllers.ClienteValidatorClontroller;
 import org.softfriascorp.applz.modules.pay.views.ClienteValidator;
-import org.softfriascorp.applz.update.AppUpdater;
-import org.softfriascorp.applz.update.UpdateChecker;
-import org.softfriascorp.applz.update.UpdateDownloader;
-import org.softfriascorp.applz.update.UpdateService;
 import org.springframework.core.convert.ConversionService;
 
 /**
@@ -108,10 +106,6 @@ public class AppModule extends AbstractModule {
         bind(StockTableManager.class).in(Singleton.class);
 
         // https://github.com/Tranquilino28/AppApDesktop
-        bind(UpdateChecker.class).toInstance(new UpdateChecker("Tranquilino28", "AppApDesktop", "1.0.0"));
-        bind(UpdateDownloader.class).asEagerSingleton();
-        bind(AppUpdater.class).asEagerSingleton();
-        bind(UpdateService.class).asEagerSingleton();
 
         bind(InventarioController.class).in(Singleton.class);
         bind(InventarioTableManager.class).in(Singleton.class);
@@ -124,6 +118,10 @@ public class AppModule extends AbstractModule {
         bind(PriceCalculator.class).to(PriceCalculatorImple.class);
         
         bind(ConversorDeMedida.class).to(ConversorDeMedidaImpl.class);
+        
+        
+        
+         bind(InventarioService.class).to(InventarioServiceImpl.class);
     }
 
 }

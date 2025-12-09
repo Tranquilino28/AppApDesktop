@@ -42,7 +42,7 @@ public class FormAddProductos extends javax.swing.JPanel {
         cmbx_unidadMedida = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         txt_stock = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
+        lbl_cantidadIngreso = new javax.swing.JLabel();
         txt_cantidadIngreso = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txt_precioProducto = new javax.swing.JTextField();
@@ -117,8 +117,8 @@ public class FormAddProductos extends javax.swing.JPanel {
         txt_stock.setPreferredSize(null);
         jPanel2.add(txt_stock);
 
-        jLabel9.setText("CANTIDAD DE INGRESO");
-        jPanel2.add(jLabel9);
+        lbl_cantidadIngreso.setText("CANTIDAD DE INGRESO");
+        jPanel2.add(lbl_cantidadIngreso);
 
         txt_cantidadIngreso.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txt_cantidadIngreso.setToolTipText("");
@@ -180,9 +180,9 @@ public class FormAddProductos extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    public javax.swing.JLabel lbl_cantidadIngreso;
     public javax.swing.JTextField txt_cantidadIngreso;
     public javax.swing.JTextField txt_codigoBarras;
     public javax.swing.JTextField txt_descripcionProducto;
